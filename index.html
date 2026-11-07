@@ -389,15 +389,15 @@
       <div class="bg-[#1e293b] border border-slate-700/80 rounded-xl p-3 sm:p-3.5 shadow-lg flex flex-wrap items-center justify-between gap-3">
         <div class="inline-flex items-center gap-2 sm:gap-3 bg-[#0f172a] border border-slate-700/80 rounded-full px-4 py-1.5 shadow-inner focus-within:border-slate-500 transition">
           <span class="text-xs sm:text-sm font-medium text-slate-400">Từ:</span>
-          <input type="date" id="progressDateStart" value="2026-10-29" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
+          <input type="date" id="progressDateStart" value="2026-11-05" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
           <span class="text-xs sm:text-sm font-medium text-slate-400 ml-2 sm:ml-4">Đến:</span>
-          <input type="date" id="progressDateEnd" value="2026-11-04" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
+          <input type="date" id="progressDateEnd" value="2026-11-11" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
         </div>
 
         <!-- Các nút chọn nhanh phạm vi bảng ngày (Mặc định: Tuần này) -->
         <div class="flex items-center gap-1.5 sm:gap-2 text-xs">
-          <button id="btnQuickToday" onclick="setProgressQuickFilter('today')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Hôm nay (01/11)</button>
-          <button id="btnQuickWeek" onclick="setProgressQuickFilter('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600/90 text-white border border-blue-500 font-semibold shadow-sm transition cursor-pointer">Tuần này (W44)</button>
+          <button id="btnQuickToday" onclick="setProgressQuickFilter('today')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Hôm nay (07/11)</button>
+          <button id="btnQuickWeek" onclick="setProgressQuickFilter('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600/90 text-white border border-blue-500 font-semibold shadow-sm transition cursor-pointer">Tuần này (05.Nov → 11.Nov)</button>
           <button id="btnQuickMonth" onclick="setProgressQuickFilter('this_month')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Tháng 11</button>
           <button id="btnQuickYear" onclick="setProgressQuickFilter('all_year')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Cả năm 2026</button>
         </div>
@@ -457,9 +457,11 @@
                 <span class="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-full font-semibold normal-case">Cột D: HARD TEST & ASSEMBLY</span>
               </h2>
               <div class="text-[11px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-2">
-                <span>Phạm vi: <strong id="negModelDateBadge" class="text-rose-300 font-semibold">29/10/2026 → 04/11/2026 (W44 - Thứ 5 → Thứ 4)</strong></span>
+                <span>Phạm vi: <strong id="negModelDateBadge" class="text-rose-300 font-semibold">05/11/2026 → 07/11/2026 (Tuần hiện tại: Thứ 5, 05.Nov → Hôm nay, 07.Nov)</strong></span>
                 <span>•</span>
-                <span id="negModelSummaryText" class="text-slate-300 font-medium">HARD TEST: <strong class="text-sky-400 font-bold">20 models (-1,042 pcs)</strong> | ASSEMBLY: <strong class="text-purple-400 font-bold">53 models (-1,654 pcs)</strong></span>
+                <span class="text-amber-300 font-semibold bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded text-[10px]" title="Logic: Lũy kế số lượng âm = Tổng Fact - Tổng Plan (< 0) từ Thứ 5 đến ngày hiện tại">Âm tuần đến nay = Fact - Plan (&lt; 0)</span>
+                <span>•</span>
+                <span id="negModelSummaryText" class="text-slate-300 font-medium">HARD TEST: <strong class="text-sky-400 font-bold">33 models (-33,832 pcs)</strong> | ASSEMBLY: <strong class="text-purple-400 font-bold">66 models (-21,934 pcs)</strong></span>
               </div>
             </div>
           </div>
@@ -482,14 +484,17 @@
               </button>
             </div>
 
-            <!-- Chọn khoảng thời gian (Mặc định: Tuần hiện tại) -->
-            <div class="inline-flex items-center gap-1.5 bg-[#0f172a] border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs">
+            <!-- Chọn khoảng thời gian: Tuần hiện tại / Lũy kế đến nay / Âm ngày -->
+            <div class="inline-flex flex-wrap items-center gap-1.5 bg-[#0f172a] border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs">
               <span class="text-slate-400 font-medium text-[11px]">Từ:</span>
-              <input type="date" id="negModelDateStart" value="2026-10-29" min="2025-09-22" max="2026-12-07" onchange="onChangeNegativeModelDateRange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs cursor-pointer">
+              <input type="date" id="negModelDateStart" value="2026-11-05" min="2025-09-22" max="2026-12-07" onchange="onChangeNegativeModelDateRange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs cursor-pointer">
               <span class="text-slate-400 font-medium text-[11px] ml-1">Đến:</span>
-              <input type="date" id="negModelDateEnd" value="2026-11-04" min="2025-09-22" max="2026-12-07" onchange="onChangeNegativeModelDateRange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs cursor-pointer">
-              <button onclick="setNegativeModelCurrentWeek()" title="Chọn nhanh tuần hiện tại (29/10 -> 04/11: Thứ 5 tuần trước đến Thứ 4 tuần này)" class="ml-1 text-[10px] text-sky-400 hover:text-sky-300 font-semibold hover:underline cursor-pointer">Tuần này</button>
-              <button onclick="setNegativeModelWeekToToday()" title="Lọc từ đầu tuần đến hôm nay (29/10 -> 04/11)" class="ml-1 text-[10px] text-slate-400 hover:text-slate-200 font-medium hover:underline cursor-pointer">Đầu tuần → Nay</button>
+              <input type="date" id="negModelDateEnd" value="2026-11-07" min="2025-09-22" max="2026-12-07" onchange="onChangeNegativeModelDateRange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs cursor-pointer">
+              <button onclick="setNegativeModelWeekToToday()" id="btnNegWeekToToday" title="Lũy kế số lượng âm: Lũy kế Fact - Lũy kế Plan (&lt; 0) từ Thứ 5 đến hôm nay" class="ml-1 text-[10px] bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded font-semibold transition cursor-pointer">Lũy kế đến nay (5.Nov → 7.Nov)</button>
+              <button onclick="setNegativeModelCurrentWeek()" id="btnNegFullWeek" title="Cả tuần: Thứ 5 tuần này (05.Nov) đến Thứ 4 tuần sau (11.Nov)" class="ml-0.5 text-[10px] text-sky-400 hover:text-sky-300 font-medium hover:underline cursor-pointer">Cả tuần (5.Nov → 11.Nov)</button>
+              <button onclick="setNegativeModelToday()" id="btnNegToday" title="Số lượng âm ngày: Fact - Plan (&lt; 0) trong ngày hôm nay" class="ml-0.5 text-[10px] text-amber-300 hover:text-amber-200 font-medium hover:underline cursor-pointer">Âm hôm nay</button>
+              <button onclick="setNegativeModelFirstDay()" id="btnNegFirstDay" title="Ngày đầu tiên trong tuần (Thứ 5): Số lượng âm lũy kế = Số lượng âm ngày đó" class="ml-0.5 text-[10px] text-emerald-300 hover:text-emerald-200 font-medium hover:underline cursor-pointer">Thứ 5 (Ngày đầu)</button>
+              <button onclick="setNegativeModelPrevWeek()" id="btnNegPrevWeek" title="Tuần trước (29/10 → 04/11: 20 models HT, 53 models Assy)" class="ml-0.5 text-[10px] text-slate-400 hover:text-slate-200 font-medium hover:underline cursor-pointer">Tuần 29/10 → 04/11</button>
             </div>
 
             <!-- Ô tìm kiếm model hoặc nguyên nhân -->
@@ -505,10 +510,18 @@
           </div>
         </div>
 
-        <!-- Lưu ý logic nghiệp vụ -->
-        <div class="text-[11px] text-slate-400 bg-slate-900/40 border border-slate-700/50 rounded-lg px-3 py-1.5 flex items-center gap-2">
-          <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span><strong>Logic thống kê:</strong> Số lượng âm tuần = <strong>Tổng Fact - Tổng Plan trong tuần</strong> (lấy từ sheet <em>"Manufacturing plan"</em>, lũy kế từ Thứ 4 tuần trước đến Thứ 5 kế tiếp). Nguyên nhân lấy theo <strong>lần sản xuất gần nhất</strong> từ sheet <em>"Production history"</em>.</span>
+        <!-- Lưu ý logic nghiệp vụ chuẩn theo 4 tiêu chí -->
+        <div class="text-[11px] text-slate-300 bg-slate-900/60 border border-slate-700/80 rounded-xl p-3 shadow-inner space-y-1.5">
+          <div class="flex items-center gap-2 font-bold text-sky-400">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Logic thống kê Model âm so với kế hoạch (Sheet "Manufacturing plan"):</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-[11px] text-slate-300 pl-6">
+            <div>• <strong>Ngày trong tuần:</strong> Tính từ <strong>Thứ Năm tuần này đến Thứ Tư tuần sau</strong>.</div>
+            <div>• <strong>Số lượng âm ngày:</strong> = <strong>Fact - Plan</strong> (với Fact - Plan &lt; 0).</div>
+            <div>• <strong>Lũy kế số lượng âm:</strong> = <strong>Lũy kế Fact - Lũy kế Plan</strong> (với Lũy kế Fact - Lũy kế Plan &lt; 0) tính từ Thứ Năm đến ngày xem.</div>
+            <div>• <strong>Ngày đầu tiên trong tuần (Thứ Năm):</strong> Số lượng âm lũy kế = Số lượng âm ngày đó.</div>
+          </div>
         </div>
 
         <!-- 2 PHẦN TÁCH BIỆT: HARD TEST & ASSEMBLY (CỘT D) -->
@@ -523,7 +536,7 @@
                     PHẦN 1: WORKCELL HARD TEST (HT)
                   </h3>
                   <div class="text-[11px] text-sky-200/80 mt-0.5">
-                    <span id="htNegBadge" class="text-xs bg-sky-500/20 text-sky-300 border border-sky-500/30 px-2.5 py-0.5 rounded-full font-semibold">20 models âm | -1,042 pcs</span>
+                    <span id="htNegBadge" class="text-xs bg-sky-500/20 text-sky-300 border border-sky-500/30 px-2.5 py-0.5 rounded-full font-semibold">33 models âm | -33,832 pcs</span>
                   </div>
                 </div>
               </div>
@@ -539,7 +552,7 @@
                   <tr>
                     <th class="p-2.5 w-12 text-center font-bold">No</th>
                     <th class="p-2.5 min-w-[220px] font-bold">Model</th>
-                    <th class="p-2.5 w-28 text-right font-bold text-rose-300">Số lượng âm</th>
+                    <th class="p-2.5 w-36 text-right font-bold text-rose-300" title="Số lượng âm tuần = Tổng Fact - Tổng Plan (< 0)">Số lượng âm (Fact - Plan)</th>
                     <th class="p-2.5 min-w-[220px] font-bold">Nguyên nhân</th>
                   </tr>
                 </thead>
@@ -560,7 +573,7 @@
                     PHẦN 2: WORKCELL ASSEMBLY (A'SSY)
                   </h3>
                   <div class="text-[11px] text-purple-200/80 mt-0.5">
-                    <span id="assyNegBadge" class="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-full font-semibold">53 models âm | -1,654 pcs</span>
+                    <span id="assyNegBadge" class="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2.5 py-0.5 rounded-full font-semibold">66 models âm | -21,934 pcs</span>
                   </div>
                 </div>
               </div>
@@ -576,7 +589,7 @@
                   <tr>
                     <th class="p-2.5 w-12 text-center font-bold">No</th>
                     <th class="p-2.5 min-w-[220px] font-bold">Model</th>
-                    <th class="p-2.5 w-28 text-right font-bold text-rose-300">Số lượng âm</th>
+                    <th class="p-2.5 w-36 text-right font-bold text-rose-300" title="Số lượng âm tuần = Tổng Fact - Tổng Plan (< 0)">Số lượng âm (Fact - Plan)</th>
                     <th class="p-2.5 min-w-[220px] font-bold">Nguyên nhân</th>
                   </tr>
                 </thead>
@@ -1242,8 +1255,8 @@
     // ==========================================
     function getSafeCurrentDate() {
       const now = new Date();
-      if (now.getFullYear() === 2026) return now;
-      return new Date(2026, 10, 1);
+      if (now.getFullYear() === 2026 && now.getMonth() === 10) return now;
+      return new Date(2026, 10, 7);
     }
 
     function getCurrentMonthRange(dateObj = getSafeCurrentDate()) {
@@ -1261,6 +1274,7 @@
       const diffToThu = (dow + 7 - 4) % 7;
       const thu = new Date(d.getFullYear(), d.getMonth(), d.getDate() - diffToThu);
       const wed = new Date(d.getFullYear(), d.getMonth(), d.getDate() - diffToThu + 6);
+      const wedCutoff = new Date(thu.getFullYear(), thu.getMonth(), thu.getDate() - 1);
       
       function fmt(dt) {
         const y = dt.getFullYear();
@@ -1279,6 +1293,10 @@
       return {
         start: fmt(thu),
         end: fmt(wed),
+        thuStart: fmt(thu),
+        wedEnd: fmt(wed),
+        wedCutoff: fmt(wedCutoff),
+        today: fmt(d),
         weekNum: weekNum,
         label: 'W' + weekNum
       };
@@ -2517,7 +2535,12 @@ function switchTab(tabId) {
 
       const btnWeek = document.getElementById('btnQuickWeek');
       if (btnWeek) {
-        btnWeek.textContent = `Tuần này (${defaultWeekInfo.label})`;
+        const [sy, sm, sd] = defaultWeekInfo.start.split('-');
+        const [ey, em, ed] = defaultWeekInfo.end.split('-');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const m1 = months[parseInt(sm, 10) - 1] || sm;
+        const m2 = months[parseInt(em, 10) - 1] || em;
+        btnWeek.textContent = `Tuần này (${sd}.${m1} → ${ed}.${m2})`;
       }
 
       const btnMonth = document.getElementById('btnQuickMonth');
@@ -2639,9 +2662,17 @@ function switchTab(tabId) {
     // =========================================================================
     const HISTORY_REASONS = {"HARD TEST":{"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_16сh_9NA_black_HRD":{"d":"2026-11-01","s":"night","r":""},"Ajax, HB2.005.MBR.001v0_HB2_66A_8MA_white_HRD":{"r":"","d":"2026-10-31","s":"night"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8MA_white_HRD":{"s":"night","r":"mất điện; 4","d":"2026-10-11"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8EU_WL_white_HRD":{"s":"night","r":"KH đã chạy dư:58pcs (KH đủ)","d":"2026-10-16"},"Ajax, CAM.008.PIR.001v3_MCJ_HDR_9NA_white_HRD":{"d":"2026-10-06","r":"Đã chạy đủ kế hoạch tuần","s":"night"},"Ajax, KPG.001.MBU.001v1_KPTJ_9NA_white_HRD":{"r":"Đã chạy đủ kế hoạch","s":"night","d":"2026-10-26"},"Ajax, KPG.001.MBU.001v1_KPTJ_9NA_UPC_white_HRD":{"r":"KHđã chạy dư(KH đã đủ) Thay tem:3pcs","d":"2026-10-26","s":"night"},"Ajax, DP.001.MBR.001v9_DPJ_9SA_black_HRD":{"d":"2026-10-30","s":"night","r":"Đã chạy đủ kế hoạch"},"Ajax, MP.002.MBR.001v0_MPJ_9AU_black_HRD":{"r":"Kế hoạch đã chạy trước 166 pcs ( KH đã đủ cho Thị Trường)","s":"night","d":"2026-11-02"},"Ajax, HB2.006.MBR.001v0_HB2_66A_ECG_8EU_black_HRD":{"r":"*21h30-22h10 : Hỏng 2/4 block, thiết bị thay thế linh kiện","s":"day","d":"2026-10-27"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8MA_black_HRD":{"s":"day","r":"","d":"2026-10-11"},"Ajax, DP.011.MBR.001v3_DPJ_8EU_black_HRD":{"s":"day","r":"*14h30-15h40 chờ mạch từ DIP (Lỗi hệ thống QR)","d":"2026-10-22"},"Ajax, MTR.001.MBR.000v1b_MTRJ_9AU_2/3ЕОL_white_HRD":{"s":"night","r":"Chạy mã EU_2/3ЕОL_Incert_white_HRD","d":"2026-10-28"},"Ajax, HB2.008.MBR.001v1_H2P_AUX_9AU_white_HRD":{"d":"2026-10-29","r":"Hàng chờ sửa","s":"night"},"Ajax, DP.011.MBR.001v3_DPJ_8MA_white_HRD":{"r":"FAI","s":"day","d":"2026-10-17"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8EU_white_HRD":{"d":"2026-11-01","s":"night","r":"KH đã chạy dư: 223pcs( Thiếu 148pcs do hết Wip )"},"Ajax, WTS.001.MBR.001v4_WTS_9NA_white_HRD":{"s":"day","d":"2026-10-08","r":""},"Ajax, WTS.001.MBR.001v4_WTS_8MA_black_HRD":{"s":"night","d":"2026-10-30","r":"*14h mới có mạch sản xuất từ LAQ. Ưu tiên chạy thì trường 8EU trước"},"Ajax, LeaksProtect_v8_LPJ_9NA_black_HRD":{"r":"","d":"2026-10-02","s":"day"},"Ajax, SS.005.MBR.001v2_SSJ_8EU_white_HRD":{"r":"Đã hoàn thành KH ngày","s":"day","d":"2026-11-05"},"Ajax, LeaksProtect_v8_868 Mhz_LPJ_8EU_WL_white_HRD":{"s":"day","r":"Lỗi LED","d":"2026-11-05"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8IN_white_HRD":{"s":"night","d":"2026-10-10","r":""},"Ajax, MPO.001.MBR.001v5_868 Mhz_MPOJ_8MA_white_HRD":{"r":"","s":"night","d":"2026-10-10"},"Ajax, KPG.001.MBU.001v1_KPTJ_8EU_white_HRD":{"s":"day","r":"KH đã chạy dư ngày 26/9 (KH đã đủ)","d":"2026-09-27"},"Ajax, HB2.006.MBR.001v0_HB2_66A_ECG_8MA_white_HRD":{"r":"","s":"day","d":"2026-10-27"},"Ajax, DCO.001.MBR.001v5_DCOJ_8EU_white_HRD":{"d":"2026-11-01","s":"night","r":"KH đã chạy dư : 108pcs ( Báo phế 6pcs) KH đủ"},"Ajax, KeypadDisplayModule_5.0LCD_CapacitiveTouch_HRD":{"s":"day","r":"KH đã chạy trước 6 pcs ( KH đủ)","d":"2026-11-05"},"Ajax, MP.002.MBR.001v0_MPJ_9NA_white_HRD":{"s":"night","r":"Kế hoạch đã chạy trước 366pcs ( KH đã đủ cho Thị Trường)","d":"2026-11-02"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8IN_black_HRD":{"d":"2026-10-11","s":"night","r":""},"Ajax, MP.002.MBR.001v0_MPJ_9SA_white_HRD":{"s":"night","r":"Kế hoạch đã chạy trước 406 pcs ( KH đã đủ cho Thị Trường)","d":"2026-11-02"},"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_8сh_9AU_white_HRD":{"r":"Đã sản xuất trước kế hoạch- OK plan","s":"day","d":"2026-11-02"},"Ajax, LeaksProtect_v8_868 Mhz_LPJ_8MA_black_HRD":{"r":"Hàng lỗi chờ sửa chữa","s":"day","d":"2026-10-25"},"Ajax, HB2.001.PWB.001v4_HRD":{"s":"night","d":"2026-11-04","r":"FAI"},"Ajax, KPG.001.MBU.001v1_KPTJ_9NA_black_HRD":{"d":"2026-09-28","s":"day","r":""},"Ajax, MPO.001.MBR.001v5_MPOJ_9NA_UPC_white_HRD":{"s":"night","r":"Hàng  chờ sửa chữa","d":"2026-10-29"},"Ajax, MCO.002.MBR.001v1_MCOJ(PhOD)_9NA_white_HRD":{"r":"Chờ Wip trong SMT","s":"night","d":"2026-10-20"},"Ajax, CAM.008.PIR.001v3_white_HRD":{"s":"day","r":"Còn 20pcs lỗi không quét được PCB là Đủ kế hoạch tuần","d":"2026-11-05"},"Ajax, HB3.002.MBR.001v5_[HB1-9xx-66W-ULA]_white_HRD":{"s":"day","d":"2026-10-30","r":"Đã đủ kế hoạch"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_EU_black_HRD":{"r":"Mạch chờ sửa chữa","s":"night","d":"2026-11-01"},"Ajax, MPO.001.MBR.001v5_MPOJ_9NA_white_HRD":{"r":"KH chạy trước đủ","s":"night","d":"2026-10-30"},"Ajax, KPG.001.PRX.000v4_KPTJ_HRD":{"s":"day","r":"Hàng  chờ sửa chữa","d":"2026-11-05"},"Ajax, CAM.008.OSB.001v5_HRD":{"s":"day","r":"Mờ pcb tô lại 100% Dowtime mất thêm 6s mỗi pcs; 2","d":"2026-11-05"},"Ajax, CAM.008.MBR.001v2_HRD":{"r":"Hết mạch từ DIP","s":"night","d":"2026-11-03"},"Ajax, DPP.001.MBR.001v9_DPPJ_9AU_white_HRD":{"d":"2026-10-27","r":"1TB bị lỗi , làm 4/5 TB (đã sửa ok lúc 18h)","s":"night"},"Ajax, MP.002.MBR.001v0_868 Mhz_MPJ_8IN_white_HRD":{"r":"","s":"day","d":"2026-10-16"},"Ajax, HB2.008.MBR.001v1_H2P_AFA_9NA_white_HRD":{"s":"night","r":"KH đã chạy dư:38pcs ( KH đã đủ )","d":"2026-10-27"},"Ajax, KPG.001.MBU.001v1_KPTJ_9NA_UPC_black_HRD":{"d":"2026-10-26","s":"night","r":"Thiếu Wip từ DIP; 10.5"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8EU_WL_white_HRD":{"s":"day","r":"Đã chạy đủ kế hoạch","d":"2026-10-16"},"Ajax, MP.002.MBR.001v0_868 Mhz_MPJ_8MA_white_HRD":{"r":"1 OP mới vào hiệu suất 75%","d":"2026-11-02","s":"night"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8EU_black_HRD":{"r":"Kế hoạch đã chạy dư ngày 9/10: 33 pcs ( KH đủ)","d":"2026-10-10","s":"night"},"Ajax, HB2.006.MBR.001v0_HB2_66A_ECG_8EU_WL_white_HRD":{"d":"2026-10-27","r":"","s":"day"},"Ajax, CP_M_v4c_Combi_Motion Plus_MPPJ_EU_white_HRD":{"d":"2026-11-02","r":"Kế hoạch đã chạy trước 107pcs  ( KH đã đủ)","s":"night"},"Ajax, HB3.002.MBR.001v5[HB1-8xx-66W-UEU]_8EU_white_HRD":{"r":"KH đã chạy trước 38 pcs ( KH tuần đủ)","d":"2026-11-05","s":"day"},"Ajax, MTR.001.MBR.000v1b_MTRJ_9NA_UPC_2/3ЕОL_black_HRD":{"r":"Chạy mã EU_2/3ЕОL_Incert_white_HRD","d":"2026-10-21","s":"night"},"Ajax, HS.001.MBR.001v5_HSJ_9AU_white_HRD":{"r":"Đã chạy đủ kế hoạch","d":"2026-10-31","s":"night"},"Ajax, SS.005.MBR.001v1_SSJ_9NA_UPC_white_HRD":{"d":"2026-10-13","s":"day","r":"Đã chạy đủ kế hoạch"},"Ajax, Keypad V12_KPJ_9NA_black_HRD":{"d":"2026-10-10","s":"night","r":""},"Ajax, HB2.008.MBR.001v1_H2P_AFA_9NA_black_HRD":{"d":"2026-11-03","s":"day","r":"Hàng chờ sửa"},"Ajax, MP.002.MBR.001v0_MPJ_9AU_white_HRD":{"r":"Kế hoạch đã chạy trước 46 pcs pcs ( KH đã đủ cho Thị Trường)","s":"night","d":"2026-11-02"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_EU_WL_white_HRD":{"d":"2026-11-01","s":"day","r":""},"Ajax, DP.011.MBR.001v3_DPJ_8EU_WL_white_HRD":{"d":"2026-10-17","s":"day","r":""},"Ajax, MTR.001.MBR.000v1b_MTRJ_EU_2/3ЕОL_Incert_white_HRD":{"d":"2026-11-03","s":"day","r":"Hàng  chờ sửa chữa"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8MA_white_HRD":{"r":"","s":"night","d":"2026-10-10"},"Ajax, DPP.001.MBR.001v9_DPPJ_9NA_white_HRD":{"d":"2026-10-24","r":"Đã chạy đủ kế hoạch","s":"day"},"Ajax, MCO.001.PIR.001v5_MCOJ_HRD":{"s":"day","r":"KH đã chạy trước (KH đủ)","d":"2026-11-03"},"Ajax, DP.001.MBR.001v9_DPJ_9NA_white_HRD":{"d":"2026-10-30","r":"Đã chạy đủ kế hoạch","s":"night"},"Ajax, DP.012.MBR.001v1_DPPJ_U_8EU_white_HRD":{"d":"2026-10-28","s":"day","r":"hàng FAI 20 ( KH đủ)"},"Ajax, HB2.006.MBR.001v0_HB2_66A_ECG_8EU_white_HRD":{"r":"Chờ WIP SMT 15H bắt đầu chạy","s":"night","d":"2026-10-25"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_8MA_white_HRD":{"d":"2026-10-15","s":"night","r":""},"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_8сh_9NA_black_HRD":{"d":"2026-10-05","s":"day","r":"KH đã chạy dư ngày 4/10: 80 pcs ( KH đủ cho TT NA Black )"},"Ajax, DPP.001.MBR.001v9_DPPJ_9NA_black_HRD":{"d":"2026-10-23","r":"","s":"night"},"Ajax, MPO.001.MBR.001v5_MPOJ_9AU_white_HRD":{"s":"night","d":"2026-10-30","r":"KH đã chạy trước( KH đủ)"},"Ajax, CAM.008.PIR.001v3_black_HRD":{"s":"day","r":"Hoàn thành kế hoạch 8EU_white 1230pcs trước","d":"2026-11-01"},"Ajax, LeaksProtect_v8_868 Mhz_LPJ_8EU_black_HRD":{"d":"2026-10-28","r":"Không thấy wip từ SMT => đã xác nhận với LD DIP","s":"night"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_9AU_white_HRD":{"d":"2026-10-24","s":"night","r":""},"Ajax, MP.002.MBR.001v0_MPJ_9NA_black_HRD":{"s":"night","r":"Đã chạy trước KH( KH đủ); 2","d":"2026-10-23"},"Ajax, Keypad V12_KPJ_9NA_UPC_black_HRD":{"d":"2026-10-10","s":"night","r":"Cập nhật phần mềm vào lại máy: 50 min, KH đã chạy dư 72 pcs ( KH tuần đủ)"},"Ajax, MP.002.MBR.001v0_868 Mhz_MPJ_EU_WL_white_HRD":{"r":"","d":"2026-11-02","s":"night"},"Ajax, DP.011.MBR.001v3_DPJ_8IN_white_HRD":{"s":"day","d":"2026-10-19","r":"Chạy model âm lấy wip cho ASM"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_9NA_white_HRD":{"d":"2026-10-24","s":"night","r":""},"Ajax, MCO.001.FLB.001v4_плата з компонентами":{"d":"2026-11-02","r":"Đã sản xuất trước kế hoạch- OK plan","s":"day"},"Ajax, DCO.001.MBR.001v5_DCOJ_9AU_white_HRD":{"d":"2026-10-17","r":"","s":"night"},"Ajax, KPG.001.MBU.001v1_KPTJ_9AU_white_HRD":{"s":"night","d":"2026-11-03","r":"Chưa thấy mạch"},"Ajax, SS.005.MBR.001v1_SSJ_9NA_UPC_black_HRD":{"r":"Hàng lỗi chờ sửa chữa","s":"night","d":"2026-10-17"},"Ajax, MTR.001.MBR.000v1b_MTRJ_8MA_2/3ЕОL_black_HRD":{"d":"2026-10-25","s":"day","r":"CHạy hàng EU"},"Ajax, DCO.001.MBR.001v5_DCOJ_8EU_WL_white_HRD":{"r":"không có wip Laq từ 8h đến 14h50 ( 15h bắt đầu chạy), chỉ có 130 pcs đã laq","s":"night","d":"2026-10-20"},"Ajax, DP.011.MBR.001v3_DPJ_8MA_black_HRD":{"s":"day","d":"2026-10-17","r":""},"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_8сh_8EU_black_HRD":{"s":"night","r":"KH đã chạy dư ngày 29 :159pcs( KH đã đủ)","d":"2026-10-29"},"Ajax, HB2.006.MBR.001v0_HB2_66A_AUX_9NA_white_HRD":{"r":"FAI","d":"2026-10-30","s":"day"},"Ajax, MP.002.MBR.001v2[СP-9XX]_black_HRD":{"r":"","s":"day","d":"2026-10-25"},"Ajax, Keypad V12_KPJ_9AU_white_HRD":{"d":"2026-10-12","r":"Đã chạy đủ kế hoạch tuần","s":"night"},"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_16сh_9NA_white_HRD":{"s":"day","r":"","d":"2026-11-01"},"Ajax, CP_M_v4c_Combi_Motion Plus_MPPJ_9AU_white_HRD":{"s":"night","r":"Hàng  chờ sửa chữa","d":"2026-10-29"},"Ajax, DP.011.MBR.001v3_DPJ_8EU_white_HRD":{"r":"Đã chạy đủ kế hoạch","d":"2026-11-01","s":"day"},"Ajax, MP.002.MBR.001v2[СP-9XX]_white_HRD":{"s":"night","d":"2026-10-25","r":"Đã chạy hết mạch. 24pcs sửa đèn Led trong SMT là đủ kế hoạch"},"Ajax, MTR.001.MBR.000v1b_MTRJ_9NA_2/3ЕОL_white_HRD":{"d":"2026-10-28","s":"night","r":"đã chạy FAI trước (KH đủ)"},"Ajax, CP_M_v4c_Combi_Motion Plus_MPPJ_EU_black_HRD":{"d":"2026-11-01","r":"Mạch chờ sửa chữa","s":"night"},"Ajax, HS.001.MBR.001_v4_868 Mhz_HSJ_8EU_black_HRD":{"s":"day","r":"KH đã chạy trước 217pcs ( KH đủ)","d":"2026-10-28"},"Ajax, HB2.006.MBR.001v0_HB2_66A_ECG_8IN_black_HRD":{"r":"hàng NG chưa pass, debug tiếp tục sửa","s":"day","d":"2026-10-27"},"Ajax, CP_M_v4c_Combi_Motion Plus_MPPJ_9SA_white_HRD":{"s":"day","d":"2026-10-25","r":""},"Ajax, HB2.005.MBR.001v0_HB2_66A_8EU_black_HRD":{"d":"2026-10-31","r":"Đã chạy đủ kế hoạch","s":"night"},"Ajax, KPG.001.MBU.001v1_KPTJ_8EU_black_HRD":{"s":"night","r":"Đã xác nhận với Dip là đã Sản xuất xong đến QC mạch bị xước đang giữ lại Ở Dip để xử lý nên hết wip","d":"2026-10-23"},"Ajax, SS.005.MBR.001v1_SSJ_8EU_black_HRD":{"d":"2026-11-01","s":"night","r":"Đã chạy đủ kế hoạch"},"Ajax, MCO.001.MBR.001v13_MCOJ_9AU_white_HRD":{"r":"1pcs NG","s":"day","d":"2026-10-29"},"Ajax, MTR.001.MBR.000v1b_MTRJ_EU_2/3ЕОL_white_HRD":{"d":"2026-11-04","s":"night","r":"Chạy đủ KH tuần"},"Ajax, MTR.001.MBR.000v1b_MTRJ_9NA_UPC_2/3ЕОL_white_HRD":{"d":"2026-09-21","r":"KH dã chạy dư: 64pcs(KH đã đủ) Thay tem:4pcs","s":"night"},"Ajax, WTS.001.MBR.001v4_WTS_8EU_white_HRD":{"r":"","s":"day","d":"2026-10-30"},"Ajax, MPO.001.PIR.001v5_DIP":{"r":"Đã chạy đủ kế hoạch","d":"2026-11-01","s":"night"},"Ajax, MPO.001.MBR.001v5_868 Mhz_MPOJ_EU_white_HRD":{"r":"Đã sản xuất trước kế hoạch- OK plan","s":"day","d":"2026-11-02"},"Ajax, HB2.006.MBR.001v0_HB2_66A_AUX_9AU_black_HRD":{"d":"2026-10-30","r":"không có wip từ SMT","s":"day"},"Ajax, Keypad V12_KPJ_9NA_UPC_white_HRD":{"s":"day","d":"2026-10-11","r":"Hàng đã chạy dư ngày 10/10: 120pcs (KH đủ)"},"Ajax, MCO.001.MBR.001v13_MCOJ_8EU_white_HRD":{"d":"2026-11-04","s":"night","r":"Đã hoàn thành KH tuần"},"Ajax, SS.005.MBR.001v1_SSJ_8EU_white_HRD":{"r":"Hàng NG","s":"night","d":"2026-10-29"},"Ajax, NVR.003.PWB.001v3_NVR_HRD":{"s":"day","d":"2026-11-01","r":"Hàng chờ sửa (5pcs) là đủ KH tuần"},"Ajax, MCO.002.MBR.001v1_MCOJ(PhOD)_9NA_UPC_white_HRD":{"d":"2026-10-20","s":"day","r":"14h45~15h30 dừng chờ mạch DIP"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8EU_white_HRD":{"s":"day","r":"KH đã chạy trước (KH đủ)","d":"2026-11-03"},"Ajax, HS.001.MBR.001_v4_868 Mhz_HSJ_8EU_white_HRD":{"s":"day","r":"KH đã chạy trước 145 pcs+ 1 pcs debug tiếp tục sửa( KH đủ)","d":"2026-10-27"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8EU_black_HRD":{"d":"2026-10-27","s":"day","r":"Mất mạng internet từ 8:00~8:30"},"Ajax, SS.005.MBR.001v1_SSJ_9AU_white_HRD":{"r":"1 mạch NG","d":"2026-10-21","s":"night"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_9SA_white_HRD":{"r":"2pcs sửa debug","s":"night","d":"2026-10-24"},"Ajax, HB2.001.PWB.001v4_(UL)_HRD":{"d":"2026-10-30","s":"day","r":"Chưa thấy mạch"},"Ajax, HS.001.MBR.001_v4_868 Mhz_HSJ_8EU_WL_white_HRD":{"r":"Hàng chờ sửa","s":"day","d":"2026-11-05"},"Ajax, DCO.001.MBR.001v5_DCOJ_9NA_UPC_white_HRD":{"d":"2026-10-17","r":"TB bị lỗi dừng 40 min ,2 lần sập:30 min, Sản lượng âm ngày 17/10 cover","s":"night"},"Ajax, DP.001.MBR.001v9_DPJ_9NA_black_HRD":{"s":"day","d":"2026-11-01","r":"2pcs phế"},"Ajax, WTS.001.MBR.001v4_WTS_9SA_white_HRD":{"d":"2026-10-29","s":"day","r":"Đã chạy đủ kế hoạch tuần"},"Ajax, DCO.001.PIR.001v4_DIP":{"r":"Nhân lực mới rumup","s":"day","d":"2026-10-20"},"Ajax, KPG.001.LOG.001v1_плата з компонентами":{"d":"2026-10-11","s":"day","r":"KH đã chạy dư 10/10: 36pcs (KH đủ)"},"Ajax, HB2.008.MBR.001v1_H2P_AUX_9AU_black_HRD":{"d":"2026-10-15","s":"day","r":"Đã chạy đủ kế hoạch"},"Ajax, Keypad V12_KPJ_9NA_white_HRD":{"s":"night","r":"KH ca ngày đã chạy đủ 252 pcs ( KH đủ theo số lượng THị Trường)=> Kíp đêm chạy trước model TT khác","d":"2026-10-10"},"Ajax, Keypad V12_868 Mhz_KPJ_8EU_black_HRD":{"r":"KH đã chạy dư ngày 26/9 (KH đã đủ)","d":"2026-09-28","s":"night"},"Ajax, SS.005.MBR.001v1_SSJ_8MA_white_HRD":{"s":"night","r":"","d":"2026-10-28"},"Ajax, WTS.001.MBR.001v4_WTS_9NA_black_HRD":{"d":"2026-10-08","s":"day","r":"1 TB hỏng từ sáng chưa sửa được"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8IN_white_HRD":{"s":"night","d":"2026-10-11","r":""},"Ajax, Keypad V12_868 Mhz_KPJ_8EU_white_HRD":{"d":"2026-11-05","s":"day","r":"*13h15 dừng sản xuất điều tra nguyên nhân lỗi bàn phím ở ASM"},"Ajax, DP.001.MBR.001v9_DPJ_9AU_black_HRD":{"d":"2026-10-31","s":"night","r":"Đã chạy đủ kế hoạch tuần ( đã chạy dư từ 13/10)"},"Ajax, DP.011.MBR.001v3_DPJ_8IN_black_HRD":{"d":"2026-10-17","r":"","s":"day"},"Ajax, DPP.001.MBR.001v9_DPPJ_9SA_white_HRD":{"d":"2026-09-22","s":"day","r":"KH đã chạy trước: 68 pcs ( KH tuần đã đủ)"},"Ajax, DP.012.MBR.001v1_U_white_HRD":{"s":"night","d":"2026-10-27","r":"KH đã chạy dư:20pcs (KH đã đủ )"},"Ajax, HB3.002.MBR.001v5_[HB1-9xx-66W-UEU]_9SA_white_HRD":{"r":"Không có  wip trong Dip","d":"2026-10-21","s":"night"},"Ajax, HB2.008.MBR.001v1_H2P_ECG_8IN_black_HRD":{"s":"night","d":"2026-10-10","r":""},"Ajax, MP.002.MBR.001v0_868 Mhz_MPJ_8IN_black_HRD":{"s":"night","d":"2026-11-02","r":""},"Ajax, WTS.001.MBR.001v4_WTS_8MA_white_HRD":{"r":"*14h mới có mạch sản xuất từ LAQ. Ưu tiên chạy thì trường 8EU trước","d":"2026-10-30","s":"night"},"Ajax, CAM.009.PIR.001v0_white_HRD":{"d":"2026-10-29","s":"night","r":"1TB bị lỗi 90min"},"Ajax, DP.001.MBR.001v9_DPJ_9AU_WL_white_HRD":{"s":"night","d":"2026-10-31","r":"Đã chạy đủ kế hoạch"},"Ajax, HB3.002.MBR.001v5_[HB1-9xx-66W-ULA]_black_HRD":{"r":"Hàng  chờ sửa chữa","s":"night","d":"2026-10-29"},"Ajax, HS.001.MBR.001v5_HSJ_9NA_white_HRD":{"d":"2026-10-20","s":"night","r":"Đã chạy đủ kế hoạch"},"Ajax, MTR.001.MBR.000v1b_MTRJ_EU_2/3ЕОL_Incert_black_HRD":{"s":"day","r":"Chạy hàng EU","d":"2026-10-25"},"Ajax, HB2.006.MBR.001v0_HB2_66A_AUX_9AU_white_HRD":{"r":"Hàng FAI ( KH đủ)","d":"2026-11-02","s":"day"},"Ajax, WTS.001.MBR.001v4_WTS_8EU_black_HRD":{"s":"day","r":"","d":"2026-10-30"},"Ajax, MTR.001.MBR.000v1b_MTRJ_EU_2/3ЕОL_black_HRD":{"s":"night","d":"2026-11-03","r":""},"Ajax, WTS.001.MBR.001v4_WTS_8IN_white_HRD":{"r":"*14h mới có mạch sản xuất từ LAQ. Ưu tiên chạy thì trường 8EU trước","s":"night","d":"2026-10-30"},"Ajax, NVR.003.MBR.001v5_[MASS_R7-04Q]_NVR_8сh_8EU_white_HRD":{"r":"Đã chạy đủ kế hoạch","d":"2026-11-01","s":"day"},"Ajax, MCO.002.MBR.001v1_MCOJ(PhOD)_9AU_white_HRD":{"d":"2026-10-18","r":"","s":"night"},"Ajax, DP.001.MBR.001v9_DPJ_9AU_white_HRD":{"d":"2026-10-30","s":"night","r":""},"Ajax, DCO.001.MBR.001v5_DCOJ_9NA_white_HRD":{"r":"FAI","s":"night","d":"2026-10-16"},"Ajax, MCO.002.MBR.001v1_MCOJ(PhOD)_8EU_white_HRD":{"s":"day","r":"9h mới có Wip (dừng 60min)","d":"2026-10-23"},"Ajax, HS.001.MBR.001v5_HSJ_9NA_black_HRD":{"r":"","s":"night","d":"2026-10-20"},"Ajax, CP_M_v4c_Combi_Motion Plus_CPJ_EU_white_HRD":{"s":"night","d":"2026-10-20","r":"Đã chạy đủ Plan Tuần"},"Ajax, DPP.001.MBR.001v9_DPPJ_9AU_black_HRD":{"d":"2026-10-23","r":"KH đã chạy trước: 843 pcs ( KH tuần đã đủ)","s":"night"},"Ajax, MCO.001.MBR.001v13_MCOJ_8IN_white_HRD":{"d":"2026-10-17","s":"night","r":""},"Ajax, WTS.001.PWB.001v4_WTS_HRD":{"r":"Đã chạy đủ kế hoạch","s":"day","d":"2026-10-29"},"Ajax, DoorProtect Plus_ v.9_868 Mhz_DPPJ_8EU_WL_black_HRD":{"r":"Mất mạng internet từ 8:00~8:30","s":"day","d":"2026-10-23"},"Ajax, SS.005.MBR.001v1_SSJ_8IN_white_HRD":{"s":"night","r":"","d":"2026-10-28"},"Ajax, MP.002.MBR.001v0_868 Mhz_MPJ_EU_white_HRD":{"s":"day","d":"2026-11-05","r":"Đã chạy đủ kế hoạch"},"Ajax, LeaksProtect_v8_868 Mhz_LPJ_8EU_white_HRD":{"d":"2026-10-20","r":"Chạy model âm lấy wip cho ASM","s":"night"}},"ASSEMBLY":{"Ajax Keypad (9NA) white (напівфабрикат)":{"r":"Capacity Calibration 42s","s":"day","d":"2026-10-11"},"Ajax Hub 2 Plus white EU (напівфабрикат)":{"s":"night","d":"2026-11-03","r":"Đã sản xuất trước"},"Ajax Keypad white EU (напівфабрикат)":{"d":"2026-11-05","s":"day","r":"Line hành chính mới Rumup 45%"},"Ajax WaterStop (8EU) white (напівфабрикат)":{"d":"2026-10-31","s":"day","r":"1 pcs chờ sửa chữa, Ramup 45% 13 OP"},"Ajax HomeSiren (9NA) UPC black (напівфабрикат)":{"s":"day","r":"Mạch lỗi chờ xử lý","d":"2026-11-05"},"Ajax DualCurtain Outdoor (9NA) white (напівфабрикат)":{"s":"day","r":"Ca đêm vận hành","d":"2026-10-18"},"Ajax StreetSiren (8MA) white (напівфабрикат)":{"d":"2026-10-29","r":"","s":"day"},"Ajax DoorProtect Plus (8IN) black (напівфабрикат)":{"r":"Ca đêm sản xuất","s":"night","d":"2026-10-12"},"Ajax LeaksProtect (8MA) white (напівфабрикат)":{"d":"2026-10-31","s":"night","r":"Plan vượt KH không thể hoàn thành"},"Ajax StreetSiren (8IN) white (напівфабрикат)":{"r":"Hàng chờ sửa chữa","d":"2026-10-29","s":"day"},"Ajax Hub 4G (8EU/UEU) white (напівфабрикат)":{"s":"day","r":"Over Capa ( 2 line mới Rumup 45%)","d":"2026-11-05"},"Ajax WaterStop (8EU) black (напівфабрикат)":{"d":"2026-10-31","s":"day","r":""},"Ajax Keypad black EU (напівфабрикат)":{"d":"2026-10-07","s":"day","r":"Mất điện không OT"},"Ajax Keypad (9AU) white (напівфабрикат)":{"s":"night","d":"2026-10-13","r":"Đã chạy dương kế hoạch 2pcs từ 12/10/2026"},"Ajax WaterStop (8IN) white (напівфабрикат)":{"d":"2026-10-31","r":"","s":"day"},"Ajax Keypad (9NA) UPC white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-29"},"Ajax MotionProtect (9NA) white (напівфабрикат)":{"d":"2026-11-03","r":"Đã sản xuất trước","s":"day"},"Ajax Hub 2 4G (9NA/AUX) white (напівфабрикат)":{"s":"day","r":"1 pcs chờ sửa chữa","d":"2026-10-31"},"Ajax Hub 2 Plus black EU (напівфабрикат)":{"r":"Đã sản xuất trước","d":"2026-10-15","s":"night"},"Ajax HomeSiren black EU (напівфабрикат)":{"d":"2026-10-29","s":"day","r":"Ca ngày đã sản xuất"},"Ajax Keypad (9NA) UPC black (напівфабрикат)":{"s":"night","d":"2026-10-29","r":"Plan vượt KH không thể hoàn thành"},"Ajax MotionProtect Plus black EU (напівфабрикат)":{"s":"night","r":"Đổi model; 14","d":"2026-10-29"},"Ajax Hub 2 4G (8EU/ECG) WL Standard white (напівфабрикат)":{"d":"2026-10-27","s":"night","r":""},"Ajax DoorProtect (9SA) black (напівфабрикат)":{"r":"Chạy dương kế hoạch từ ca ngày","s":"day","d":"2026-10-31"},"Ajax Hub 2 Plus (8MA/ECG) black (напівфабрикат)":{"s":"night","d":"2026-10-12","r":"Ca đêm sản xuất"},"Ajax DoorProtect Plus (8EU) WL Standard black (напівфабрикат)":{"r":"Kíp ngày 24/10 sản xuất","d":"2026-10-24","s":"night"},"Ajax Hub 2 Plus (9NA/AFA) UPC white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-11-02"},"Ajax Hub 2 4G (8EU/ECG) black (напівфабрикат)":{"s":"day","r":"Ca đêm sản xuất","d":"2026-10-29"},"Ajax CombiProtect (9NA) UPC black (напівфабрикат)":{"s":"night","d":"2026-10-29","r":"Vị trí check sản lượng ASB không có thị trường UPC để chọn; 14"},"Ajax MotionProtect (9NA) black (напівфабрикат)":{"r":"không có mạch từ HT","s":"night","d":"2026-10-29"},"Ajax DoorProtect (8EU) WL Standard black (напівфабрикат)":{"s":"night","r":"","d":"2026-09-30"},"Ajax DoorProtect Plus (8MA) white (напівфабрикат)":{"s":"night","r":"Ca đêm sản xuất","d":"2026-10-12"},"Ajax DoorProtect (8IN) white (напівфабрикат)":{"s":"day","r":"Plan vượt KH không thể hoàn thành","d":"2026-10-29"},"Ajax KeyPad TouchScreen (9NA) white (напівфабрикат)":{"d":"2026-10-28","r":"Ca đêm sản xuất","s":"day"},"Ajax MotionCam HDR (8EU) white (напівфабрикат)":{"d":"2026-11-05","s":"day","r":"Line hành chính mới Rumup 45%"},"Ajax DoorProtect (9AU) white (напівфабрикат)":{"s":"day","r":"29 pcs lỗi dán lệch tem, lỗi kênh nút chờ sửa chữa","d":"2026-11-02"},"Ajax WaterStop Tap [1] NA black (напівфабрикат)":{"r":"Ca ngày sản xuất","s":"day","d":"2026-10-07"},"Ajax DoorProtect black EU (напівфабрикат)":{"d":"2026-10-25","r":"không có mạch từ HT","s":"night"},"Ajax DoorProtect Plus (9NA) white (напівфабрикат)":{"r":"Đã hoàn thành kế hoạch từ ca ngày","d":"2026-10-24","s":"night"},"Ajax MotionCam Outdoor (PhOD) Jeweller (9NA) UPC white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-29"},"Ajax LeaksProtect (8MA) black (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-31"},"Ajax MotionProtect white EU (напівфабрикат)":{"r":"Line 2B mới thành lập ngày 5.11 Rumup 45%","s":"day","d":"2026-11-05"},"Ajax MotionCam Outdoor (8IN) white (напівфабрикат)":{"s":"day","d":"2026-10-27","r":"Không có wip"},"Ajax KeyPad TouchScreen (8EU) black (напівфабрикат)":{"d":"2026-10-29","r":"Plan vượt KH không thể hoàn thành","s":"night"},"Ajax MotionProtect Outdoor (9NA) UPC white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","d":"2026-11-02","s":"day"},"Ajax MotionCam Outdoor (PhOD) Jeweller (8EU) white (напівфабрикат)":{"r":"Hết mạch OVB","s":"night","d":"2026-10-27"},"Ajax WaterStop Tap [3/4] black (напівфабрикат)":{"d":"2026-11-03","s":"day","r":"Plan vượt KH không thể hoàn thành"},"Ajax Hub 2 black EU (напівфабрикат)":{"d":"2026-11-01","s":"day","r":"Đổi model; 14"},"Ajax DoorProtect Plus (8EU) WL Standard white (напівфабрикат)":{"d":"2026-11-02","r":"Plan vượt KH không thể hoàn thành","s":"day"},"Ajax CombiProtect black EU (напівфабрикат)":{"r":"Chạy Model âm tuần trước","s":"day","d":"2026-11-03"},"Ajax MotionCam Outdoor (8EU) white (напівфабрикат)":{"r":"Lỗi Dập dây Cam OVB; 14","s":"day","d":"2026-11-05"},"Ajax LeaksProtect white EU (напівфабрикат)":{"d":"2026-11-05","s":"day","r":"Over Capa ( 2 line mới Rumup 45%)"},"Ajax DoorProtect U Jeweller (8EU) white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-29"},"Ajax NVR (16ch) (9NA) white (напівфабрикат)":{"s":"night","d":"2026-11-01","r":""},"Ajax Hub 2 Plus (9AU/AUX) black (напівфабрикат)":{"d":"2026-10-29","r":"Hàng âm tháng 9","s":"night"},"Ajax DoorProtect Plus (9AU) white (напівфабрикат)":{"r":"không có mạch từ HT","d":"2026-10-28","s":"night"},"Ajax DoorProtect Plus (9NA) UPC black (напівфабрикат)":{"s":"night","r":"Sản xuất các model âm tuần","d":"2026-10-24"},"Ajax KeyPad TouchScreen (9NA) UPC white (напівфабрикат)":{"r":"Tìm được 30/41 pcs, số lượng còn lại không tìm thấy mạch","s":"day","d":"2026-10-30"},"Ajax DoorProtect Plus (9AU) black (напівфабрикат)":{"r":"Đã sản xuất trước.","s":"day","d":"2026-10-24"},"Ajax Hub 2 4G (9AU/AUX) black (напівфабрикат)":{"r":"Sản xuất các model âm tuần","s":"night","d":"2026-11-01"},"Ajax MotionCam HDR (PhOD) Jeweller (8EU) white (напівфабрикат)":{"d":"2026-11-02","s":"day","r":"Rump up 45%; 14"},"Ajax Hub 2 4G (8EU/ECG) white (напівфабрикат)":{"s":"day","r":"Thiếu mạch từ Hard test => đã xác nhận với LD","d":"2026-10-29"},"Ajax HomeSiren (9NA) UPC white (напівфабрикат)":{"d":"2026-10-21","s":"day","r":"Sản xuất các model âm trước ( Cover lượng âm tuần)"},"Ajax CombiProtect (8MA) white (напівфабрикат)":{"r":"Kíp đêm sản xuất","s":"night","d":"2026-10-16"},"Ajax CombiProtect (9NA) UPC white (напівфабрикат)":{"r":"Đuổi mạch từ HT.sản xuất các model lẻ; 13","d":"2026-10-30","s":"day"},"Ajax StreetSiren (9NA) UPC white (напівфабрикат)":{"r":"","s":"night","d":"2026-10-13"},"Ajax DualCurtain Outdoor (8EU) WL Standard white (напівфабрикат)":{"d":"2026-10-27","r":"Hàng âm tháng 9","s":"day"},"Ajax Hub 2 Plus (8MA/ECG) white (напівфабрикат)":{"r":"Ca đêm sản xuất","s":"night","d":"2026-10-12"},"Ajax MotionProtect Plus (9SA) white (напівфабрикат)":{"s":"night","r":"","d":"2026-10-25"},"Ajax MotionProtect Plus (9AU) white (напівфабрикат)":{"d":"2026-10-30","s":"day","r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch"},"Ajax NVR (8ch) (8EU) white (напівфабрикат)":{"r":"Ca ngày sản xuất trước. Đã hoàn thành kế hoạch","s":"night","d":"2026-11-01"},"Ajax Hub 2 4G (9AU/AUX) white (напівфабрикат)":{"s":"night","d":"2026-11-02","r":"Chạy đuổi mạch Hard Test ( Hard Test đã hoàn thành 373/523) 7 lần thay đổi Model, Đào tạo 6OP do chuyển người sang Video"},"Ajax MotionProtect (9AU) black (напівфабрикат)":{"s":"day","d":"2026-11-03","r":"Đã sản xuất trước"},"Ajax CombiProtect (8EU) WL Standard white (напівфабрикат)":{"d":"2026-11-03","s":"day","r":"Chạy Model âm tuần trước"},"Ajax DoorProtect (9NA) white (напівфабрикат)":{"s":"day","d":"2026-11-02","r":"27 pcs lỗi kênh nút chờ sửa chữa"},"Ajax StreetSiren black EU (напівфабрикат)":{"d":"2026-10-30","s":"day","r":"Máy bơm keo hỏng. ca ngày tiếp tục sản xuất; 11"},"Ajax MotionProtect (8IN) black (напівфабрикат)":{"r":"Đã sản xuất trước","d":"2026-11-03","s":"day"},"Ajax NVR (8ch) (9AU) white (напівфабрикат)":{"r":"Đã sản xuất trước từ ca ngày","s":"night","d":"2026-11-02"},"Ajax FireProtect 2 RB (Heat) (9NA) white (напівфабрикат)":{"s":"day","d":"2026-11-05","r":"Model Fire  liên lạc Plan điều chỉnh lại kế hoạch"},"Ajax StreetSiren (9NA) UPC black (напівфабрикат)":{"s":"day","d":"2026-10-16","r":"Chờ chạy lại HT"},"Ajax NVR (8ch) (8EU) black (напівфабрикат)":{"r":"Line 2A chạy ramup 45% từ 17h20","d":"2026-11-02","s":"day"},"Ajax Hub 2 Plus (9AU/AUX) white (напівфабрикат)":{"s":"night","r":"Hàng âm tháng 9","d":"2026-10-29"},"Ajax MotionProtect (8MA) white (напівфабрикат)":{"r":"Đã sản xuất trước","s":"night","d":"2026-11-03"},"Ajax DoorProtect Plus (9NA) UPC white (напівфабрикат)":{"r":"Đã hoàn thành kế hoạch từ ca ngày","s":"night","d":"2026-10-24"},"Ajax DoorProtect (8EU) WL Standard white (напівфабрикат)":{"r":"","d":"2026-10-17","s":"night"},"Ajax MotionCam HDR (9NA) white (напівфабрикат)":{"s":"night","r":"","d":"2026-10-17"},"Ajax MotionProtect Outdoor (8MA) white (напівфабрикат)":{"d":"2026-10-13","s":"night","r":"ca đêm tiếp tục sản xuất"},"Ajax Hub 4G (9NA/ULA) white (напівфабрикат)":{"d":"2026-10-31","r":"","s":"day"},"Ajax DoorProtect (9NA) black (напівфабрикат)":{"s":"day","r":"Ca ngày đã hoàn thành kế hoạch sản xuất: -2pcs chờ sửa chữa","d":"2026-11-02"},"Ajax DualCurtain Outdoor (9NA) UPC white (напівфабрикат)":{"d":"2026-10-29","r":"Plan vượt KH không thể hoàn thành","s":"night"},"Ajax DoorProtect Plus (9NA) black (напівфабрикат)":{"r":"Sản xuất các model âm tuần","d":"2026-10-24","s":"night"},"Ajax DoorProtect Plus U Jeweller (8EU) white (напівфабрикат)":{"d":"2026-10-29","s":"day","r":"Hàng chờ sửa chữa"},"Ajax MotionProtect (8EU) WL Verux white (напівфабрикат)":{"d":"2026-11-03","s":"night","r":"Vỏ chưa lazer logo. Ca đêm sản xuất"},"Ajax WaterStop (8MA) white (напівфабрикат)":{"s":"day","r":"","d":"2026-10-31"},"Ajax MotionProtect Outdoor (9AU) white (напівфабрикат)":{"d":"2026-11-02","r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch","s":"day"},"Ajax WaterStop Tap [1] black (напівфабрикат)":{"s":"day","d":"2026-11-03","r":"Chạy kế hoạch âm tuần. Đã liên lạc ca ngày sản xuất"},"Ajax MotionProtect (9NA) UPC black (напівфабрикат)":{"d":"2026-10-23","s":"night","r":"Ca đêm chạy"},"Ajax MotionProtect Plus white EU (напівфабрикат)":{"r":"Chạy kế hoạch âm tuần. Đã liên lạc ca ngày sản xuất","d":"2026-11-01","s":"night"},"Ajax HomeSiren white EU (напівфабрикат)":{"s":"day","d":"2026-11-05","r":"Over Capa ( 2 line mới Rumup 45%)"},"Ajax WaterStop Tap [3/4] NA white (напівфабрикат)":{"s":"night","d":"2026-10-29","r":"Plan vượt KH không thể hoàn thành"},"Ajax MotionCam Outdoor (PhOD) Jeweller (9AU) white (напівфабрикат)":{"s":"day","d":"2026-10-27","r":"Kíp ngày 24/10 sản xuất"},"Ajax LeaksProtect black EU (напівфабрикат)":{"s":"day","d":"2026-11-05","r":"Mạch lỗi chờ xử lý"},"Ajax KeyPad TouchScreen (8EU) white (напівфабрикат)":{"d":"2026-10-29","s":"night","r":"Plan vượt KH không thể hoàn thành"},"Ajax WaterStop (9NA) white (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-29"},"Ajax KeyPad TouchScreen (9AU) white (напівфабрикат)":{"r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch","d":"2026-10-30","s":"day"},"Ajax MotionCam HDR (8EU) black (напівфабрикат)":{"r":"Mạch OSB đỏ. Chờ HT chạy lại . HT bố trí người xử lí luôn","d":"2026-10-31","s":"night"},"Ajax MotionCam Outdoor (9AU) white (напівфабрикат)":{"r":"Ca đêm sản xuất","s":"night","d":"2026-10-29"},"Ajax Keypad (9NA) black (напівфабрикат)":{"s":"day","d":"2026-10-11","r":"Capacity Calibration 42s"},"Ajax MotionCam Outdoor (PhOD) Jeweller (9NA) white (напівфабрикат)":{"d":"2026-10-23","s":"night","r":"Sản xuất các model âm trước ( Cover lượng âm tuần)"},"Ajax MotionProtect (9NA) UPC white (напівфабрикат)":{"r":"Sản xuất Model lẻ","s":"day","d":"2026-09-30"},"Ajax HomeSiren (9NA) white (напівфабрикат)":{"s":"day","r":"Plan vượt KH không thể hoàn thành","d":"2026-10-30"},"Ajax DoorProtect (9AU) black (напівфабрикат)":{"s":"day","d":"2026-11-01","r":"Đã sản xuất trước"},"Ajax Hub 2 Plus (9NA/AFA) UPC black (напівфабрикат)":{"d":"2026-10-29","r":"Plan vượt KH không thể hoàn thành","s":"night"},"Ajax MotionProtect Outdoor (9NA) white (напівфабрикат)":{"s":"day","d":"2026-11-02","r":"Plan vượt KH không thể hoàn thành"},"Ajax DoorProtect (8MA) white (напівфабрикат)":{"d":"2026-10-17","s":"night","r":"Kế hoạch ca ngày đã chạy"},"Ajax DoorProtect (8IN) black (напівфабрикат)":{"s":"night","d":"2026-10-17","r":""},"Ajax DoorProtect (8MA) black (напівфабрикат)":{"d":"2026-10-21","s":"night","r":"Không WIP từ HT"},"Ajax Hub 4G (9AU/ULA) white (напівфабрикат)":{"d":"2026-11-01","s":"night","r":"1 sản phẩm chờ sửa chữa"},"Ajax CombiProtect white EU (напівфабрикат)":{"s":"night","r":"2pcs chạy lại HT","d":"2026-10-26"},"Ajax StreetSiren (9AU) white (напівфабрикат)":{"s":"day","d":"2026-10-29","r":"Hàng chờ sửa chữa"},"Ajax Hub 2 Plus (9SA/ECG) white (напівфабрикат)":{"d":"2026-10-28","r":"Thiếu mạch từ Hard Test chỉ bố trí được 1/2 line OT so với kế hoạch từ PC","s":"day"},"Ajax MotionProtect (9SA) white (напівфабрикат)":{"r":"Đã sản xuất trước","s":"day","d":"2026-11-03"},"Ajax WaterStop (8MA) black (напівфабрикат)":{"d":"2026-10-31","s":"day","r":""},"Ajax Hub 2 Plus (8IN/ECG) black (напівфабрикат)":{"s":"night","d":"2026-10-12","r":"Ca đêm sản xuất"},"Ajax MotionProtect black EU (напівфабрикат)":{"r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch","s":"day","d":"2026-10-30"},"Ajax Hub 4G (9SA/UEU) white (напівфабрикат)":{"r":"ca đêm chạy","d":"2026-10-27","s":"day"},"Ajax DualCurtain Outdoor (9AU) white (напівфабрикат)":{"d":"2026-10-18","r":"","s":"day"},"Ajax CombiProtect (9AU) white (напівфабрикат)":{"r":"Thiếu mạch từ Hard Test chỉ bố trí được 1/2 line OT so với kế hoạch từ PC","s":"day","d":"2026-10-26"},"Ajax Hub 2 Plus (8IN/ECG) white (напівфабрикат)":{"r":"Ca đêm sản xuất","d":"2026-10-12","s":"night"},"Ajax MotionProtect (9AU) white (напівфабрикат)":{"d":"2026-11-03","r":"Đã sản xuất trước","s":"day"},"Ajax WaterStop Tap [1/2] black (напівфабрикат)":{"d":"2026-11-02","s":"night","r":"Ca đêm sản xuất"},"Ajax WaterStop Tap [3/4] white (напівфабрикат)":{"s":"day","d":"2026-11-03","r":"Chạy kế hoạch âm tuần. Đã liên lạc ca ngày sản xuất"},"Ajax DoorProtect white EU (напівфабрикат)":{"d":"2026-11-02","s":"day","r":"Ca ngày đã sản xuất: Còn -208pcs đuổi mạch từ Hard test,"},"Ajax DualCurtain Outdoor (8EU) white (напівфабрикат)":{"r":"Tìm thấy 61 pcs, đã vận hành, ca đêm tiếp tục tìm mạch xử lý","s":"day","d":"2026-10-30"},"Ajax DoorProtect (9AU) WL Standard white (напівфабрикат)":{"d":"2026-11-02","s":"day","r":"Chạy đuổi mạch từ Hard test => Ca đêm tiếp tục sản xuất"},"Ajax KeyPad TouchScreen (9NA) UPC black (напівфабрикат)":{"r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch","s":"day","d":"2026-10-30"},"Ajax WaterStop (9SA) white (напівфабрикат)":{"s":"night","r":"Plan vượt KH không thể hoàn thành","d":"2026-10-29"},"Ajax MotionProtect Outdoor white EU (напівфабрикат)":{"s":"night","r":"Đã sản xuất trước từ ca ngày","d":"2026-11-02"},"Ajax HomeSiren (8EU) WL Standard white (напівфабрикат)":{"d":"2026-11-05","s":"day","r":"2 line mới Rumup 45% Ca đêm tiếp tục sản xuất"},"Ajax LeaksProtect (8EU) WL Standard white (напівфабрикат)":{"d":"2026-11-03","r":"Đã sản xuất trước","s":"day"},"Ajax WaterStop (9NA) black (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","s":"night","d":"2026-10-29"},"Ajax WaterStop Tap [1] white (напівфабрикат)":{"s":"day","d":"2026-11-03","r":"Chạy kế hoạch âm tuần. Đã liên lạc ca ngày sản xuất"},"Ajax DoorProtect (9NA) UPC white (напівфабрикат)":{"d":"2026-11-02","s":"day","r":"Plan vượt KH không thể hoàn thành"},"Ajax StreetSiren white EU (напівфабрикат)":{"r":"Ca ngày Rumup Model Ajax MotionCam Outdoor (8EU) white (напівфабрикат) 85%,  do vậy chưa sản xuất hết kế hoạch ngày, ca đêm tiếp tục sản xuất","d":"2026-11-05","s":"day"},"Ajax MotionProtect (8IN) white (напівфабрикат)":{"d":"2026-10-16","r":"Kế hoạch ca ngày đã sản xuất","s":"night"},"Ajax DoorProtect (9NA) UPC black (напівфабрикат)":{"r":"","s":"night","d":"2026-10-14"},"Ajax HomeSiren (9AU) white (напівфабрикат)":{"s":"day","r":"2 line mới Rumup 45% Ca đêm tiếp tục sản xuất","d":"2026-11-05"},"Ajax KeyPad TouchScreen (9NA) black (напівфабрикат)":{"r":"","s":"day","d":"2026-09-29"},"Ajax Hub 2 Plus (8EU/ECG) WL Standard white (напівфабрикат)":{"s":"day","d":"2026-10-17","r":"Vượt quá năng lực line, liên lạc plan đẩy kế hoạch sản xuất ngày 15.10"},"Ajax WaterStop Tap [1/2] white (напівфабрикат)":{"s":"day","d":"2026-11-03","r":"Chạy kế hoạch âm tuần. Đã liên lạc ca ngày sản xuất"},"Ajax DoorProtect Plus (9SA) white (напівфабрикат)":{"s":"night","d":"2026-09-22","r":""},"Ajax Hub 4G (9NA/ULA) black (напівфабрикат)":{"d":"2026-10-30","r":"Sắp xếp finisher tìm kiếm mạch lẻ → không tìm thấy mạch","s":"night"},"Ajax NVR (8ch) (9NA) black (напівфабрикат)":{"d":"2026-10-12","r":"KHSX: 5 pcs => Thiếu Wip (bản mạch): 2 pcs","s":"day"},"Ajax WaterStop Tap [3/4] NA black (напівфабрикат)":{"r":"Plan vượt KH không thể hoàn thành","d":"2026-10-29","s":"night"},"Ajax Hub 2 4G (8IN/ECG) black (напівфабрикат)":{"s":"night","r":"Thiếu mạch từ Hard Test. HT xác nhận lại với DIP","d":"2026-10-28"},"Ajax LeaksProtect (9NA) black (напівфабрикат)":{"d":"2026-10-10","s":"day","r":"Đã hoàn thành ngày 9/10"},"Ajax NVR (16ch) (9NA) black (напівфабрикат)":{"s":"day","r":"","d":"2026-11-02"},"Ajax Hub 2 4G (8MA/ECG) white (напівфабрикат)":{"r":"","s":"night","d":"2026-10-27"},"Ajax CombiProtect (9NA) white (напівфабрикат)":{"d":"2026-10-29","s":"night","r":"Thiếu mạch từ Hard Test chỉ bố trí được 1/2 line OT so với kế hoạch từ PC"},"Ajax DoorProtect Plus (8IN) white (напівфабрикат)":{"r":"Ca đêm sản xuất","s":"night","d":"2026-10-12"},"Ajax Hub 2 (8MA) white (напівфабрикат)":{"d":"2026-11-02","r":"Sai hiển thị trên tem => đã báo trên nhóm PPD, đổi model 5 lần; 14","s":"night"},"Ajax WTS_plastic_Tamper_3pASM (напівфабрикат)":{"s":"day","d":"2026-10-29","r":"Ca ngày đã hoàn thành sản xuất"},"Ajax DoorProtect Plus white EU (напівфабрикат)":{"s":"day","d":"2026-11-02","r":"Hard Test âm KH. Kíp ngày HT hoàn thành -> AS hoàn thành"},"Ajax DoorProtect Plus (8MA) black (напівфабрикат)":{"s":"night","d":"2026-09-29","r":"Change model; 13"},"Ajax DoorProtect Plus black EU (напівфабрикат)":{"d":"2026-10-30","s":"night","r":"Không có Wip từ Hard Test. Đã kiểm tra fact và stactic không chênh lệch. Hard Test xác nhận lại DIP"}}};
 
-    // Mặc định: Tuần hiện tại theo định nghĩa Thứ 4 tuần trước -> Thứ 5 kế tiếp (28/10/2026 -> 05/11/2026)
-    let negModelDateStart = '2026-10-29';
-    let negModelDateEnd = '2026-11-04';
+    // =========================================================================
+    // LOGIC THỐNG KÊ MODEL ÂM THEO YÊU CẦU:
+    // 1. Ngày trong tuần tính từ Thứ 5 tuần này đến Thứ 4 tuần sau (Thứ 5 là ngày đầu tuần)
+    // 2. Số lượng âm = fact - plan mà < 0
+    // 3. Lũy kế số lượng âm = lũy kế fact - lũy kế plan mà < 0 (tính từ Thứ 5 đầu tuần đến ngày xem)
+    // 4. Số lượng âm lũy kế của ngày đầu tiên trong tuần (Thứ 5) = số lượng âm ngày đó
+    // =========================================================================
+    const initNegBounds = getCurrentWeekRangeThuWed();
+    // Mặc định: Lũy kế tuần từ Thứ 5 đến ngày hiện tại trong tuần (05/11/2026 -> 07/11/2026)
+    let negModelDateStart = initNegBounds.thuStart || '2026-11-05';
+    let negModelDateEnd = initNegBounds.today || '2026-11-07';
     let negativeModelsSearchText = '';
     let negativeModelsViewFilter = 'all'; // 'all' | 'ht' | 'assy'
 
@@ -2662,8 +2693,9 @@ function switchTab(tabId) {
     // Logic: Số lượng âm = Tổng Fact - Tổng Plan (< 0) trong khoảng ngày [startDate, endDate]
     // Nguyên nhân lấy từ Sheet "Production history" (lần sản xuất gần nhất trong process HARD TEST và ASSEMBLY)
     function calculateNegativeModels(startDate, endDate) {
-      const s = startDate || negModelDateStart || '2026-10-29';
-      const e = endDate || negModelDateEnd || '2026-11-04';
+      const bounds = getCurrentWeekRangeThuWed();
+      const s = startDate || negModelDateStart || bounds.thuStart;
+      const e = endDate || negModelDateEnd || bounds.today;
       const result = { ht: [], assy: [] };
 
       ['HARD TEST', 'ASSEMBLY'].forEach(stage => {
@@ -2779,8 +2811,24 @@ function switchTab(tabId) {
       if (dateBadge) {
         const [sy, sm, sd] = negModelDateStart.split('-');
         const [ey, em, ed] = negModelDateEnd.split('-');
-        const isCurrentWeek = (negModelDateStart === '2026-10-29' && negModelDateEnd === '2026-11-04');
-        dateBadge.textContent = `${sd}/${sm}/${sy} → ${ed}/${em}/${ey} (${isCurrentWeek ? 'Tuần hiện tại: Thứ 5 tuần trước → Thứ 4 tuần này' : 'Tùy chỉnh'})`;
+        const bounds = getCurrentWeekRangeThuWed();
+        let badgeLabel = 'Tùy chỉnh';
+        if (negModelDateStart === negModelDateEnd) {
+          if (negModelDateStart === bounds.today) {
+            badgeLabel = 'Số lượng âm hôm nay';
+          } else if (negModelDateStart === bounds.thuStart) {
+            badgeLabel = 'Thứ 5 ngày đầu tuần (Lũy kế = Âm ngày)';
+          } else {
+            badgeLabel = `Âm ngày ${sd}/${sm}`;
+          }
+        } else if (negModelDateStart === bounds.thuStart && negModelDateEnd === bounds.today) {
+          badgeLabel = 'Tuần hiện tại: Thứ 5, 05.Nov → Hôm nay, 07.Nov';
+        } else if (negModelDateStart === bounds.thuStart && negModelDateEnd === bounds.wedEnd) {
+          badgeLabel = `Cả tuần (${bounds.label}: Thứ 5, 05.Nov → Thứ 4, 11.Nov)`;
+        } else if (negModelDateStart === '2026-10-29' && negModelDateEnd === '2026-11-04') {
+          badgeLabel = 'Tuần trước: 29/10 → 04/11 (W44)';
+        }
+        dateBadge.textContent = `${sd}/${sm}/${sy} → ${ed}/${em}/${ey} (${badgeLabel})`;
       }
 
       const q = negativeModelsSearchText.toLowerCase().trim();
@@ -2811,6 +2859,7 @@ function switchTab(tabId) {
           return `<tr><td colspan="4" class="p-6 text-center text-slate-400 italic">${emptyMsg}</td></tr>`;
         }
         let html = '';
+        const isSingleDay = (negModelDateStart === negModelDateEnd);
         list.forEach((item, idx) => {
           const isEven = idx % 2 === 0;
           const rowBg = isEven ? 'bg-[#0f172a]' : 'bg-slate-900/60';
@@ -2839,12 +2888,12 @@ function switchTab(tabId) {
             <tr class="${rowBg} hover:bg-slate-800/80 transition-colors border-b border-slate-800/80">
               <td class="p-2.5 text-center text-slate-400 font-mono font-medium">${displayNo}</td>
               <td class="p-2.5 text-slate-200 font-medium break-words">
-                <div>${escapeHtml(item.m)}</div>
+                <div class="font-semibold">${escapeHtml(item.m)}</div>
                 <div class="text-[10px] text-slate-400 font-mono mt-0.5 flex flex-wrap items-center gap-1.5">
                   ${dateShiftLabel ? `<span>${dateShiftLabel}</span><span>•</span>` : ''}
-                  <span>Kế hoạch tuần: ${(item.p || 0).toLocaleString('en-US')} pcs</span>
+                  <span>${isSingleDay ? 'Kế hoạch ngày:' : 'Tổng Plan tuần:'} ${(item.p || 0).toLocaleString('en-US')} pcs</span>
                   <span>|</span>
-                  <span>Thực tế tuần: ${(item.f || 0).toLocaleString('en-US')} pcs</span>
+                  <span>${isSingleDay ? 'Thực tế ngày:' : 'Tổng Fact tuần:'} ${(item.f || 0).toLocaleString('en-US')} pcs</span>
                 </div>
               </td>
               <td class="p-2.5 text-right font-mono font-bold text-rose-400 whitespace-nowrap">${gapFormatted}</td>
@@ -2883,7 +2932,59 @@ function switchTab(tabId) {
       showSyncAlert('success', '📅 ĐÃ CẬP NHẬT KHOẢNG NGÀY', `Đã tính toán lại model âm cho khoảng: ${negModelDateStart} → ${negModelDateEnd}`, 2500);
     }
 
+    function setNegativeModelWeekToToday() {
+      const bounds = getCurrentWeekRangeThuWed();
+      negModelDateStart = bounds.thuStart;
+      negModelDateEnd = bounds.today;
+      const inputStart = document.getElementById('negModelDateStart');
+      const inputEnd = document.getElementById('negModelDateEnd');
+      if (inputStart) inputStart.value = negModelDateStart;
+      if (inputEnd) inputEnd.value = negModelDateEnd;
+      negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
+      renderNegativeModelsTable();
+      showSyncAlert('info', '📅 LŨY KẾ TUẦN → NAY', `Lũy kế từ Thứ 5 (${bounds.thuStart}) đến hôm nay (${bounds.today}): Lũy kế Fact - Lũy kế Plan < 0`, 3000);
+    }
+
+    function setNegativeModelToday() {
+      const bounds = getCurrentWeekRangeThuWed();
+      negModelDateStart = bounds.today;
+      negModelDateEnd = bounds.today;
+      const inputStart = document.getElementById('negModelDateStart');
+      const inputEnd = document.getElementById('negModelDateEnd');
+      if (inputStart) inputStart.value = negModelDateStart;
+      if (inputEnd) inputEnd.value = negModelDateEnd;
+      negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
+      renderNegativeModelsTable();
+      showSyncAlert('info', '📅 ÂM HÔM NAY', `Số lượng âm ngày hôm nay (${bounds.today}): Fact - Plan < 0`, 3000);
+    }
+
+    function setNegativeModelFirstDay() {
+      const bounds = getCurrentWeekRangeThuWed();
+      negModelDateStart = bounds.thuStart;
+      negModelDateEnd = bounds.thuStart;
+      const inputStart = document.getElementById('negModelDateStart');
+      const inputEnd = document.getElementById('negModelDateEnd');
+      if (inputStart) inputStart.value = negModelDateStart;
+      if (inputEnd) inputEnd.value = negModelDateEnd;
+      negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
+      renderNegativeModelsTable();
+      showSyncAlert('info', '📅 NGÀY ĐẦU TUẦN (THỨ 5)', `Thứ 5 (${bounds.thuStart}): Lũy kế âm = Số lượng âm ngày đó`, 3000);
+    }
+
     function setNegativeModelCurrentWeek() {
+      const bounds = getCurrentWeekRangeThuWed();
+      negModelDateStart = bounds.thuStart;
+      negModelDateEnd = bounds.wedEnd;
+      const inputStart = document.getElementById('negModelDateStart');
+      const inputEnd = document.getElementById('negModelDateEnd');
+      if (inputStart) inputStart.value = negModelDateStart;
+      if (inputEnd) inputEnd.value = negModelDateEnd;
+      negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
+      renderNegativeModelsTable();
+      showSyncAlert('info', '📅 CẢ TUẦN (THỨ 5 → THỨ 4)', `Tuần ${bounds.label}: Thứ 5 (${bounds.thuStart}) đến Thứ 4 (${bounds.wedEnd})`, 3000);
+    }
+
+    function setNegativeModelPrevWeek() {
       negModelDateStart = '2026-10-29';
       negModelDateEnd = '2026-11-04';
       const inputStart = document.getElementById('negModelDateStart');
@@ -2892,21 +2993,7 @@ function switchTab(tabId) {
       if (inputEnd) inputEnd.value = negModelDateEnd;
       negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
       renderNegativeModelsTable();
-      showSyncAlert('info', '📅 TUẦN HIỆN TẠI', 'Đã đặt khoảng ngày từ Thứ 5 tuần trước (29/10) đến Thứ 4 tuần này (04/11)', 3000);
-    }
-
-    function setNegativeModelWeekToToday() {
-      const curDate = getSafeCurrentDate();
-      const curTodayStr = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
-      negModelDateStart = '2026-10-29';
-      negModelDateEnd = curTodayStr;
-      const inputStart = document.getElementById('negModelDateStart');
-      const inputEnd = document.getElementById('negModelDateEnd');
-      if (inputStart) inputStart.value = negModelDateStart;
-      if (inputEnd) inputEnd.value = negModelDateEnd;
-      negativeModelsData = calculateNegativeModels(negModelDateStart, negModelDateEnd);
-      renderNegativeModelsTable();
-      showSyncAlert('info', '📅 ĐẦU TUẦN → NAY', `Đã lọc từ 29/10 đến ${curTodayStr}`, 3000);
+      showSyncAlert('info', '📅 TUẦN 29/10 → 04/11', 'Tuần W44 chuẩn: 20 models HT (-1,042 pcs), 53 models Assy (-1,654 pcs)', 3000);
     }
 
     function copyNegativeModelsTSV(targetType = 'all') {
@@ -3852,6 +3939,7 @@ function switchTab(tabId) {
 
     // Khởi động toàn bộ Dashboard
     updateUI();
+    initProgressTab();
     startAutoSyncEngine();
 
     // ==========================================
