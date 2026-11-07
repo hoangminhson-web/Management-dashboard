@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover">
   <title>SFPD MANAGEMENT DASHBOARD</title>
     <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <script src="chart.min.js"></script>
@@ -38,6 +38,43 @@
       filter: invert(0.65);
       cursor: pointer;
     }
+    /* TỐI ƯU HOÁ KHI XOAY NGANG TRÊN ĐIỆN THOẠI (LANDSCAPE MOBILE) */
+    @media (orientation: landscape) and (max-height: 520px) {
+      header.sticky {
+        position: relative !important; /* Không che khuất màn hình khi cuộn dọc trên điện thoại */
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important;
+      }
+      .header-main-card {
+        padding: 0.4rem 0.6rem !important;
+      }
+      html {
+        font-size: 15px !important; /* Tăng kích thước chữ để nhìn to rõ trên màn hình ngang */
+      }
+    }
+
+    /* CHẾ ĐỘ XOAY NGANG ẢO (VIRTUAL LANDSCAPE CHO IPHONE & ANDROID BỊ KHOÁ XOAY) */
+    body.virtual-landscape-active {
+      overflow: hidden !important;
+      position: fixed !important;
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    #app-wrapper.virtual-landscape {
+      position: fixed !important;
+      top: 0 !important;
+      left: 100% !important;
+      width: 100vh !important;
+      height: 100vw !important;
+      transform: rotate(90deg) !important;
+      transform-origin: top left !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      background-color: #0f172a !important;
+      z-index: 9999 !important;
+    }
+
     /* Tự động co giãn theo kích thước màn hình lớn (1080p, 2K, 4K, TV Display) */
     @media (min-width: 1920px) {
       html {
@@ -57,12 +94,13 @@
   </style>
 </head>
 <body class="min-h-screen bg-[#0f172a] text-slate-300 antialiased custom-scrollbar">
+  <div id="app-wrapper" class="w-full min-h-screen">
 
   <!-- STICKY TOP HEADER & TABS NAVIGATION (Cố định không trôi khi cuộn / vuốt lên) -->
   <header class="sticky top-0 z-40 w-full bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800/90 shadow-xl px-2 sm:px-4 md:px-6 pt-3 pb-3 transition-all duration-200">
     <div class="w-full max-w-[98%] 2xl:max-w-[99%] mx-auto space-y-3">
       <!-- 1. Header Card với Bảng Điều Khiển Tự Động Cập Nhật (1 Giờ/Lần) -->
-      <div class="bg-[#1e293b] border border-slate-700/80 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
+      <div class="header-main-card bg-[#1e293b] border border-slate-700/80 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="p-2.5 bg-gradient-to-br from-blue-600/80 to-indigo-600/80 rounded-xl text-slate-100 shadow-sm">
             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,6 +145,14 @@
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             </button>
           </div>
+
+          <!-- Nút Xoay Ngang Màn Hình Mobile (Landscape Mode) -->
+          <button onclick="toggleMobileLandscape()" id="btnMobileRotate" title="Xoay ngang màn hình để xem to và rộng hơn" class="px-2.5 py-1.5 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 active:scale-95 text-white font-semibold rounded-xl shadow-md flex items-center gap-1.5 transition cursor-pointer border border-indigo-400/40">
+            <svg class="w-3.5 h-3.5 text-amber-300 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span id="btnMobileRotateText">Xoay ngang</span>
+          </button>
 
           <!-- Nút mở rộng Toàn màn hình (Fullscreen) -->
           <button onclick="toggleFullScreen()" id="btnFullscreen" title="Mở rộng toàn màn hình TV / Màn hình lớn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700/80 active:scale-95 text-slate-200 font-medium rounded-xl shadow-sm flex items-center gap-1.5 transition cursor-pointer">
@@ -832,6 +878,18 @@
     </div>
 
   </main>
+  </div>
+
+  <!-- Nút điều khiển nổi khi ở Chế độ Xoay Ngang Ảo -->
+  <div id="virtualLandscapeExitBtn" class="hidden fixed bottom-4 right-4 z-[99999] flex items-center gap-2">
+    <button onclick="zoomIn()" class="p-2.5 bg-blue-600 hover:bg-blue-500 active:scale-95 text-white rounded-full shadow-2xl font-bold text-sm flex items-center justify-center cursor-pointer border border-blue-400/50" title="Phóng to số liệu (+10%)">
+      🔍+
+    </button>
+    <button onclick="toggleMobileLandscape()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded-full shadow-2xl font-bold text-xs flex items-center gap-1.5 cursor-pointer border border-indigo-400/50">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <span>Xoay dọc lại</span>
+    </button>
+  </div>
 
 
   <!-- Floating Tooltip Box cho ô Ngày -->
@@ -1064,6 +1122,82 @@
     function zoomReset() {
       applyZoom(1.0);
     }
+
+    
+    // ==========================================
+    // TÍNH NĂNG XOAY MÀN HÌNH & TỐI ƯU LANDSCAPE MOBILE
+    // ==========================================
+    let isVirtualLandscape = false;
+
+    function resizeAllCharts() {
+      if (typeof chartInstanceHT !== 'undefined' && chartInstanceHT) chartInstanceHT.resize();
+      if (typeof chartInstanceAssy !== 'undefined' && chartInstanceAssy) chartInstanceAssy.resize();
+      if (typeof chartMonthlyTrendInstance !== 'undefined' && chartMonthlyTrendInstance) chartMonthlyTrendInstance.resize();
+      if (typeof chartScrapDefectsInstance !== 'undefined' && chartScrapDefectsInstance) chartScrapDefectsInstance.resize();
+      if (typeof chartScrapTeamsInstance !== 'undefined' && chartScrapTeamsInstance) chartScrapTeamsInstance.resize();
+      if (window.chartHTInstance) window.chartHTInstance.resize();
+      if (window.chartAssyInstance) window.chartAssyInstance.resize();
+    }
+
+    async function toggleMobileLandscape() {
+      const wrapper = document.getElementById('app-wrapper');
+      const exitBtn = document.getElementById('virtualLandscapeExitBtn');
+      const rotateBtnText = document.getElementById('btnMobileRotateText');
+
+      if (isVirtualLandscape) {
+        // Thoát chế độ xoay ngang ảo
+        isVirtualLandscape = false;
+        document.body.classList.remove('virtual-landscape-active');
+        if (wrapper) wrapper.classList.remove('virtual-landscape');
+        if (exitBtn) exitBtn.classList.add('hidden');
+        if (rotateBtnText) rotateBtnText.textContent = 'Xoay ngang';
+        setTimeout(resizeAllCharts, 150);
+        return;
+      }
+
+      // Thử kích hoạt xoay ngang toàn màn hình hệ thống nếu thiết bị hỗ trợ
+      let systemRotated = false;
+      try {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen().catch(() => {});
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          await document.documentElement.webkitRequestFullscreen().catch(() => {});
+        }
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock('landscape').catch(() => {});
+          systemRotated = true;
+        }
+      } catch (e) {}
+
+      // Nếu màn hình đang ở chiều dọc (hoặc trên iOS bị chặn Screen Orientation API):
+      // Bật chế độ Xoay Ngang Ảo để hiển thị toàn màn hình nằm ngang ngay lập tức!
+      if (window.innerWidth < window.innerHeight || !systemRotated) {
+        isVirtualLandscape = true;
+        document.body.classList.add('virtual-landscape-active');
+        if (wrapper) wrapper.classList.add('virtual-landscape');
+        if (exitBtn) exitBtn.classList.remove('hidden');
+        if (rotateBtnText) rotateBtnText.textContent = 'Xoay dọc';
+        showSyncAlert('success', '🔄 ĐÃ KÍCH HOẠT XOAY NGANG', 'Đã xoay ngang dashboard! Bạn hãy cầm điện thoại nằm ngang để xem to và rõ nhất nhé.', 4000);
+      } else {
+        showSyncAlert('success', '🔄 ĐÃ XOAY NGANG', 'Màn hình đã chuyển sang chế độ ngang rộng rãi!', 3000);
+      }
+
+      setTimeout(resizeAllCharts, 200);
+    }
+
+    window.addEventListener('resize', () => {
+      setTimeout(resizeAllCharts, 100);
+    });
+
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        resizeAllCharts();
+        if (window.innerWidth > window.innerHeight && isVirtualLandscape) {
+          // Người dùng đã xoay máy thật, tắt chế độ xoay ảo
+          toggleMobileLandscape();
+        }
+      }, 250);
+    });
 
     function toggleFullScreen() {
       if (!document.fullscreenElement) {
