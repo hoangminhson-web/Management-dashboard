@@ -500,7 +500,7 @@
               </h2>
             </div>
             <p class="text-[11px] text-slate-400 mt-0.5">
-              Thời kỳ: <b class="text-sky-300">Thứ 5 tuần này → Thứ 4 tuần kế tiếp</b> | Tên Model: <b class="text-emerald-300 font-bold">CỘT B</b> | Công đoạn: <b class="text-slate-200">FOCUS, HARD TEST &amp; ASSEMBLY</b> (Sheet <i>Manufacturing plan</i>)
+              Chu kỳ sản xuất: <b class="text-sky-300">Thứ 5 tuần này → Thứ 4 tuần sau</b> | Tên Model: <b class="text-emerald-300 font-bold">CỘT B</b> | Công đoạn: <b class="text-slate-200">FOCUS, HARD TEST &amp; ASSEMBLY</b> (Sheet <i>Manufacturing plan</i>)
             </p>
           </div>
 
@@ -519,8 +519,8 @@
 
             <!-- Các nút chọn nhanh kỳ -->
             <div class="inline-flex items-center gap-1 text-xs">
-              <button type="button" id="btnNegQuick_this_week" onclick="setNegQuickPeriod('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-semibold transition border border-blue-500 shadow-sm cursor-pointer" title="Tuần hiện tại: Thứ 5 (05/11) đến Thứ 4 (11/11)">Tuần này</button>
-              <button type="button" id="btnNegQuick_last_week" onclick="setNegQuickPeriod('last_week')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition border border-slate-700 cursor-pointer" title="Tuần trước: Thứ 5 (29/10) đến Thứ 4 (04/11)">Tuần trước</button>
+              <button type="button" id="btnNegQuick_this_week" onclick="setNegQuickPeriod('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-semibold transition border border-blue-500 shadow-sm cursor-pointer" title="Chu kỳ hiện tại: Thứ 5 tuần này đến Thứ 4 tuần sau">Chu kỳ này (T5 → T4)</button>
+              <button type="button" id="btnNegQuick_last_week" onclick="setNegQuickPeriod('last_week')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition border border-slate-700 cursor-pointer" title="Chu kỳ trước: Thứ 5 tuần trước đến Thứ 4 tuần này">Chu kỳ trước (T5 → T4)</button>
               <button type="button" id="btnNegQuick_today" onclick="setNegQuickPeriod('today')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition border border-slate-700 cursor-pointer" title="Hôm nay">Hôm nay</button>
             </div>
 
@@ -550,8 +550,8 @@
           <div class="flex items-center gap-2">
             <span class="text-base shrink-0">📌</span>
             <div>
-              <span class="font-bold text-sky-300">Quy tắc chuẩn:</span>
-              <span>Tên Model lấy từ <b>Cột B</b> sheet <i>Manufacturing plan</i>. <b>Số lượng âm hàng ngày:</b> = Fact - Plan (chỉ tính khi Fact &lt; Plan). Thống kê chi tiết theo từng ngày và tổng kỳ cho 3 công đoạn: <b>Focus</b>, <b>Hard Test</b> và <b>Assembly</b>.</span>
+              <span class="font-bold text-sky-300">Quy tắc chu kỳ chuẩn:</span>
+              <span><b>1 Chu kỳ sản xuất:</b> Bắt đầu từ <b>Thứ 5 tuần này → Thứ 4 tuần sau</b>. <b>Số lượng âm ngày đầu kỳ:</b> Là số lượng âm phát sinh của chính ngày đầu tiên của kỳ (Thứ 5) theo công thức <code>Fact - Plan &lt; 0</code> (không lấy số âm từ tuần trước). Bảng thống kê chi tiết theo từng ngày và tổng chu kỳ cho 3 công đoạn: <b>Focus</b>, <b>Hard Test</b> và <b>Assembly</b>.</span>
             </div>
           </div>
         </div>
@@ -573,7 +573,20 @@
 
           <div class="bg-[#0f172a] border border-slate-700/80 rounded-xl p-3 shadow-inner flex flex-col justify-between">
             <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Tổng Số Lượng Âm Hàng Ngày</span>
+              <span>Âm Ngày Đầu Kỳ (Thứ 5)</span>
+              <span class="text-amber-400">📍</span>
+            </div>
+            <div class="text-xl sm:text-2xl font-extrabold text-amber-400 mt-1" id="kpiNegFirstDayTotal">0 <span class="text-xs font-normal text-slate-400">pcs</span></div>
+            <div class="text-[11px] text-slate-400 mt-1.5 flex flex-wrap gap-x-2.5 gap-y-1">
+              <span>Focus: <b id="kpiNegFirstDayFocus" class="text-indigo-400">0 pcs</b></span>
+              <span>HT: <b id="kpiNegFirstDayHT" class="text-sky-300">0 pcs</b></span>
+              <span>Assy: <b id="kpiNegFirstDayAssy" class="text-emerald-400">0 pcs</b></span>
+            </div>
+          </div>
+
+          <div class="bg-[#0f172a] border border-slate-700/80 rounded-xl p-3 shadow-inner flex flex-col justify-between">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Tổng Số Lượng Âm Cả Kỳ</span>
               <span class="text-rose-400">📉</span>
             </div>
             <div class="text-xl sm:text-2xl font-extrabold text-rose-400 mt-1" id="kpiNegDailyTotal">0 <span class="text-xs font-normal text-slate-400">pcs</span></div>
@@ -581,18 +594,6 @@
               <span>Focus: <b id="kpiNegDailyTotalFocus" class="text-indigo-400">0 pcs</b></span>
               <span>HT: <b id="kpiNegDailyTotalHT" class="text-sky-300">0 pcs</b></span>
               <span>Assy: <b id="kpiNegDailyTotalAssy" class="text-emerald-400">0 pcs</b></span>
-            </div>
-          </div>
-
-          <div class="bg-[#0f172a] border border-slate-700/80 rounded-xl p-3 shadow-inner flex flex-col justify-between">
-            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Chênh Lệch Tổng Kỳ (Net Gap)</span>
-              <span class="text-amber-400">📊</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-extrabold text-amber-400 mt-1" id="kpiNegNetGap">0 <span class="text-xs font-normal text-slate-400">pcs</span></div>
-            <div class="text-[11px] text-slate-400 mt-1.5 flex justify-between">
-              <span>Plan: <b id="kpiNegPeriodPlan" class="text-slate-300">0</b></span>
-              <span>Fact: <b id="kpiNegPeriodFact" class="text-sky-300">0</b></span>
             </div>
           </div>
 
@@ -3461,6 +3462,9 @@ function switchTab(tabId) {
             sumNeg += neg;
           }
 
+          // Số lượng âm ngày đầu kỳ (Thứ 5 / ngày đầu tiên của kỳ)
+          const firstDayNeg = (negArr.length > 0) ? negArr[0] : 0;
+
           // Lọc các model âm trong kỳ: có ít nhất 1 ngày âm (sumNeg < 0)
           if (sumNeg < 0) {
             modelsList.push({
@@ -3470,6 +3474,7 @@ function switchTab(tabId) {
               f: fArr,
               gap: gapArr,
               neg: negArr,
+              first_day_neg: firstDayNeg,
               total_p: sumP,
               total_f: sumF,
               net_gap: sumF - sumP,
@@ -3483,7 +3488,7 @@ function switchTab(tabId) {
       }
 
       // Sắp xếp: Ưu tiên model có tổng số lượng âm sâu nhất (total_neg nhỏ nhất)
-      modelsList.sort((a, b) => a.total_neg - b.total_neg || a.net_gap - b.net_gap);
+      modelsList.sort((a, b) => a.total_neg - b.total_neg || a.first_day_neg - b.first_day_neg);
 
       const [yS, mS, dS] = startStr.split('-');
       const [yE, mE, dE] = endStr.split('-');
@@ -3533,11 +3538,14 @@ function switchTab(tabId) {
       const todayStr = `${yT}-${mT}-${dT}`;
 
       if (type === 'this_week') {
-        startEl.value = '2026-11-05';
-        endEl.value = '2026-11-11';
+        const curWeek = getCurrentWeekRangeThuWed(baseDate);
+        startEl.value = curWeek.start;
+        endEl.value = curWeek.end;
       } else if (type === 'last_week') {
-        startEl.value = '2026-10-29';
-        endEl.value = '2026-11-04';
+        const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
+        const prevWeek = getCurrentWeekRangeThuWed(prevDate);
+        startEl.value = prevWeek.start;
+        endEl.value = prevWeek.end;
       } else if (type === 'today') {
         startEl.value = todayStr;
         endEl.value = todayStr;
@@ -3588,6 +3596,11 @@ function switchTab(tabId) {
       const elCountHT = document.getElementById('kpiNegModelCountHT');
       const elCountAssy = document.getElementById('kpiNegModelCountAssy');
 
+      const elFirstDay = document.getElementById('kpiNegFirstDayTotal');
+      const elFirstDayFocus = document.getElementById('kpiNegFirstDayFocus');
+      const elFirstDayHT = document.getElementById('kpiNegFirstDayHT');
+      const elFirstDayAssy = document.getElementById('kpiNegFirstDayAssy');
+
       const elDaily = document.getElementById('kpiNegDailyTotal');
       const elDailyFocus = document.getElementById('kpiNegDailyTotalFocus');
       const elDailyHT = document.getElementById('kpiNegDailyTotalHT');
@@ -3602,24 +3615,29 @@ function switchTab(tabId) {
       const elTopStage = document.getElementById('kpiNegTopModelStage');
 
       let countFocus = 0, countHT = 0, countAssy = 0;
+      let firstDayFocus = 0, firstDayHT = 0, firstDayAssy = 0;
       let dailyFocus = 0, dailyHT = 0, dailyAssy = 0;
       let totalPlan = 0, totalFact = 0, totalNetGap = 0;
       let topModel = null;
 
       filteredModels.forEach(m => {
         const neg = m.total_neg || 0;
+        const fNeg = m.first_day_neg || 0;
         totalPlan += (m.total_p || 0);
         totalFact += (m.total_f || 0);
         totalNetGap += (m.net_gap || 0);
 
         if (m.stage === 'FOCUS') {
           countFocus++;
+          firstDayFocus += fNeg;
           dailyFocus += neg;
         } else if (m.stage === 'HARD TEST') {
           countHT++;
+          firstDayHT += fNeg;
           dailyHT += neg;
         } else if (m.stage === 'ASSEMBLY') {
           countAssy++;
+          firstDayAssy += fNeg;
           dailyAssy += neg;
         }
 
@@ -3629,6 +3647,7 @@ function switchTab(tabId) {
       });
 
       const totalCount = filteredModels.length;
+      const totalFirstDay = firstDayFocus + firstDayHT + firstDayAssy;
       const totalDaily = dailyFocus + dailyHT + dailyAssy;
 
       if (elCount) elCount.innerHTML = totalCount.toLocaleString('en-US') + ' <span class="text-xs font-normal text-slate-400">models</span>';
@@ -3636,12 +3655,17 @@ function switchTab(tabId) {
       if (elCountHT) elCountHT.textContent = countHT.toLocaleString('en-US');
       if (elCountAssy) elCountAssy.textContent = countAssy.toLocaleString('en-US');
 
+      if (elFirstDay) elFirstDay.innerHTML = (totalFirstDay < 0 ? '-' : '') + Math.abs(totalFirstDay).toLocaleString('en-US') + ' <span class="text-xs font-normal text-slate-400">pcs</span>';
+      if (elFirstDayFocus) elFirstDayFocus.textContent = (firstDayFocus < 0 ? '-' : '') + Math.abs(firstDayFocus).toLocaleString('en-US') + ' pcs';
+      if (elFirstDayHT) elFirstDayHT.textContent = (firstDayHT < 0 ? '-' : '') + Math.abs(firstDayHT).toLocaleString('en-US') + ' pcs';
+      if (elFirstDayAssy) elFirstDayAssy.textContent = (firstDayAssy < 0 ? '-' : '') + Math.abs(firstDayAssy).toLocaleString('en-US') + ' pcs';
+
       if (elDaily) elDaily.innerHTML = (totalDaily < 0 ? '-' : '') + Math.abs(totalDaily).toLocaleString('en-US') + ' <span class="text-xs font-normal text-slate-400">pcs</span>';
       if (elDailyFocus) elDailyFocus.textContent = (dailyFocus < 0 ? '-' : '') + Math.abs(dailyFocus).toLocaleString('en-US') + ' pcs';
       if (elDailyHT) elDailyHT.textContent = (dailyHT < 0 ? '-' : '') + Math.abs(dailyHT).toLocaleString('en-US') + ' pcs';
       if (elDailyAssy) elDailyAssy.textContent = (dailyAssy < 0 ? '-' : '') + Math.abs(dailyAssy).toLocaleString('en-US') + ' pcs';
 
-      if (elNetGap) elNetGap.innerHTML = (totalNetGap < 0 ? '-' : (totalNetGap > 0 ? '+' : '')) + Math.abs(totalNetGap).toLocaleString('en-US') + ' <span class="text-xs font-normal text-slate-400">pcs</span>';
+      if (elNetGap) elNetGap.textContent = (totalNetGap < 0 ? '-' : (totalNetGap > 0 ? '+' : '')) + Math.abs(totalNetGap).toLocaleString('en-US') + ' pcs';
       if (elPeriodPlan) elPeriodPlan.textContent = totalPlan.toLocaleString('en-US');
       if (elPeriodFact) elPeriodFact.textContent = totalFact.toLocaleString('en-US');
 
@@ -3702,8 +3726,9 @@ function switchTab(tabId) {
       html += '<th class="p-2.5 text-center w-10 border-r border-slate-700/70">STT</th>';
       html += '<th class="p-2.5 text-center w-24 border-r border-slate-700/70">Công đoạn</th>';
       html += '<th class="p-2.5 text-left min-w-[240px] border-r border-slate-700/70">Tên Model / Sản Phẩm (Cột B)</th>';
-      html += '<th class="p-2.5 text-center min-w-[90px] border-r border-slate-700/70 text-slate-300">Tổng Plan</th>';
-      html += '<th class="p-2.5 text-center min-w-[90px] border-r border-slate-700/70 text-sky-300">Tổng Fact</th>';
+      html += '<th class="p-2.5 text-center min-w-[85px] border-r border-slate-700/70 text-slate-300">Tổng Plan</th>';
+      html += '<th class="p-2.5 text-center min-w-[85px] border-r border-slate-700/70 text-sky-300">Tổng Fact</th>';
+      html += '<th class="p-2.5 text-center min-w-[105px] border-r border-slate-700/70 text-amber-400 font-extrabold bg-amber-950/20" title="Số lượng âm của ngày đầu tiên trong kỳ (Thứ 5)">Âm Ngày Đầu Kỳ (T5)</th>';
       html += '<th class="p-2.5 text-center min-w-[105px] border-r border-slate-700/70 text-rose-400 font-extrabold bg-slate-800/80">Tổng Số Âm</th>';
 
       // Dynamic Days Header
@@ -3711,15 +3736,20 @@ function switchTab(tabId) {
         const dayName = pData.day_names[idx];
         const [y, m, d] = dateStr.split('-');
         const isToday = (dateStr === todayStr);
+        const isFirstDay = (idx === 0);
 
         let badge = '';
-        if (isToday) {
+        if (isFirstDay) {
+          badge = ' <span class="text-[9px] px-1.5 py-0.2 bg-blue-500/30 text-blue-300 rounded font-bold border border-blue-400/40">Đầu kỳ</span>';
+        } else if (isToday) {
           badge = ' <span class="text-[9px] px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded font-normal">Hôm nay</span>';
         }
 
         const thClass = isToday
           ? 'p-2 text-center min-w-[110px] border-l border-r border-amber-500/60 bg-amber-950/40 text-amber-300 font-bold'
-          : 'p-2 text-center min-w-[105px] border-r border-slate-700/70 text-slate-300 font-semibold';
+          : (isFirstDay
+            ? 'p-2 text-center min-w-[110px] border-r border-slate-700/70 text-sky-300 font-bold bg-sky-950/30'
+            : 'p-2 text-center min-w-[105px] border-r border-slate-700/70 text-slate-300 font-semibold');
 
         html += '<th class="' + thClass + '">' +
           '<div>' + dayName + badge + '</div>' +
@@ -3730,7 +3760,7 @@ function switchTab(tabId) {
       html += '<th class="p-2.5 text-left min-w-[240px] text-slate-300 font-semibold">Nguyên Nhân (Production History)</th>';
       html += '</tr></thead><tbody>';
 
-      const totalColumns = 6 + pData.days.length + 1;
+      const totalColumns = 7 + pData.days.length + 1;
 
       if (models.length === 0) {
         html += '<tr><td colspan="' + totalColumns + '" class="p-8 text-center text-slate-400 italic font-medium">Không có model nào phát sinh số lượng âm (Fact - Plan &lt; 0) trong khoảng thời gian đã chọn.</td></tr>';
@@ -3740,11 +3770,13 @@ function switchTab(tabId) {
         const dailyFactTotals = new Array(pData.days.length).fill(0);
         let sumTotalPlan = 0;
         let sumTotalFact = 0;
+        let sumFirstDayNeg = 0;
         let sumTotalNeg = 0;
 
         models.forEach((m, idx) => {
           sumTotalPlan += m.total_p;
           sumTotalFact += m.total_f;
+          sumFirstDayNeg += m.first_day_neg;
           sumTotalNeg += m.total_neg;
 
           const rowBg = (idx % 2 === 0) ? 'bg-[#0f172a]' : 'bg-[#141e33]';
@@ -3763,8 +3795,20 @@ function switchTab(tabId) {
           html += '<td class="p-2 border-r border-slate-700/60 font-semibold text-slate-200 text-xs">' + escapeHtml(m.model) + '</td>';
           html += '<td class="p-2 text-center border-r border-slate-700/60 text-slate-300 font-mono">' + Math.round(m.total_p).toLocaleString('en-US') + '</td>';
           html += '<td class="p-2 text-center border-r border-slate-700/60 text-sky-300 font-mono">' + Math.round(m.total_f).toLocaleString('en-US') + '</td>';
-          html += '<td class="p-2 text-center border-r border-slate-700/60 bg-rose-950/20">' +
-            '<span class="inline-block px-2 py-0.5 rounded text-xs font-extrabold text-rose-400 bg-rose-950/40 border border-rose-500/40">' +
+          
+          // Âm ngày đầu kỳ (Thứ 5)
+          html += '<td class="p-2 text-center border-r border-slate-700/60 bg-amber-950/10 font-mono">';
+          if (m.first_day_neg < 0) {
+            html += '<span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-amber-400 bg-amber-950/40 border border-amber-500/40">' +
+              m.first_day_neg.toLocaleString('en-US') + ' pcs</span>';
+          } else {
+            html += '<span class="text-slate-500 text-xs">-</span>';
+          }
+          html += '</td>';
+
+          // Tổng số âm cả kỳ
+          html += '<td class="p-2 text-center border-r border-slate-700/60 bg-rose-950/20">';
+          html += '<span class="inline-block px-2 py-0.5 rounded text-xs font-extrabold text-rose-400 bg-rose-950/40 border border-rose-500/40">' +
             m.total_neg.toLocaleString('en-US') + ' pcs</span></td>';
 
           // Days cells
@@ -3779,23 +3823,40 @@ function switchTab(tabId) {
             dailyFactTotals[i] += f;
 
             const isToday = (pData.days[i] === todayStr);
+            const isFirstDay = (i === 0);
             const tdBorder = isToday
               ? 'border-l border-r border-amber-500/50 bg-amber-500/5'
-              : 'border-r border-slate-700/60';
+              : (isFirstDay ? 'border-r border-slate-700/60 bg-sky-950/10' : 'border-r border-slate-700/60');
 
             html += '<td class="p-1.5 ' + tdBorder + '">';
-            if (gap < 0) {
-              html += '<div class="text-center">' +
-                '<div class="text-rose-400 font-extrabold text-xs">' + gap.toLocaleString('en-US') + '</div>' +
-                '<div class="text-[9px] text-slate-400 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
-                '</div>';
-            } else if (p > 0 || f > 0) {
-              html += '<div class="text-center opacity-75">' +
-                '<div class="text-emerald-400 font-semibold text-xs">' + (gap > 0 ? '+' + gap.toLocaleString('en-US') : '0') + '</div>' +
-                '<div class="text-[9px] text-slate-500 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
-                '</div>';
+            if (isFirstDay) {
+              if (gap < 0) {
+                html += '<div class="text-center">' +
+                  '<div class="text-rose-400 font-extrabold text-xs">' + gap.toLocaleString('en-US') + '</div>' +
+                  '<div class="text-[10px] text-amber-300 font-medium">Đầu kỳ: ' + gap.toLocaleString('en-US') + '</div>' +
+                  '<div class="text-[9px] text-slate-400 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
+                  '</div>';
+              } else {
+                html += '<div class="text-center opacity-75">' +
+                  '<div class="text-emerald-400 font-semibold text-xs">' + (gap > 0 ? '+' + gap.toLocaleString('en-US') : '0') + '</div>' +
+                  '<div class="text-[10px] text-slate-400">Đầu kỳ: 0</div>' +
+                  '<div class="text-[9px] text-slate-500 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
+                  '</div>';
+              }
             } else {
-              html += '<div class="text-center text-slate-600 text-xs">-</div>';
+              if (gap < 0) {
+                html += '<div class="text-center">' +
+                  '<div class="text-rose-400 font-extrabold text-xs">' + gap.toLocaleString('en-US') + '</div>' +
+                  '<div class="text-[9px] text-slate-400 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
+                  '</div>';
+              } else if (p > 0 || f > 0) {
+                html += '<div class="text-center opacity-75">' +
+                  '<div class="text-emerald-400 font-semibold text-xs">' + (gap > 0 ? '+' + gap.toLocaleString('en-US') : '0') + '</div>' +
+                  '<div class="text-[9px] text-slate-500 font-mono">P:' + Math.round(p).toLocaleString('en-US') + ' | F:' + Math.round(f).toLocaleString('en-US') + '</div>' +
+                  '</div>';
+              } else {
+                html += '<div class="text-center text-slate-600 text-xs">-</div>';
+              }
             }
             html += '</td>';
           }
@@ -3814,6 +3875,8 @@ function switchTab(tabId) {
         html += '<td colspan="3" class="p-2 text-right uppercase tracking-wider text-slate-300 border-r border-slate-700/80">Tổng Cộng:</td>';
         html += '<td class="p-2 text-center border-r border-slate-700/80 text-slate-300 font-mono text-xs">' + Math.round(sumTotalPlan).toLocaleString('en-US') + '</td>';
         html += '<td class="p-2 text-center border-r border-slate-700/80 text-sky-300 font-mono text-xs">' + Math.round(sumTotalFact).toLocaleString('en-US') + '</td>';
+        html += '<td class="p-2 text-center border-r border-slate-700/80 bg-amber-950/20 text-amber-400 font-extrabold text-xs">' +
+          (sumFirstDayNeg < 0 ? sumFirstDayNeg.toLocaleString('en-US') : '0') + ' pcs</td>';
         html += '<td class="p-2 text-center border-r border-slate-700/80 bg-rose-950/30 text-rose-400 font-extrabold text-xs">' +
           sumTotalNeg.toLocaleString('en-US') + ' pcs</td>';
 
@@ -3822,10 +3885,14 @@ function switchTab(tabId) {
           const pTot = dailyPlanTotals[i];
           const fTot = dailyFactTotals[i];
           const isToday = (pData.days[i] === todayStr);
+          const isFirstDay = (i === 0);
           const tdBorder = isToday ? 'border-l border-r border-amber-500/50 bg-amber-500/10' : 'border-r border-slate-700/80';
 
           html += '<td class="p-1.5 text-center ' + tdBorder + '">';
           html += '<div class="text-rose-400 font-extrabold text-xs">' + (negTot < 0 ? negTot.toLocaleString('en-US') : '0') + '</div>';
+          if (isFirstDay) {
+            html += '<div class="text-[10px] text-amber-300 font-medium">Đầu kỳ: ' + (negTot < 0 ? negTot.toLocaleString('en-US') : '0') + '</div>';
+          }
           html += '<div class="text-[9px] text-slate-400 font-mono">P:' + Math.round(pTot).toLocaleString('en-US') + ' | F:' + Math.round(fTot).toLocaleString('en-US') + '</div>';
           html += '</td>';
         }
@@ -3858,7 +3925,7 @@ function switchTab(tabId) {
         );
       }
 
-      const headers = ['STT', 'Công đoạn', 'Tên Model (Cột B)', 'Tổng Plan', 'Tổng Fact', 'Tổng Số Âm'];
+      const headers = ['STT', 'Công đoạn', 'Tên Model (Cột B)', 'Tổng Plan', 'Tổng Fact', 'Âm Ngày Đầu Kỳ (T5)', 'Tổng Số Âm'];
       pData.days.forEach((d, idx) => {
         headers.push(`${pData.day_names[idx]} (${d}) Plan`);
         headers.push(`${pData.day_names[idx]} (${d}) Fact`);
@@ -3869,7 +3936,7 @@ function switchTab(tabId) {
       const rows = [headers.join('\t')];
 
       models.forEach((m, idx) => {
-        const row = [idx + 1, m.stage, m.model, m.total_p, m.total_f, m.total_neg];
+        const row = [idx + 1, m.stage, m.model, m.total_p, m.total_f, m.first_day_neg, m.total_neg];
         for (let i = 0; i < pData.days.length; i++) {
           row.push(m.p[i] || 0);
           row.push(m.f[i] || 0);
