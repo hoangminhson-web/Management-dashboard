@@ -1901,7 +1901,7 @@
   </div>
 
   <!-- Nút điều khiển nổi khi ở Chế độ Xoay Ngang Ảo -->
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <!-- ============================================================== -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <!-- ============================================================== -->
     <!-- TAB 7: LẬP KẾ HOẠCH SẢN XUẤT (4 LINE HT: 1A, 1B, 1C, 1D)     -->
     <!-- ============================================================== -->
     <div id="tab-production-plan" class="tab-pane hidden space-y-6">
@@ -2080,7 +2080,6 @@
           <div class="flex items-center justify-between">
             <span class="text-[11px] uppercase tracking-wider font-semibold text-amber-300 flex items-center gap-1.5">
               <span>☀️ CA NGÀY</span>
-              <span id="kpiActiveDayLineBadge" class="text-[10px] px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded font-bold border border-amber-500/30">Line 1A &middot; 10.83h</span>
             </span>
             <span id="kpiDayShiftRate" class="text-xs font-mono font-bold text-amber-400">0%</span>
           </div>
@@ -2105,7 +2104,6 @@
           <div class="flex items-center justify-between">
             <span class="text-[11px] uppercase tracking-wider font-semibold text-indigo-300 flex items-center gap-1.5">
               <span>🌙 CA ĐÊM</span>
-              <span id="kpiActiveNightLineBadge" class="text-[10px] px-1.5 py-0.2 bg-indigo-500/20 text-indigo-300 rounded font-bold border border-indigo-500/30">Line 1B &middot; 10.58h</span>
             </span>
             <span id="kpiNightShiftRate" class="text-xs font-mono font-bold text-indigo-400">0%</span>
           </div>
@@ -2115,8 +2113,8 @@
               <div class="text-xl sm:text-2xl font-black text-indigo-300 font-mono" id="kpiNightShiftOutput">0 <span class="text-xs text-slate-400 font-normal">pcs</span></div>
             </div>
             <div class="text-right">
-              <div class="text-[11px] text-slate-400">Remain Dồn: <b id="kpiNightDemand" class="text-amber-400 font-mono">0</b></div>
               <div class="text-[11px] text-slate-400">TG Cần: <b id="kpiNightTimeNeed" class="text-sky-400 font-mono">0.0h</b></div>
+              <div class="text-[11px] text-slate-400">TG Có: <b id="kpiNightTimeAvail" class="text-slate-300 font-mono">10.6h</b></div>
             </div>
           </div>
           <div class="mt-2 text-[11px] flex items-center justify-between border-t border-slate-700/50 pt-1.5">
@@ -2131,7 +2129,7 @@
             <span class="text-[11px] uppercase tracking-wider font-semibold text-emerald-300 flex items-center gap-1.5">
               <span>⚡ TỔNG THỰC HIỆN 24H</span>
             </span>
-            <span id="kpiTotalFullRate" class="text-xs font-mono font-bold text-emerald-400">0%</span>
+            <span id="totalFullRate" class="text-xs font-mono font-bold text-emerald-400">0%</span>
           </div>
           <div class="mt-2 flex items-baseline justify-between">
             <div>
@@ -2144,8 +2142,8 @@
             </div>
           </div>
           <div class="mt-2 text-[11px] flex items-center justify-between border-t border-slate-700/50 pt-1.5">
-            <span class="text-slate-400">FC lượng âm cả ngày:</span>
-            <span id="kpiGrandAccNeg" class="font-mono font-black text-xs text-rose-400">0 pcs</span>
+            <span class="text-slate-400">FC deviation:</span>
+            <span id="kpiGrandFCDeviation" class="font-mono font-black text-xs">0 pcs</span>
           </div>
           <div class="mt-1 text-[11px] flex items-center justify-between border-t border-slate-700/30 pt-1">
             <span class="text-slate-400">Cân đối 2 Line (21.41h - Use):</span>
@@ -2183,46 +2181,39 @@
         </div>
       </div>
 
-      <!-- MODAL: XEM & COPY KẾ HOẠCH SẢN XUẤT THEO CA & LINE -->
+      <!-- MODAL: XEM & COPY KẾ HOẠCH SẢN XUẤT THEO CA & LINE (GOOGLE SHEET STYLE) -->
       <div id="planSummaryModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
         <div class="bg-[#1e293b] border border-slate-700/90 rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-fadeIn">
           <!-- Modal Header -->
-          <div class="px-5 py-3.5 bg-slate-800/90 border-b border-slate-700 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-              <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-              </span>
-              <div>
-                <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
-                  <span>KẾ HOẠCH SẢN XUẤT THEO CA & LINE</span>
-                  <span id="modalPlanDateBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40 font-mono"></span>
-                </h3>
-                <p class="text-[11px] text-slate-400">Bảng tổng hợp: Ca sản xuất, Line SX, Thứ tự SX, Model và Số lượng</p>
-              </div>
+          <div class="px-5 py-3.5 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                <span>KẾ HOẠCH SẢN XUẤT THEO CA & LINE</span>
+                <span id="modalPlanDateBadge" class="text-xs px-2 py-0.5 rounded bg-slate-700 text-sky-300 font-mono"></span>
+              </h3>
+              <p class="text-[11px] text-slate-400 mt-0.5">Bảng tổng hợp: Ca sản xuất, Line SX, Thứ tự SX, Model và Số lượng</p>
             </div>
-            <button onclick="closePlanSummaryModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-700/80 transition cursor-pointer">
+            <button onclick="closePlanSummaryModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-700 transition cursor-pointer" title="Đóng">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
 
           <!-- Modal Body -->
-          <div id="planSummaryModalContent" class="overflow-y-auto p-5 custom-scrollbar space-y-4">
+          <div id="planSummaryModalContent" class="overflow-y-auto p-4 sm:p-5 custom-scrollbar space-y-3.5">
             <!-- Dynamic content injected by renderPlanSummaryModalContent() -->
           </div>
 
           <!-- Modal Footer Actions -->
-          <div class="px-5 py-3 bg-slate-800/90 border-t border-slate-700 flex flex-wrap items-center justify-between gap-2.5">
+          <div class="px-5 py-3 bg-slate-800 border-t border-slate-700 flex flex-wrap items-center justify-between gap-2.5">
             <div class="flex items-center gap-2">
-              <button onclick="copyPlanSummaryTable()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-md transition cursor-pointer" title="Sao chép dạng bảng TSV để dán trực tiếp vào Google Sheets hoặc Excel">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-                <span>Sao chép bảng (Excel / Sheets)</span>
+              <button onclick="copyPlanSummaryTable()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow transition cursor-pointer" title="Sao chép dạng bảng TSV để dán trực tiếp vào Google Sheets hoặc Excel">
+                Sao chép bảng (Excel / Sheets)
               </button>
-              <button onclick="copyPlanSummaryText()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-md transition cursor-pointer" title="Sao chép dạng văn bản có emoji để gửi nhanh qua Zalo, Telegram, Teams">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                <span>Sao chép gửi Zalo / Chat</span>
+              <button onclick="copyPlanSummaryText()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold shadow transition cursor-pointer" title="Sao chép dạng văn bản để gửi qua Zalo, Telegram, Teams">
+                Sao chép gửi Zalo / Chat
               </button>
             </div>
-            <button onclick="closePlanSummaryModal()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs sm:text-sm font-medium transition cursor-pointer">
+            <button onclick="closePlanSummaryModal()" class="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs sm:text-sm font-medium transition cursor-pointer">
               Đóng
             </button>
           </div>
@@ -11119,6 +11110,8 @@ function switchTab(tabId) {
     const exportBomStockTsv = exportBomStockForGoogleSheets;
 
     // ==============================================================
+
+    // ==============================================================
     // MODULE: LẬP KẾ HOẠCH SẢN XUẤT (4 LINE HT: 1A, 1B, 1C, 1D)
     // ==============================================================
     const MAKE_PLAN_HT_CATALOG = [{"board":"CP_M_v4c_Combi_Motion Plus_[8XX]_DIP2","ct":124.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"93.63%","id":1,"norm":"CombiProtect","preset_hc":1,"preset_line":"1A","preset_plan":1000,"preset_tb_use":3,"preset_tg_use":10.85,"qty_tb":3,"tb_com":3},{"board":"CP_M_v4c_Combi_Motion Plus (9XX)_DIP2","ct":124.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"93.63%","id":2,"norm":"CombiProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":""},{"board":"MP.002.MBR.001v2[СP-9XX]_DIP2","ct":115.2,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.47%","id":3,"norm":"CombiProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":""},{"board":"Ajax, CP_M_v4c_Combi_Motion Plus_DIP2","ct":100,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"93.63%","id":4,"norm":"CombiProtect U","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":""},{"board":"CP_M_v4C_[8XX]_DIP2","ct":100,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"93.63%","id":5,"norm":"MotionProtect Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":""},{"board":"CP_M_v4C_[9XX]_DIP2","ct":100,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"93.63%","id":6,"norm":"MotionProtect Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":""},{"board":"DP.011.MBR.001v3","ct":55.7,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"96.92%","id":7,"norm":"DoorProtect","preset_hc":2,"preset_line":"2A","preset_plan":1000,"preset_tb_use":2,"preset_tg_use":7.35,"qty_tb":6,"tb_com":6},{"board":"DP.001.MBR.001v9_[9XX]","ct":93.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"96.92%","id":8,"norm":"DoorProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":5},{"board":"DoorProtect Plus_ v.9_[868]_DIP2","ct":102.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.80%","id":9,"norm":"DoorProtect Plus","preset_hc":1,"preset_line":"2A","preset_plan":500,"preset_tb_use":3,"preset_tg_use":3.5,"qty_tb":5,"tb_com":""},{"board":"DPP.001.MBR.001v9_[9XX]","ct":102.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.80%","id":10,"norm":"DoorProtect Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":""},{"board":"DP.011.MBR.001v5_[DPP-8XX]","ct":70,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.80%","id":11,"norm":"DoorProtect Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":""},{"board":"DP.011.MBR.001v5_[DPP-9XX]","ct":70,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.80%","id":12,"norm":"DoorProtect Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":""},{"board":"DP.012.MBR.001v1","ct":58,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"91.89%","id":13,"norm":"DoorProtect Plus U","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB2.006.MBR.001v0_[8XX_66A]","ct":268.9,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.56%","id":14,"norm":"Hub 2 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB2.006.MBR.001v0_[9XX]","ct":268.9,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.56%","id":15,"norm":"Hub 2 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.006.MBR.001v0_[9XX_66A]","ct":213,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.56%","id":16,"norm":"Hub 2 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.006.MBR.001v0_[8XX]","ct":268.9,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.56%","id":17,"norm":"Hub 2 4G Prosegur","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.008.MBR.001v1_[8XX]","ct":256.6,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.77%","id":18,"norm":"Hub 2 Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB2.008.MBR.001v1_[9XX]","ct":256.6,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.77%","id":19,"norm":"Hub 2 Plus","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB3.002.MBR.001v2_[HB1-8XX-66A-UEU]","ct":283.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":20,"norm":"Hub 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB3.002.MBR.001v2_[HB1-9XX-66A-ULA]","ct":283.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":21,"norm":"Hub 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB3.002.MBR.001v5[HB1-8xx-66W-UEU]","ct":283.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":22,"norm":"Hub 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB3.002.MBR.001v5_[HB1-9xx-66W-UEU]","ct":283.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":23,"norm":"Hub 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB3.002.MBR.001v5_[HB1-9xx-66W-ULA]","ct":283.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":24,"norm":"Hub 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.001.PWB.001v4","ct":25.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.56%","id":25,"norm":"Hub 2 4G","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB2.001.PWB.001v2","ct":25.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":26,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.001.PWB.001v2_[9XX]","ct":25.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":27,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.001.MBR.001v3_[8XX]","ct":185.2,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":28,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HB2.001.MBR.001v3_[9XX]","ct":185.2,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":29,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.001.MBR.001v4 [HB2-8XX]","ct":214.3,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":30,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.001.MBR.001v4 [HB2-9XX]","ct":214.3,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":31,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.005.MBR.001v0_[8XX]","ct":214.3,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":32,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.005.MBR.001v0_[9XX]","ct":214.3,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":33,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.005.MBR.001v0_[8XX_66A]","ct":155.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":34,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"HB2.005.MBR.001v0_[9XX_66A]","ct":155.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"92.16%","id":35,"norm":"Hub 2","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"CAM.008.MBR.001v2","ct":132.4,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"81.03%","id":36,"norm":"MotionCam HDR","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":5},{"board":"CAM.008.PIR.001v3","ct":132,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"81.03%","id":37,"norm":"MotionCam HDR","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":5},{"board":"CAM.009.PIR.001v0","ct":132,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"81.03%","id":38,"norm":"MotionCam HDR (PhOD)","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":5,"tb_com":""},{"board":"MCO.001.MBR.001v11_[8XX]","ct":137.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":39,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"MCO.001.MBR.001v13 [8XX]","ct":194.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":40,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MCO.001.MBR.001v11_[9XX]","ct":194.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":41,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MCO.001.MBR.001v13 [9XX]","ct":194.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":42,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MCO.002.MBR.001v1","ct":142,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.28%","id":43,"norm":"MotionCam Outdoor (PhOD)","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MCO.002.MBR.001v1_[9XX]","ct":142,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.28%","id":44,"norm":"MotionCam Outdoor (PhOD)","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MCO.001.PIR.001v5","ct":67.2,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":45,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"MCO.001.FLB.001v4","ct":30.8,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"86.78%","id":46,"norm":"MotionCam Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"MP.002.MBR.001v0_[8XX]_DIP2","ct":114,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.70%","id":47,"norm":"MotionProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":14,"tb_com":14},{"board":"MP.002.MBR.001v0_(9XX)_DIP2","ct":114,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.70%","id":48,"norm":"MotionProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":14,"tb_com":""},{"board":"MPO.001.MBR.001v5_[8XX]","ct":191.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.69%","id":49,"norm":"MotionProtect Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"MPO.001.MBR.001v5_[9XX]","ct":191.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.69%","id":50,"norm":"MotionProtect Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MPO.001.PIR.001v5_[8XX]","ct":88,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.69%","id":51,"norm":"MotionProtect Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":1,"tb_com":1},{"board":"DCO.001.MBR.001v5","ct":134.7,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.61%","id":52,"norm":"DualCurtain Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"DCO.001.MBR.001v5_[9XX]","ct":134.7,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.61%","id":53,"norm":"DualCurtain Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"DCO.001.PIR.001v4","ct":54.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.61%","id":54,"norm":"DualCurtain Outdoor","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"HS.001.MBR.001_v4_[8XX]","ct":113,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.66%","id":55,"norm":"HomeSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":4,"tb_com":4},{"board":"HS.001.MBR.001v5_[9XX]","ct":113,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.66%","id":56,"norm":"HomeSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":4,"tb_com":""},{"board":"HS.002.MBR.001v0","ct":126,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.66%","id":57,"norm":"HomeSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":4,"tb_com":""},{"board":"DB.001.MB2.001v15_[8XX]","ct":0,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":58,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"DB.001.MB2.001v15_[9XX]","ct":275,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":59,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"DB.001.MB2.001v16_[8XX]","ct":275,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":60,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"DB.001.MB2.001v16_[9XX]","ct":275,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":61,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"DB.001.MB2.001v19_[8XX]","ct":275,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":62,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"DB.001.MB2.001v20","ct":211.5,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":63,"norm":"Doorbell","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"HC.001.MB1.001v8","ct":62.4,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":64,"norm":"IndoorCam","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"HC.001.MB1.001v9","ct":66,"dt_m":"","dt_mat":"","dt_tot":"0.0%","ftt":"","id":65,"norm":"IndoorCam","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"Keypad_V12_[8XX]","ct":119,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.68%","id":66,"norm":"Keypad","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"Keypad_V12_[9XX]","ct":119,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.68%","id":67,"norm":"Keypad","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"KPG.001.MBR.000v4 [H7]","ct":247,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.59%","id":68,"norm":"KeyPad TouchScreen","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"KPG.001.MBR.000v4 [U5]","ct":247,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.59%","id":69,"norm":"KeyPad TouchScreen","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":0,"tb_com":""},{"board":"KPG.001.MBU.001v1","ct":225.4,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"94.59%","id":70,"norm":"KeyPad TouchScreen","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"LeaksProtect_v8_868 Mhz_DIP2","ct":88.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"90.95%","id":71,"norm":"LeaksProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"LeaksProtect_v8 (9XX)_DIP2","ct":88.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"90.95%","id":72,"norm":"LeaksProtect","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"NVR.003.MBR.001v5","ct":393,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.30%","id":73,"norm":"NVR","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":3,"tb_com":3},{"board":"NVR.003.PWB.001v2","ct":40,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.30%","id":74,"norm":"NVR","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"NVR.003.PWB.001v3","ct":40,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.30%","id":75,"norm":"NVR","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"StreetSiren_v5","ct":115.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":76,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":7},{"board":"SS.002.MBR.001v5_[9XX]","ct":114.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":77,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":7},{"board":"SS.002.MBR.001v5_[8XX]","ct":114.5,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":78,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":""},{"board":"SS.005.MBR.001v1_[8XX]","ct":167.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":79,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":""},{"board":"SS.005.MBR.001v1_[9XX]","ct":167.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":80,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":""},{"board":"SS.005.MBR.001v2_[8ХХ]","ct":162.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":81,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":""},{"board":"SS.005.MBR.001v2_[9XX]","ct":162.1,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":82,"norm":"StreetSiren","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":7,"tb_com":""},{"board":"WTS.001.MBR.001v4","ct":106,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":83,"norm":"WaterStop","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"WTS.001.PWB.001v3","ct":29,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":84,"norm":"WaterStop","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"WTS.001.PWB.001v4","ct":29,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"95.38%","id":85,"norm":"WaterStop","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MTR.001.MBR.001v1b","ct":147.6,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.80%","id":86,"norm":"MultiTransmitter","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":2},{"board":"MTR.001.MBR.000v1b_[8XX_3EOL]","ct":178,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.80%","id":87,"norm":"MultiTransmitter","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""},{"board":"MTR.001.MBR.000v1b_[9XX_3EOL]","ct":178,"dt_m":"1.50%","dt_mat":"1%","dt_tot":"2.5%","ftt":"89.80%","id":88,"norm":"MultiTransmitter","preset_hc":null,"preset_line":"","preset_plan":null,"preset_tb_use":null,"preset_tg_use":null,"qty_tb":2,"tb_com":""}];
@@ -12408,8 +12401,6 @@ function switchTab(tabId) {
 
       // Ca Ngày
       const dayLineHC = (MANPOWER_HARD_TEST[prodPlanActiveDayLine] || {}).totalHC || 0;
-      const elDayBadge = document.getElementById('kpiActiveDayLineBadge');
-      if (elDayBadge) elDayBadge.textContent = `Line ${prodPlanActiveDayLine} &middot; Có ${dayLineHC} HC &middot; ${prodPlanDayHoursDefault}h/TB`;
 
       const elDayOut = document.getElementById('kpiDayShiftOutput');
       if (elDayOut) elDayOut.textContent = formatPlanNum(data.dayOutput);
@@ -12438,8 +12429,6 @@ function switchTab(tabId) {
 
       // Ca Đêm
       const nightLineHC = (MANPOWER_HARD_TEST[prodPlanActiveNightLine] || {}).totalHC || 0;
-      const elNightBadge = document.getElementById('kpiActiveNightLineBadge');
-      if (elNightBadge) elNightBadge.textContent = `Line ${prodPlanActiveNightLine} &middot; Có ${nightLineHC} HC &middot; ${prodPlanNightHoursDefault}h/TB`;
 
       const elNightDemand = document.getElementById('kpiNightDemand');
       if (elNightDemand) elNightDemand.textContent = formatPlanNum(data.nightDemand);
@@ -12449,6 +12438,9 @@ function switchTab(tabId) {
 
       const elNightTimeNeed = document.getElementById('kpiNightTimeNeed');
       if (elNightTimeNeed) elNightTimeNeed.textContent = data.nightTimeNeed.toFixed(1) + 'h';
+
+      const elNightTimeAvail = document.getElementById('kpiNightTimeAvail');
+      if (elNightTimeAvail) elNightTimeAvail.textContent = data.nightTimeUse.toFixed(1) + 'h';
 
       const elNightTimeUse = document.getElementById('kpiNightTimeUse');
       if (elNightTimeUse) elNightTimeUse.textContent = data.nightTimeUse.toFixed(1) + 'h';
@@ -12471,8 +12463,21 @@ function switchTab(tabId) {
       const elGrandOut = document.getElementById('kpiGrandTotalOutput');
       if (elGrandOut) elGrandOut.textContent = formatPlanNum(grandTotalOutput);
 
-      const elGrandAccNeg = document.getElementById('kpiGrandAccNeg');
-      if (elGrandAccNeg) elGrandAccNeg.textContent = formatPlanNum(data.totalAccNeg) + ' pcs';
+      // FC deviation = fact day - plan day = grandTotalOutput - data.totalPlan
+      const fcDeviation = grandTotalOutput - data.totalPlan;
+      const elGrandFCDev = document.getElementById('kpiGrandFCDeviation');
+      if (elGrandFCDev) {
+        if (fcDeviation > 0) {
+          elGrandFCDev.textContent = '+' + formatPlanNum(fcDeviation) + ' pcs';
+          elGrandFCDev.className = 'font-mono font-black text-xs text-emerald-400';
+        } else if (fcDeviation < 0) {
+          elGrandFCDev.textContent = '-' + formatPlanNum(Math.abs(fcDeviation)) + ' pcs';
+          elGrandFCDev.className = 'font-mono font-black text-xs text-rose-400';
+        } else {
+          elGrandFCDev.textContent = '0 pcs';
+          elGrandFCDev.className = 'font-mono font-black text-xs text-slate-300';
+        }
+      }
 
       const fullTimeAvail = data.dayTimeUse + data.nightTimeUse;
       const fullTimeNeed = data.dayTimeNeed + data.nightTimeNeed;
@@ -12737,7 +12742,7 @@ function switchTab(tabId) {
       return items;
     }
 
-    // Hiển thị nội dung trong modal
+    // Hiển thị nội dung trong modal theo phong cách Google Sheets (chỉ chữ số, không dùng biểu tượng)
     function renderPlanSummaryModalContent() {
       const modalContent = document.getElementById('planSummaryModalContent');
       if (!modalContent) return;
@@ -12751,12 +12756,11 @@ function switchTab(tabId) {
 
       const items = getPlanSummaryItems();
       const pData = computeProductionPlanData(prodPlanCurrentDate);
-      const totalAccNeg = (pData && pData.rows) ? pData.rows.reduce((s, r) => s + (r.accNeg || 0), 0) : 0;
+      const totalPlanDemand = (pData && pData.rows) ? pData.rows.reduce((s, r) => s + (r.planDay || 0), 0) : 0;
 
       if (items.length === 0) {
         modalContent.innerHTML = `
-          <div class="p-8 text-center bg-slate-900/60 rounded-xl border border-slate-800 text-slate-400">
-            <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <div class="p-8 text-center bg-slate-900/60 rounded-lg border border-slate-700 text-slate-400">
             <p class="text-sm font-semibold text-slate-300">Chưa có kế hoạch sản xuất nào được phân bổ cho ngày ${prodPlanCurrentDate}</p>
             <p class="text-xs text-slate-500 mt-1">Hãy chọn Line và nhập số lượng ở bảng kế hoạch hoặc bấm "Nạp mẫu chuẩn".</p>
           </div>
@@ -12772,76 +12776,76 @@ function switchTab(tabId) {
       });
       const grandTotalQty = sumDayQty + sumNightQty;
 
+      // FC deviation = fact day - plan day = grandTotalQty - totalPlanDemand
+      const fcDeviation = grandTotalQty - totalPlanDemand;
+      let fcDevText = '0 pcs';
+      let fcDevClass = 'text-slate-300';
+      if (fcDeviation > 0) {
+        fcDevText = '+' + formatPlanNum(fcDeviation) + ' pcs';
+        fcDevClass = 'text-emerald-400 font-bold';
+      } else if (fcDeviation < 0) {
+        fcDevText = '-' + formatPlanNum(Math.abs(fcDeviation)) + ' pcs';
+        fcDevClass = 'text-rose-400 font-bold';
+      }
+
       let html = '';
 
-      // KPI tóm tắt trong modal
+      // Tóm tắt chỉ số đơn giản như Google Sheet, không biểu tượng
       html += `
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div class="bg-amber-950/20 border border-amber-600/40 rounded-xl p-3">
-            <div class="text-[11px] text-amber-300/80 font-medium">☀️ Kế hoạch Ca Ngày</div>
-            <div class="text-lg font-black font-mono text-amber-300 mt-0.5">${formatPlanNum(sumDayQty)} <span class="text-xs font-normal text-amber-400/80">pcs</span></div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+          <div class="bg-slate-900 border border-slate-700 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400 font-medium">Kế hoạch Ca Ngày</div>
+            <div class="text-base sm:text-lg font-bold font-mono text-amber-300 mt-0.5">${formatPlanNum(sumDayQty)} pcs</div>
           </div>
-          <div class="bg-indigo-950/20 border border-indigo-600/40 rounded-xl p-3">
-            <div class="text-[11px] text-indigo-300/80 font-medium">🌙 Kế hoạch Ca Đêm</div>
-            <div class="text-lg font-black font-mono text-indigo-300 mt-0.5">${formatPlanNum(sumNightQty)} <span class="text-xs font-normal text-indigo-400/80">pcs</span></div>
+          <div class="bg-slate-900 border border-slate-700 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400 font-medium">Kế hoạch Ca Đêm</div>
+            <div class="text-base sm:text-lg font-bold font-mono text-indigo-300 mt-0.5">${formatPlanNum(sumNightQty)} pcs</div>
           </div>
-          <div class="bg-emerald-950/25 border border-emerald-500/40 rounded-xl p-3">
-            <div class="text-[11px] text-emerald-300/80 font-medium">⚡ Tổng Kế Hoạch 24H</div>
-            <div class="text-lg font-black font-mono text-emerald-400 mt-0.5">${formatPlanNum(grandTotalQty)} <span class="text-xs font-normal text-emerald-400/80">pcs</span></div>
+          <div class="bg-slate-900 border border-slate-700 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400 font-medium">Tổng Kế Hoạch 24H</div>
+            <div class="text-base sm:text-lg font-bold font-mono text-emerald-400 mt-0.5">${formatPlanNum(grandTotalQty)} pcs</div>
           </div>
-          <div class="bg-rose-950/25 border border-rose-600/40 rounded-xl p-3">
-            <div class="text-[11px] text-rose-300/80 font-medium">🔴 FC Lượng Âm Cả Ngày</div>
-            <div class="text-lg font-black font-mono text-rose-400 mt-0.5">${formatPlanNum(totalAccNeg)} <span class="text-xs font-normal text-rose-400/80">pcs</span></div>
+          <div class="bg-slate-900 border border-slate-700 rounded-lg p-2.5">
+            <div class="text-[11px] text-slate-400 font-medium">FC deviation</div>
+            <div class="text-base sm:text-lg font-bold font-mono ${fcDevClass} mt-0.5">${fcDevText}</div>
           </div>
         </div>
       `;
 
-      // Bảng chi tiết 5 cột
+      // Bảng chi tiết 5 cột kẻ ô như Google Sheets (chỉ chữ và số, không dùng biểu tượng hay thẻ badge)
       html += `
-        <div class="overflow-x-auto rounded-xl border border-slate-700 bg-slate-900/60">
+        <div class="overflow-x-auto rounded-lg border border-slate-700 bg-slate-950">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
-              <tr class="bg-slate-800 text-slate-300 font-bold border-b border-slate-700 uppercase tracking-wider text-[11px]">
-                <th class="p-2.5 text-center w-24">Ca SX</th>
-                <th class="p-2.5 text-center w-20">Line SX</th>
-                <th class="p-2.5 text-center w-24">Thứ tự SX</th>
-                <th class="p-2.5">Model (Board / Operation)</th>
-                <th class="p-2.5 text-right w-32">Số Lượng</th>
+              <tr class="bg-slate-800 text-slate-200 font-bold border-b border-slate-700 text-[11px]">
+                <th class="p-2 border-r border-slate-700 text-center w-24">Ca SX</th>
+                <th class="p-2 border-r border-slate-700 text-center w-20">Line SX</th>
+                <th class="p-2 border-r border-slate-700 text-center w-24">Thứ tự SX</th>
+                <th class="p-2 border-r border-slate-700 text-left">Model</th>
+                <th class="p-2 text-right w-32">Số lượng</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800 font-mono">
       `;
 
       items.forEach((it, idx) => {
-        const isDay = it.shiftKey === 'day';
-        const shiftBadge = isDay
-          ? `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold text-[11px]">☀️ Ca Ngày</span>`
-          : `<span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-bold text-[11px]">🌙 Ca Đêm</span>`;
-        const lineBadge = isDay
-          ? `<span class="font-black text-amber-300 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-600/40">Line ${it.line}</span>`
-          : `<span class="font-black text-indigo-300 bg-indigo-950/40 px-2 py-0.5 rounded border border-indigo-600/40">Line ${it.line}</span>`;
-        const orderBadge = `<span class="inline-block w-7 h-7 leading-7 text-center rounded-lg bg-slate-800 text-white font-bold border border-slate-700 text-xs">${it.prodOrderDisplay}</span>`;
-
         html += `
-          <tr class="hover:bg-slate-800/50 transition">
-            <td class="p-2.5 text-center">${shiftBadge}</td>
-            <td class="p-2.5 text-center">${lineBadge}</td>
-            <td class="p-2.5 text-center">${orderBadge}</td>
-            <td class="p-2.5 font-sans font-semibold text-slate-200">
-              <div class="text-xs sm:text-sm text-white">${escapeHtml(it.board)}</div>
-              <div class="text-[10px] text-slate-400 mt-0.5 font-mono">Norm: ${escapeHtml(it.norm)} &middot; CT: ${it.ct}s &middot; TB: ${it.tbUse} block</div>
-            </td>
-            <td class="p-2.5 text-right font-black text-sm ${isDay ? 'text-amber-300' : 'text-indigo-300'}">${formatPlanNum(it.qty)} <span class="text-xs font-normal text-slate-400">pcs</span></td>
+          <tr class="hover:bg-slate-800/50 transition border-b border-slate-800">
+            <td class="p-2 border-r border-slate-800 text-center text-slate-300">${it.shift}</td>
+            <td class="p-2 border-r border-slate-800 text-center text-slate-300">Line ${it.line}</td>
+            <td class="p-2 border-r border-slate-800 text-center text-slate-200 font-bold">${it.prodOrderDisplay}</td>
+            <td class="p-2 border-r border-slate-800 font-sans text-slate-200">${escapeHtml(it.board)}</td>
+            <td class="p-2 text-right font-bold text-white">${formatPlanNum(it.qty)}</td>
           </tr>
         `;
       });
 
       html += `
             </tbody>
-            <tfoot class="bg-slate-800/90 font-bold border-t-2 border-slate-600 text-xs">
+            <tfoot class="bg-slate-800 font-bold border-t-2 border-slate-600 text-xs">
               <tr class="text-white">
-                <td colspan="4" class="p-3 text-right uppercase tracking-wider font-sans text-slate-300">TỔNG CỘNG KẾ HOẠCH 24H:</td>
-                <td class="p-3 text-right font-mono font-black text-base text-emerald-400">${formatPlanNum(grandTotalQty)} pcs</td>
+                <td colspan="4" class="p-2 border-r border-slate-700 text-right uppercase tracking-wider font-sans text-slate-300">TỔNG CỘNG 24H:</td>
+                <td class="p-2 text-right font-mono font-bold text-emerald-400">${formatPlanNum(grandTotalQty)}</td>
               </tr>
             </tfoot>
           </table>
@@ -12890,7 +12894,7 @@ function switchTab(tabId) {
       if (typeof navigator !== 'undefined' && navigator.clipboard) {
         navigator.clipboard.writeText(tsv).then(() => {
           if (typeof showSyncAlert === 'function') {
-            showSyncAlert('success', '📋 ĐÃ SAO CHÉP DẠNG BẢNG', 'Đã sao chép 5 cột chuẩn (Ca SX, Line, Thứ tự SX, Model, Số lượng) để dán vào Excel / Sheets!', 3500);
+            showSyncAlert('success', 'ĐÃ SAO CHÉP DẠNG BẢNG', 'Đã sao chép 5 cột chuẩn (Ca SX, Line, Thứ tự SX, Model, Số lượng) để dán vào Excel / Sheets!', 3500);
           } else {
             alert('Đã sao chép bảng kế hoạch vào clipboard!');
           }
@@ -12898,7 +12902,7 @@ function switchTab(tabId) {
       }
     }
 
-    // Sao chép dạng văn bản chat (Zalo, Teams, Telegram)
+    // Sao chép dạng văn bản chat (không dùng biểu tượng emoji)
     function copyPlanSummaryText() {
       const items = getPlanSummaryItems();
       if (!items.length) {
@@ -12908,45 +12912,45 @@ function switchTab(tabId) {
       const [y, m, d] = prodPlanCurrentDate.split('-');
       const dayName = typeof getDayNameVN === 'function' ? getDayNameVN(prodPlanCurrentDate) : '';
       const pData = computeProductionPlanData(prodPlanCurrentDate);
-      const totalAccNeg = (pData && pData.rows) ? pData.rows.reduce((s, r) => s + (r.accNeg || 0), 0) : 0;
+      const totalPlanDemand = (pData && pData.rows) ? pData.rows.reduce((s, r) => s + (r.planDay || 0), 0) : 0;
 
       const dayItems = items.filter(it => it.shiftKey === 'day');
       const nightItems = items.filter(it => it.shiftKey === 'night');
 
-      let txt = `📋 KẾ HOẠCH SẢN XUẤT HARD TEST (${dayName}, ${d}/${m}/${y})\n`;
-      txt += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      let txt = `KE HOACH SAN XUAT HARD TEST (${dayName}, ${d}/${m}/${y})\n`;
+      txt += `----------------------------------------\n\n`;
 
       if (dayItems.length > 0) {
         const dayLine = dayItems[0].line;
         const totalDay = dayItems.reduce((s, it) => s + it.qty, 0);
-        txt += `☀️ CA NGÀY (LINE ${dayLine}):\n`;
+        txt += `CA NGAY (LINE ${dayLine}):\n`;
         dayItems.forEach(it => {
           txt += `  ${it.prodOrderDisplay}. ${it.board}: ${formatPlanNum(it.qty)} pcs\n`;
         });
-        txt += `  👉 Tổng Ca Ngày: ${formatPlanNum(totalDay)} pcs\n\n`;
+        txt += `  -> Tong Ca Ngay: ${formatPlanNum(totalDay)} pcs\n\n`;
       }
 
       if (nightItems.length > 0) {
         const nightLine = nightItems[0].line;
         const totalNight = nightItems.reduce((s, it) => s + it.qty, 0);
-        txt += `🌙 CA ĐÊM (LINE ${nightLine}):\n`;
+        txt += `CA DEM (LINE ${nightLine}):\n`;
         nightItems.forEach(it => {
           txt += `  ${it.prodOrderDisplay}. ${it.board}: ${formatPlanNum(it.qty)} pcs\n`;
         });
-        txt += `  👉 Tổng Ca Đêm: ${formatPlanNum(totalNight)} pcs\n\n`;
+        txt += `  -> Tong Ca Dem: ${formatPlanNum(totalNight)} pcs\n\n`;
       }
 
       const grandTotal = items.reduce((s, it) => s + it.qty, 0);
-      txt += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-      txt += `⚡ TỔNG THỰC HIỆN 24H: ${formatPlanNum(grandTotal)} pcs\n`;
-      if (totalAccNeg > 0) {
-        txt += `🔴 FC Lượng âm cả ngày: ${formatPlanNum(totalAccNeg)} pcs\n`;
-      }
+      txt += `----------------------------------------\n`;
+      txt += `TONG CONG 24H: ${formatPlanNum(grandTotal)} pcs\n`;
+      const fcDeviation = grandTotal - totalPlanDemand;
+      const sign = fcDeviation > 0 ? '+' : '';
+      txt += `FC deviation: ${sign}${formatPlanNum(fcDeviation)} pcs\n`;
 
       if (typeof navigator !== 'undefined' && navigator.clipboard) {
         navigator.clipboard.writeText(txt).then(() => {
           if (typeof showSyncAlert === 'function') {
-            showSyncAlert('success', '💬 ĐÃ SAO CHÉP DẠNG TIN NHẮN', 'Đã sao chép nội dung kế hoạch có emoji để gửi nhanh qua Zalo, Telegram, Teams!', 3500);
+            showSyncAlert('success', 'ĐÃ SAO CHÉP DẠNG TIN NHẮN', 'Đã sao chép nội dung kế hoạch dạng văn bản để gửi qua Zalo / Teams!', 3500);
           } else {
             alert('Đã sao chép nội dung tin nhắn vào clipboard!');
           }
