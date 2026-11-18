@@ -176,10 +176,12 @@
         </button>
         <!-- TAB 1.5: Plan HC&Q'ty WC -A (Manufacturing Plan A) -->
                 <!-- TAB 1.5: Plan HC&Q'ty WC -A (Manufacturing Plan A) -->
+                <!-- TAB 1.5: Plan HC&Q'ty WC -A (Manufacturing Plan A) -->
         <button onclick="switchTab('tab-plan-hc-a')" id="btn-tab-plan-hc-a" class="tab-btn px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition bg-[#1e293b] text-slate-400 hover:text-slate-200 hover:bg-slate-700/80 border border-slate-700/80 shadow-sm cursor-pointer whitespace-nowrap" title="Kế hoạch nhân sự &amp; sản lượng 5 công đoạn (Hard test, Assembly, Long test, QC, PKG) từ sheet Manufacturing Plan A">
           <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
           <span>Plan HC&amp;Q'ty WC -A</span>
         </button>
+
 
 
 
@@ -915,7 +917,7 @@
       </div>
 
     </div>
-        <!-- ============================================================== -->
+            <!-- ============================================================== -->
     <!-- TAB: PLAN HC&Q'TY WC -A (DỰA TRÊN SHEET "MANUFACTURING PLAN A") -->
     <!-- ============================================================== -->
     <div id="tab-plan-hc-a" class="tab-pane space-y-5 hidden">
@@ -15182,6 +15184,835 @@ function switchTab(tabId) {
     }
 
     // END MODULE: LẬP KẾ HOẠCH SẢN XUẤT
+  
+    // ==============================================================
+    // MODULE: PLAN HC&Q'TY WC -A (DỰA TRÊN SHEET "MANUFACTURING PLAN A")
+    // ==============================================================
+    const RAW_DATA_PLAN_A = [{"date":"2026-11-01","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-01","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-02","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-02","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-03","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-03","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-04","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-04","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-05","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-05","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-06","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-06","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-07","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-07","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-08","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-08","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-09","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-09","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-10","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-10","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-11","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-11","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-12","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-12","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-13","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-13","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-14","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-14","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-15","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-15","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-16","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-16","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-17","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-17","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-18","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-18","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-19","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-19","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-20","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-20","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-21","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-21","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-22","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-22","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-23","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-23","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-24","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-24","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-25","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-25","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":980,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-26","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Day"},{"date":"2026-11-26","hc_assy":0,"hc_ht":0,"hc_long":0,"hc_pkg":0,"hc_qc":0,"line_assy":0,"qty_assy":0,"qty_ht":0,"qty_long":0,"qty_pkg":0,"qty_qc":0,"shift":"Night"},{"date":"2026-11-27","hc_assy":3.3,"hc_ht":10.7,"hc_long":0.9,"hc_pkg":1.5,"hc_qc":1.6,"line_assy":0.2,"qty_assy":600,"qty_ht":4292,"qty_long":580,"qty_pkg":680,"qty_qc":480,"shift":"Day"},{"date":"2026-11-27","hc_assy":7.2,"hc_ht":11,"hc_long":0.9,"hc_pkg":0.8,"hc_qc":2,"line_assy":0.5,"qty_assy":1300,"qty_ht":4430,"qty_long":600,"qty_pkg":360,"qty_qc":640,"shift":"Night"},{"date":"2026-11-28","hc_assy":12.7,"hc_ht":10.5,"hc_long":0.9,"hc_pkg":1.4,"hc_qc":1.9,"line_assy":0.9,"qty_assy":2420,"qty_ht":3635,"qty_long":600,"qty_pkg":640,"qty_qc":600,"shift":"Day"},{"date":"2026-11-28","hc_assy":9.8,"hc_ht":9,"hc_long":0.6,"hc_pkg":1.4,"hc_qc":0.9,"line_assy":0.7,"qty_assy":1590,"qty_ht":2135,"qty_long":395,"qty_pkg":600,"qty_qc":300,"shift":"Night"},{"date":"2026-11-29","hc_assy":12.3,"hc_ht":10.8,"hc_long":1.8,"hc_pkg":0.7,"hc_qc":2.2,"line_assy":0.9,"qty_assy":1830,"qty_ht":4925,"qty_long":2235,"qty_pkg":300,"qty_qc":635,"shift":"Day"},{"date":"2026-11-29","hc_assy":9,"hc_ht":8.8,"hc_long":2,"hc_pkg":1.3,"hc_qc":2.7,"line_assy":0.6,"qty_assy":1440,"qty_ht":3940,"qty_long":2430,"qty_pkg":635,"qty_qc":795,"shift":"Night"},{"date":"2026-11-30","hc_assy":3,"hc_ht":7.1,"hc_long":1.5,"hc_pkg":1.7,"hc_qc":5.2,"line_assy":0.2,"qty_assy":486,"qty_ht":2857,"qty_long":2040,"qty_pkg":813,"qty_qc":1718,"shift":"Day"},{"date":"2026-11-30","hc_assy":0,"hc_ht":6.8,"hc_long":0.4,"hc_pkg":4.1,"hc_qc":6.6,"line_assy":0,"qty_assy":0,"qty_ht":2357,"qty_long":586,"qty_pkg":1700,"qty_qc":2072,"shift":"Night"},{"date":"2026-12-01","hc_assy":1.7,"hc_ht":5.7,"hc_long":0,"hc_pkg":5.2,"hc_qc":3.6,"line_assy":0.1,"qty_assy":300,"qty_ht":2020,"qty_long":0,"qty_pkg":2072,"qty_qc":1200,"shift":"Day"},{"date":"2026-12-01","hc_assy":1.7,"hc_ht":4.8,"hc_long":0.4,"hc_pkg":2.9,"hc_qc":3.3,"line_assy":0.1,"qty_assy":300,"qty_ht":2566,"qty_long":300,"qty_pkg":1200,"qty_qc":1100,"shift":"Night"},{"date":"2026-12-02","hc_assy":1.7,"hc_ht":10.7,"hc_long":0.4,"hc_pkg":2.7,"hc_qc":2.1,"line_assy":0.1,"qty_assy":300,"qty_ht":2935,"qty_long":300,"qty_pkg":1100,"qty_qc":706,"shift":"Day"},{"date":"2026-12-02","hc_assy":12.3,"hc_ht":3.8,"hc_long":0.4,"hc_pkg":1.7,"hc_qc":0.9,"line_assy":0.9,"qty_assy":2004,"qty_ht":872,"qty_long":300,"qty_pkg":706,"qty_qc":300,"shift":"Night"},{"date":"2026-12-03","hc_assy":3,"hc_ht":1.4,"hc_long":1.2,"hc_pkg":0.7,"hc_qc":0.9,"line_assy":0.2,"qty_assy":516,"qty_ht":1220,"qty_long":2004,"qty_pkg":300,"qty_qc":300,"shift":"Day"},{"date":"2026-12-03","hc_assy":1.2,"hc_ht":1.7,"hc_long":0.1,"hc_pkg":0.7,"hc_qc":0.9,"line_assy":0.1,"qty_assy":220,"qty_ht":1300,"qty_long":216,"qty_pkg":300,"qty_qc":300,"shift":"Night"},{"date":"2026-12-04","hc_assy":1.7,"hc_ht":1.5,"hc_long":0,"hc_pkg":0.7,"hc_qc":3.3,"line_assy":0.1,"qty_assy":300,"qty_ht":1260,"qty_long":0,"qty_pkg":300,"qty_qc":1100,"shift":"Day"},{"date":"2026-12-04","hc_assy":1.4,"hc_ht":1.9,"hc_long":0.8,"hc_pkg":2.7,"hc_qc":2.4,"line_assy":0.1,"qty_assy":260,"qty_ht":550,"qty_long":520,"qty_pkg":1100,"qty_qc":820,"shift":"Night"},{"date":"2026-12-05","hc_assy":3,"hc_ht":4.4,"hc_long":0.9,"hc_pkg":2,"hc_qc":1.6,"line_assy":0.2,"qty_assy":550,"qty_ht":2950,"qty_long":620,"qty_pkg":820,"qty_qc":520,"shift":"Day"},{"date":"2026-12-05","hc_assy":2.9,"hc_ht":6.7,"hc_long":0.8,"hc_pkg":1.2,"hc_qc":1.6,"line_assy":0.2,"qty_assy":530,"qty_ht":2107,"qty_long":540,"qty_pkg":520,"qty_qc":520,"shift":"Night"},{"date":"2026-12-06","hc_assy":2,"hc_ht":13.2,"hc_long":0.9,"hc_pkg":1.2,"hc_qc":2.1,"line_assy":0.1,"qty_assy":360,"qty_ht":4041,"qty_long":600,"qty_pkg":520,"qty_qc":640,"shift":"Day"},{"date":"2026-12-06","hc_assy":10.6,"hc_ht":13.1,"hc_long":0.9,"hc_pkg":0.7,"hc_qc":2.2,"line_assy":0.8,"qty_assy":1735,"qty_ht":4145,"qty_long":600,"qty_pkg":320,"qty_qc":600,"shift":"Night"},{"date":"2026-12-07","hc_assy":13.9,"hc_ht":9.9,"hc_long":0.8,"hc_pkg":1.4,"hc_qc":1.9,"line_assy":1,"qty_assy":2335,"qty_ht":4445,"qty_long":1575,"qty_pkg":600,"qty_qc":600,"shift":"Day"},{"date":"2026-12-07","hc_assy":10.6,"hc_ht":8,"hc_long":1.5,"hc_pkg":1.4,"hc_qc":0.4,"line_assy":0.8,"qty_assy":1735,"qty_ht":3344,"qty_long":2035,"qty_pkg":600,"qty_qc":140,"shift":"Night"},{"date":"2026-12-08","hc_assy":11.2,"hc_ht":5.7,"hc_long":1,"hc_pkg":0.3,"hc_qc":5.1,"line_assy":0.8,"qty_assy":1835,"qty_ht":2925,"qty_long":1695,"qty_pkg":140,"qty_qc":1700,"shift":"Day"},{"date":"2026-12-08","hc_assy":9,"hc_ht":7.5,"hc_long":1.2,"hc_pkg":4.3,"hc_qc":4.1,"line_assy":0.6,"qty_assy":1435,"qty_ht":3415,"qty_long":1835,"qty_pkg":1800,"qty_qc":1360,"shift":"Night"},{"date":"2026-12-09","hc_assy":0,"hc_ht":4.7,"hc_long":1.5,"hc_pkg":3.1,"hc_qc":3.3,"line_assy":0,"qty_assy":0,"qty_ht":1583,"qty_long":2035,"qty_pkg":1260,"qty_qc":1100,"shift":"Day"},{"date":"2026-12-09","hc_assy":6.2,"hc_ht":2.5,"hc_long":0,"hc_pkg":2.7,"hc_qc":6.4,"line_assy":0.4,"qty_assy":1000,"qty_ht":1000,"qty_long":0,"qty_pkg":1100,"qty_qc":2100,"shift":"Night"},{"date":"2026-12-10","hc_assy":3.9,"hc_ht":0.7,"hc_long":0.4,"hc_pkg":4.7,"hc_qc":3.3,"line_assy":0.3,"qty_assy":618,"qty_ht":1000,"qty_long":1000,"qty_pkg":1960,"qty_qc":1100,"shift":"Day"},{"date":"2026-12-10","hc_assy":0,"hc_ht":3.2,"hc_long":0.3,"hc_pkg":2.7,"hc_qc":3.3,"line_assy":0,"qty_assy":0,"qty_ht":1860,"qty_long":618,"qty_pkg":1100,"qty_qc":1100,"shift":"Night"},{"date":"2026-12-11","hc_assy":3.9,"hc_ht":2.5,"hc_long":0,"hc_pkg":2.7,"hc_qc":3.3,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":0,"qty_pkg":1100,"qty_qc":1100,"shift":"Day"},{"date":"2026-12-11","hc_assy":3.9,"hc_ht":2.5,"hc_long":0.9,"hc_pkg":2.7,"hc_qc":3.2,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":600,"qty_pkg":1100,"qty_qc":1093,"shift":"Night"},{"date":"2026-12-12","hc_assy":3.9,"hc_ht":2.5,"hc_long":0.9,"hc_pkg":2.7,"hc_qc":1.9,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":600,"qty_pkg":1093,"qty_qc":600,"shift":"Day"},{"date":"2026-12-12","hc_assy":3.9,"hc_ht":2.5,"hc_long":0.9,"hc_pkg":1.4,"hc_qc":1.9,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":600,"qty_pkg":600,"qty_qc":600,"shift":"Night"},{"date":"2026-12-13","hc_assy":3.9,"hc_ht":2.5,"hc_long":0.9,"hc_pkg":1.4,"hc_qc":1.9,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":600,"qty_pkg":600,"qty_qc":600,"shift":"Day"},{"date":"2026-12-13","hc_assy":3.9,"hc_ht":2.5,"hc_long":0.9,"hc_pkg":1.4,"hc_qc":1.9,"line_assy":0.3,"qty_assy":700,"qty_ht":700,"qty_long":600,"qty_pkg":600,"qty_qc":600,"shift":"Night"}];
+
+    let planACurrentStageFilter = 'all'; // 'all', 'ht', 'assy', 'long', 'qc', 'pkg'
+    let planACurrentMetricFilter = 'hc'; // 'hc', 'qty', 'dual'
+    let planACurrentViewMode = 'daily';  // 'daily' (gộp ngày), 'shift' (chi tiết ca)
+    let planAChartInstance = null;
+    let isPlanATabInitialized = false;
+
+    function initPlanHcATab() {
+      // Đặt mặc định khoảng ngày nếu chưa có
+      const dStartInp = document.getElementById('dateStart_plan_a');
+      const dEndInp = document.getElementById('dateEnd_plan_a');
+      if (dStartInp && (!dStartInp.value || dStartInp.value < '2026-11-01')) dStartInp.value = '2026-11-27';
+      if (dEndInp && (!dEndInp.value || dEndInp.value > '2026-12-13')) dEndInp.value = '2026-12-13';
+
+      renderPlanA();
+
+      if (!isPlanATabInitialized) {
+        isPlanATabInitialized = true;
+        initPlanAScrollSync();
+      }
+
+      setTimeout(() => {
+        if (planAChartInstance) {
+          planAChartInstance.resize();
+        }
+      }, 80);
+    }
+
+    function onPlanADateRangeChange() {
+      renderPlanA();
+    }
+
+    function setPlanAPresetDate(preset) {
+      const dStartInp = document.getElementById('dateStart_plan_a');
+      const dEndInp = document.getElementById('dateEnd_plan_a');
+      if (!dStartInp || !dEndInp) return;
+
+      if (preset === 'all') {
+        dStartInp.value = '2026-11-27';
+        dEndInp.value = '2026-12-13';
+      } else if (preset === 'nov') {
+        dStartInp.value = '2026-11-27';
+        dEndInp.value = '2026-11-30';
+      } else if (preset === 'dec') {
+        dStartInp.value = '2026-12-01';
+        dEndInp.value = '2026-12-13';
+      } else if (preset === 'w1') {
+        dStartInp.value = '2026-11-27';
+        dEndInp.value = '2026-12-03';
+      } else if (preset === 'w2') {
+        dStartInp.value = '2026-12-04';
+        dEndInp.value = '2026-12-10';
+      }
+
+      ['all', 'nov', 'dec', 'w1', 'w2'].forEach(p => {
+        const btn = document.getElementById('btnPlanAPreset-' + p);
+        if (btn) {
+          if (p === preset) {
+            btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-cyan-600 text-white transition cursor-pointer';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-slate-200 transition cursor-pointer';
+          }
+        }
+      });
+
+      renderPlanA();
+    }
+
+    function setPlanAViewMode(mode) {
+      planACurrentViewMode = mode;
+      const bDaily = document.getElementById('btnPlanAView-daily');
+      const bShift = document.getElementById('btnPlanAView-shift');
+      if (bDaily) bDaily.className = mode === 'daily' ? 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white transition cursor-pointer' : 'px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-slate-200 transition cursor-pointer';
+      if (bShift) bShift.className = mode === 'shift' ? 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white transition cursor-pointer' : 'px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-slate-200 transition cursor-pointer';
+
+      renderPlanAMatrices();
+    }
+
+    function setPlanAStageFilter(stage) {
+      planACurrentStageFilter = stage;
+      ['all', 'ht', 'assy', 'long', 'qc', 'pkg'].forEach(s => {
+        const btn = document.getElementById('btnPlanAStage-' + s);
+        if (btn) {
+          btn.className = (s === stage) ? 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white transition cursor-pointer' : 'px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-slate-200 transition cursor-pointer';
+        }
+      });
+      renderPlanAChart();
+    }
+
+    function setPlanAMetricFilter(metric) {
+      planACurrentMetricFilter = metric;
+      ['hc', 'qty', 'dual'].forEach(m => {
+        const btn = document.getElementById('btnPlanAMetric-' + m);
+        if (btn) {
+          btn.className = (m === metric) ? 'px-2.5 py-1 rounded-md font-bold bg-cyan-600 text-white transition cursor-pointer' : 'px-2.5 py-1 rounded-md font-medium text-slate-400 hover:text-slate-200 transition cursor-pointer';
+        }
+      });
+      renderPlanAChart();
+    }
+
+    function getFilteredPlanAData() {
+      const dStartInp = document.getElementById('dateStart_plan_a');
+      const dEndInp = document.getElementById('dateEnd_plan_a');
+      const sDate = (dStartInp && dStartInp.value) ? dStartInp.value : '2026-11-27';
+      const eDate = (dEndInp && dEndInp.value) ? dEndInp.value : '2026-12-13';
+
+      let res = RAW_DATA_PLAN_A.filter(r => r.date >= sDate && r.date <= eDate);
+      if (!res || res.length === 0) {
+        res = RAW_DATA_PLAN_A.filter(r => r.date >= '2026-11-27' && r.date <= '2026-12-13');
+      }
+      return res;
+    }
+
+    // Render toàn bộ tab
+    function renderPlanA() {
+      const filtered = getFilteredPlanAData();
+
+      // Cập nhật nhãn khoảng ngày
+      const dStartInp = document.getElementById('dateStart_plan_a');
+      const dEndInp = document.getElementById('dateEnd_plan_a');
+      const pLabel = document.getElementById('planAPeriodLabel');
+      if (pLabel && dStartInp && dEndInp) {
+        const fmtD = (s) => s.split('-').reverse().join('/');
+        pLabel.textContent = `${fmtD(dStartInp.value)} \u2192 ${fmtD(dEndInp.value)}`;
+      }
+
+      renderPlanAKPIs(filtered);
+      renderPlanAChart(filtered);
+      renderPlanAMatrices(filtered);
+    }
+
+    function renderPlanAKPIs(data) {
+      if (!data) data = getFilteredPlanAData();
+
+      let sumQ_ht = 0, sumQ_assy = 0, sumQ_long = 0, sumQ_qc = 0, sumQ_pkg = 0;
+      let sumH_ht = 0, sumH_assy = 0, sumH_long = 0, sumH_qc = 0, sumH_pkg = 0;
+
+      // Tính Max/ngày
+      const dailyHC = {};
+      data.forEach(r => {
+        sumQ_ht += (r.qty_ht || 0);
+        sumQ_assy += (r.qty_assy || 0);
+        sumQ_long += (r.qty_long || 0);
+        sumQ_qc += (r.qty_qc || 0);
+        sumQ_pkg += (r.qty_pkg || 0);
+
+        sumH_ht += (r.hc_ht || 0);
+        sumH_assy += (r.hc_assy || 0);
+        sumH_long += (r.hc_long || 0);
+        sumH_qc += (r.hc_qc || 0);
+        sumH_pkg += (r.hc_pkg || 0);
+
+        if (!dailyHC[r.date]) {
+          dailyHC[r.date] = { ht: 0, assy: 0, long: 0, qc: 0, pkg: 0 };
+        }
+        dailyHC[r.date].ht += (r.hc_ht || 0);
+        dailyHC[r.date].assy += (r.hc_assy || 0);
+        dailyHC[r.date].long += (r.hc_long || 0);
+        dailyHC[r.date].qc += (r.hc_qc || 0);
+        dailyHC[r.date].pkg += (r.hc_pkg || 0);
+      });
+
+      const dates = Object.keys(dailyHC);
+      const daysCount = dates.length || 1;
+      const shiftsCount = data.length || 1;
+
+      let maxH_ht = 0, maxH_assy = 0, maxH_long = 0, maxH_qc = 0, maxH_pkg = 0;
+      dates.forEach(d => {
+        const item = dailyHC[d];
+        if (item.ht > maxH_ht) maxH_ht = item.ht;
+        if (item.assy > maxH_assy) maxH_assy = item.assy;
+        if (item.long > maxH_long) maxH_long = item.long;
+        if (item.qc > maxH_qc) maxH_qc = item.qc;
+        if (item.pkg > maxH_pkg) maxH_pkg = item.pkg;
+      });
+
+      const fmtN = (n) => Math.round(n).toLocaleString('vi-VN');
+
+      // HT
+      const elQ_ht = document.getElementById('kpiPlanA_qty_ht');
+      if (elQ_ht) elQ_ht.textContent = fmtN(sumQ_ht) + ' pcs';
+      const elH_ht = document.getElementById('kpiPlanA_hc_ht');
+      if (elH_ht) elH_ht.textContent = sumH_ht.toFixed(1) + ' Per';
+      const elAvg_ht = document.getElementById('kpiPlanA_avg_ht');
+      if (elAvg_ht) elAvg_ht.textContent = (sumH_ht / shiftsCount).toFixed(1) + '/ca';
+      const elMax_ht = document.getElementById('kpiPlanA_max_ht');
+      if (elMax_ht) elMax_ht.textContent = maxH_ht.toFixed(1);
+
+      // Assy
+      const elQ_assy = document.getElementById('kpiPlanA_qty_assy');
+      if (elQ_assy) elQ_assy.textContent = fmtN(sumQ_assy) + ' pcs';
+      const elH_assy = document.getElementById('kpiPlanA_hc_assy');
+      if (elH_assy) elH_assy.textContent = sumH_assy.toFixed(1) + ' Per';
+      const elLine_assy = document.getElementById('kpiPlanA_line_assy');
+      if (elLine_assy) elLine_assy.textContent = (sumH_assy / 14 / shiftsCount * 2).toFixed(1) + ' Line';
+      const elMax_assy = document.getElementById('kpiPlanA_max_assy');
+      if (elMax_assy) elMax_assy.textContent = maxH_assy.toFixed(1);
+
+      // Long Test
+      const elQ_long = document.getElementById('kpiPlanA_qty_long');
+      if (elQ_long) elQ_long.textContent = fmtN(sumQ_long) + ' pcs';
+      const elH_long = document.getElementById('kpiPlanA_hc_long');
+      if (elH_long) elH_long.textContent = sumH_long.toFixed(1) + ' Per';
+      const elAvg_long = document.getElementById('kpiPlanA_avg_long');
+      if (elAvg_long) elAvg_long.textContent = (sumH_long / shiftsCount).toFixed(1) + '/ca';
+      const elMax_long = document.getElementById('kpiPlanA_max_long');
+      if (elMax_long) elMax_long.textContent = maxH_long.toFixed(1);
+
+      // QC
+      const elQ_qc = document.getElementById('kpiPlanA_qty_qc');
+      if (elQ_qc) elQ_qc.textContent = fmtN(sumQ_qc) + ' pcs';
+      const elH_qc = document.getElementById('kpiPlanA_hc_qc');
+      if (elH_qc) elH_qc.textContent = sumH_qc.toFixed(1) + ' Per';
+      const elAvg_qc = document.getElementById('kpiPlanA_avg_qc');
+      if (elAvg_qc) elAvg_qc.textContent = (sumH_qc / shiftsCount).toFixed(1) + '/ca';
+      const elMax_qc = document.getElementById('kpiPlanA_max_qc');
+      if (elMax_qc) elMax_qc.textContent = maxH_qc.toFixed(1);
+
+      // PKG
+      const elQ_pkg = document.getElementById('kpiPlanA_qty_pkg');
+      if (elQ_pkg) elQ_pkg.textContent = fmtN(sumQ_pkg) + ' pcs';
+      const elH_pkg = document.getElementById('kpiPlanA_hc_pkg');
+      if (elH_pkg) elH_pkg.textContent = sumH_pkg.toFixed(1) + ' Per';
+      const elAvg_pkg = document.getElementById('kpiPlanA_avg_pkg');
+      if (elAvg_pkg) elAvg_pkg.textContent = (sumH_pkg / shiftsCount).toFixed(1) + '/ca';
+      const elMax_pkg = document.getElementById('kpiPlanA_max_pkg');
+      if (elMax_pkg) elMax_pkg.textContent = maxH_pkg.toFixed(1);
+    }
+
+    // Render Biểu đồ trực quan
+    function renderPlanAChart(data) {
+      if (!data) data = getFilteredPlanAData();
+      const canvas = document.getElementById('chartPlanA');
+      if (!canvas) return;
+
+      if (planAChartInstance) {
+        planAChartInstance.destroy();
+        planAChartInstance = null;
+      }
+
+      // Chuẩn bị nhãn trục X và các tập dữ liệu theo chế độ xem (Daily vs Shift)
+      let labels = [];
+      let datasets = [];
+
+      const stageColors = {
+        ht:   { border: '#38bdf8', bg: 'rgba(56, 189, 248, 0.4)',  label: 'Hard Test (SUM HT)' },
+        assy: { border: '#c084fc', bg: 'rgba(192, 132, 252, 0.4)', label: 'Assembly' },
+        long: { border: '#f59e0b', bg: 'rgba(245, 158, 11, 0.4)',  label: 'Long Test' },
+        qc:   { border: '#34d399', bg: 'rgba(52, 211, 153, 0.4)',  label: 'QC' },
+        pkg:  { border: '#fb7185', bg: 'rgba(251, 113, 133, 0.4)',  label: 'PKG' }
+      };
+
+      if (planACurrentViewMode === 'daily') {
+        const dailyAgg = {};
+        data.forEach(r => {
+          if (!dailyAgg[r.date]) {
+            dailyAgg[r.date] = {
+              date: r.date,
+              hc_ht: 0, hc_assy: 0, hc_long: 0, hc_qc: 0, hc_pkg: 0,
+              qty_ht: 0, qty_assy: 0, qty_long: 0, qty_qc: 0, qty_pkg: 0
+            };
+          }
+          const it = dailyAgg[r.date];
+          it.hc_ht += (r.hc_ht || 0);
+          it.hc_assy += (r.hc_assy || 0);
+          it.hc_long += (r.hc_long || 0);
+          it.hc_qc += (r.hc_qc || 0);
+          it.hc_pkg += (r.hc_pkg || 0);
+
+          it.qty_ht += (r.qty_ht || 0);
+          it.qty_assy += (r.qty_assy || 0);
+          it.qty_long += (r.qty_long || 0);
+          it.qty_qc += (r.qty_qc || 0);
+          it.qty_pkg += (r.qty_pkg || 0);
+        });
+
+        const sortedDates = Object.keys(dailyAgg).sort();
+        labels = sortedDates.map(d => {
+          const parts = d.split('-');
+          return `${parts[2]}/${parts[1]}`;
+        });
+
+        const makeData = (key) => sortedDates.map(d => dailyAgg[d][key]);
+
+        if (planACurrentStageFilter === 'all') {
+          // So sánh cả 5 công đoạn
+          ['ht', 'assy', 'long', 'qc', 'pkg'].forEach(st => {
+            const conf = stageColors[st];
+            if (planACurrentMetricFilter === 'hc' || planACurrentMetricFilter === 'dual') {
+              datasets.push({
+                type: 'line',
+                label: conf.label + ' (HC)',
+                data: makeData('hc_' + st),
+                borderColor: conf.border,
+                backgroundColor: conf.border,
+                borderWidth: 2.5,
+                tension: 0.3,
+                yAxisID: 'yHC'
+              });
+            }
+            if (planACurrentMetricFilter === 'qty') {
+              datasets.push({
+                type: 'bar',
+                label: conf.label + ' (Q\'ty)',
+                data: makeData('qty_' + st),
+                backgroundColor: conf.bg,
+                borderColor: conf.border,
+                borderWidth: 1,
+                yAxisID: 'yQty'
+              });
+            }
+          });
+        } else {
+          // Chỉ 1 công đoạn được chọn
+          const st = planACurrentStageFilter;
+          const conf = stageColors[st];
+          if (planACurrentMetricFilter === 'hc' || planACurrentMetricFilter === 'dual') {
+            datasets.push({
+              type: 'line',
+              label: conf.label + ' - Plan HC (Người)',
+              data: makeData('hc_' + st),
+              borderColor: conf.border,
+              backgroundColor: conf.border,
+              borderWidth: 3,
+              tension: 0.25,
+              yAxisID: 'yHC'
+            });
+          }
+          if (planACurrentMetricFilter === 'qty' || planACurrentMetricFilter === 'dual') {
+            datasets.push({
+              type: 'bar',
+              label: conf.label + ' - Plan Q\'ty (Pcs)',
+              data: makeData('qty_' + st),
+              backgroundColor: conf.bg,
+              borderColor: conf.border,
+              borderWidth: 1.5,
+              yAxisID: 'yQty'
+            });
+          }
+        }
+      } else {
+        // Chi tiết theo Ca (Day/Night)
+        labels = data.map(r => {
+          const parts = r.date.split('-');
+          return `${parts[2]}/${parts[1]} ${r.shift === 'Day' ? '☀️' : '🌙'}`;
+        });
+
+        if (planACurrentStageFilter === 'all') {
+          ['ht', 'assy', 'long', 'qc', 'pkg'].forEach(st => {
+            const conf = stageColors[st];
+            if (planACurrentMetricFilter === 'hc' || planACurrentMetricFilter === 'dual') {
+              datasets.push({
+                type: 'line',
+                label: conf.label + ' (HC)',
+                data: data.map(r => r['hc_' + st] || 0),
+                borderColor: conf.border,
+                borderWidth: 2,
+                tension: 0.25,
+                yAxisID: 'yHC'
+              });
+            }
+            if (planACurrentMetricFilter === 'qty') {
+              datasets.push({
+                type: 'bar',
+                label: conf.label + ' (Qty)',
+                data: data.map(r => r['qty_' + st] || 0),
+                backgroundColor: conf.bg,
+                borderColor: conf.border,
+                yAxisID: 'yQty'
+              });
+            }
+          });
+        } else {
+          const st = planACurrentStageFilter;
+          const conf = stageColors[st];
+          if (planACurrentMetricFilter === 'hc' || planACurrentMetricFilter === 'dual') {
+            datasets.push({
+              type: 'line',
+              label: conf.label + ' - Plan HC',
+              data: data.map(r => r['hc_' + st] || 0),
+              borderColor: conf.border,
+              backgroundColor: conf.border,
+              borderWidth: 2.5,
+              tension: 0.2,
+              yAxisID: 'yHC'
+            });
+          }
+          if (planACurrentMetricFilter === 'qty' || planACurrentMetricFilter === 'dual') {
+            datasets.push({
+              type: 'bar',
+              label: conf.label + ' - Plan Q\'ty',
+              data: data.map(r => r['qty_' + st] || 0),
+              backgroundColor: conf.bg,
+              borderColor: conf.border,
+              yAxisID: 'yQty'
+            });
+          }
+        }
+      }
+
+      const yAxes = {};
+      if (planACurrentMetricFilter === 'hc' || planACurrentMetricFilter === 'dual') {
+        yAxes.yHC = {
+          type: 'linear',
+          position: 'left',
+          title: { display: true, text: 'Nhân sự (Người / ca)', color: '#94a3b8', font: { size: 11 } },
+          grid: { color: 'rgba(51, 65, 85, 0.4)' },
+          ticks: { color: '#cbd5e1', font: { family: 'monospace' } },
+          min: 0
+        };
+      }
+      if (planACurrentMetricFilter === 'qty' || planACurrentMetricFilter === 'dual') {
+        yAxes.yQty = {
+          type: 'linear',
+          position: (planACurrentMetricFilter === 'dual') ? 'right' : 'left',
+          title: { display: true, text: 'Sản lượng (Pcs)', color: '#94a3b8', font: { size: 11 } },
+          grid: (planACurrentMetricFilter === 'dual') ? { drawOnChartArea: false } : { color: 'rgba(51, 65, 85, 0.4)' },
+          ticks: { color: '#cbd5e1', font: { family: 'monospace' } },
+          min: 0
+        };
+      }
+
+      planAChartInstance = new Chart(canvas, {
+        data: { labels: labels, datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              labels: { color: '#e2e8f0', boxWidth: 12, font: { size: 11, weight: 'bold' } }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#38bdf8',
+              borderColor: '#334155',
+              borderWidth: 1,
+              padding: 10
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(51, 65, 85, 0.2)' },
+              ticks: { color: '#94a3b8', font: { size: 10, family: 'monospace' } }
+            },
+            ...yAxes
+          }
+        }
+      });
+    }
+
+    // Render 5 Bảng Ma trận riêng biệt + 1 Bảng Tổng hợp
+    function renderPlanAMatrices(data) {
+      if (!data) data = getFilteredPlanAData();
+
+      const isDaily = (planACurrentViewMode === 'daily');
+
+      // Nhóm theo ngày hoặc theo ca
+      const cols = [];
+      if (isDaily) {
+        const dMap = {};
+        data.forEach(r => {
+          if (!dMap[r.date]) {
+            dMap[r.date] = {
+              date: r.date,
+              hc_ht: 0, hc_assy: 0, hc_long: 0, hc_qc: 0, hc_pkg: 0,
+              hc_ht_day: 0, hc_ht_night: 0,
+              hc_assy_day: 0, hc_assy_night: 0,
+              hc_long_day: 0, hc_long_night: 0,
+              hc_qc_day: 0, hc_qc_night: 0,
+              hc_pkg_day: 0, hc_pkg_night: 0,
+              qty_ht: 0, qty_assy: 0, qty_long: 0, qty_qc: 0, qty_pkg: 0
+            };
+            cols.push(dMap[r.date]);
+          }
+          const item = dMap[r.date];
+          item.hc_ht += (r.hc_ht || 0);
+          item.hc_assy += (r.hc_assy || 0);
+          item.hc_long += (r.hc_long || 0);
+          item.hc_qc += (r.hc_qc || 0);
+          item.hc_pkg += (r.hc_pkg || 0);
+
+          if (r.shift === 'Day') {
+            item.hc_ht_day = (r.hc_ht || 0);
+            item.hc_assy_day = (r.hc_assy || 0);
+            item.hc_long_day = (r.hc_long || 0);
+            item.hc_qc_day = (r.hc_qc || 0);
+            item.hc_pkg_day = (r.hc_pkg || 0);
+          } else {
+            item.hc_ht_night = (r.hc_ht || 0);
+            item.hc_assy_night = (r.hc_assy || 0);
+            item.hc_long_night = (r.hc_long || 0);
+            item.hc_qc_night = (r.hc_qc || 0);
+            item.hc_pkg_night = (r.hc_pkg || 0);
+          }
+
+          item.qty_ht += (r.qty_ht || 0);
+          item.qty_assy += (r.qty_assy || 0);
+          item.qty_long += (r.qty_long || 0);
+          item.qty_qc += (r.qty_qc || 0);
+          item.qty_pkg += (r.qty_pkg || 0);
+        });
+      } else {
+        data.forEach(r => {
+          cols.push({
+            date: r.date,
+            shift: r.shift,
+            hc_ht: r.hc_ht, hc_assy: r.hc_assy, hc_long: r.hc_long, hc_qc: r.hc_qc, hc_pkg: r.hc_pkg,
+            qty_ht: r.qty_ht, qty_assy: r.qty_assy, qty_long: r.qty_long, qty_qc: r.qty_qc, qty_pkg: r.qty_pkg
+          });
+        });
+      }
+
+      const fmtN = (n) => n > 0 ? Math.round(n).toLocaleString('vi-VN') : '-';
+      const fmtHC = (n) => n > 0 ? n.toFixed(1) : '-';
+
+      // 1. HARD TEST TABLE
+      const tblHT = document.getElementById('matrixTablePlanA_HT');
+      if (tblHT) {
+        let hRow = '<tr class="bg-[#101b2b] border-b border-cyan-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#101b2b] sticky left-0 z-10 border-r border-cyan-800/60 text-cyan-300 font-bold min-w-[170px]">Chỉ số / Ngày</td>';
+        let qRow = '<tr class="bg-sky-950/20 border-b border-slate-800"><td class="p-2.5 bg-[#101b2b] sticky left-0 z-10 border-r border-cyan-800/60 text-sky-300 font-semibold">Plan Q\'ty HT (Pcs)</td>';
+        let hcRow = '<tr class="bg-cyan-950/25 border-b border-slate-800"><td class="p-2.5 bg-[#101b2b] sticky left-0 z-10 border-r border-cyan-800/60 text-cyan-200 font-bold">Plan HC (SUM HT)</td>';
+        let dayRow = '<tr class="bg-slate-900/40 border-b border-slate-800 text-[11px]"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-cyan-800/60 text-slate-400 pl-4">&rarr; Ca Ngày (Day)</td>';
+        let nightRow = '<tr class="bg-slate-900/40 border-b border-cyan-900/40 text-[11px]"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-cyan-800/60 text-slate-400 pl-4">&rarr; Ca Đêm (Night)</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          qRow += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono font-bold">${fmtN(c.qty_ht)}</td>`;
+          hcRow += `<td class="p-2 text-center border-r border-slate-800 text-cyan-300 font-mono font-black">${fmtHC(c.hc_ht)}</td>`;
+          if (isDaily) {
+            dayRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_ht_day)}</td>`;
+            nightRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_ht_night)}</td>`;
+          }
+        });
+
+        hRow += '</tr>'; qRow += '</tr>'; hcRow += '</tr>'; dayRow += '</tr>'; nightRow += '</tr>';
+        tblHT.innerHTML = `<tbody>${hRow}${qRow}${hcRow}${isDaily ? (dayRow + nightRow) : ''}</tbody>`;
+      }
+
+      // 2. ASSEMBLY TABLE
+      const tblAssy = document.getElementById('matrixTablePlanA_Assy');
+      if (tblAssy) {
+        let hRow = '<tr class="bg-[#1b1029] border-b border-purple-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-purple-300 font-bold min-w-[170px]">Chỉ số / Ngày</td>';
+        let qRow = '<tr class="bg-fuchsia-950/20 border-b border-slate-800"><td class="p-2.5 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-fuchsia-300 font-semibold">Plan Q\'ty A\'ssy (Pcs)</td>';
+        let hcRow = '<tr class="bg-purple-950/25 border-b border-slate-800"><td class="p-2.5 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-purple-200 font-bold">Plan HC Assembly</td>';
+        let lineRow = '<tr class="bg-amber-950/15 border-b border-slate-800"><td class="p-2.5 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-amber-300 font-semibold">Plan Line A\'ssy (/14)</td>';
+        let dayRow = '<tr class="bg-slate-900/40 border-b border-slate-800 text-[11px]"><td class="p-2 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-slate-400 pl-4">&rarr; Ca Ngày (Day)</td>';
+        let nightRow = '<tr class="bg-slate-900/40 border-b border-purple-900/40 text-[11px]"><td class="p-2 bg-[#1b1029] sticky left-0 z-10 border-r border-purple-800/60 text-slate-400 pl-4">&rarr; Ca Đêm (Night)</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          const lineVal = c.hc_assy > 0 ? (c.hc_assy / (isDaily ? 28 : 14)).toFixed(1) : '-';
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          qRow += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono font-bold">${fmtN(c.qty_assy)}</td>`;
+          hcRow += `<td class="p-2 text-center border-r border-slate-800 text-purple-300 font-mono font-black">${fmtHC(c.hc_assy)}</td>`;
+          lineRow += `<td class="p-2 text-center border-r border-slate-800 text-amber-300 font-mono font-bold">${lineVal}</td>`;
+          if (isDaily) {
+            dayRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_assy_day)}</td>`;
+            nightRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_assy_night)}</td>`;
+          }
+        });
+
+        hRow += '</tr>'; qRow += '</tr>'; hcRow += '</tr>'; lineRow += '</tr>'; dayRow += '</tr>'; nightRow += '</tr>';
+        tblAssy.innerHTML = `<tbody>${hRow}${qRow}${hcRow}${lineRow}${isDaily ? (dayRow + nightRow) : ''}</tbody>`;
+      }
+
+      // 3. LONG TEST TABLE
+      const tblLong = document.getElementById('matrixTablePlanA_Long');
+      if (tblLong) {
+        let hRow = '<tr class="bg-[#1f1a10] border-b border-amber-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#1f1a10] sticky left-0 z-10 border-r border-amber-800/60 text-amber-300 font-bold min-w-[170px]">Chỉ số / Ngày</td>';
+        let qRow = '<tr class="bg-amber-950/20 border-b border-slate-800"><td class="p-2.5 bg-[#1f1a10] sticky left-0 z-10 border-r border-amber-800/60 text-amber-300 font-semibold">Plan Q\'ty Long Test (Pcs)</td>';
+        let hcRow = '<tr class="bg-amber-950/25 border-b border-slate-800"><td class="p-2.5 bg-[#1f1a10] sticky left-0 z-10 border-r border-amber-800/60 text-amber-200 font-bold">Plan HC Long Test</td>';
+        let dayRow = '<tr class="bg-slate-900/40 border-b border-slate-800 text-[11px]"><td class="p-2 bg-[#1f1a10] sticky left-0 z-10 border-r border-amber-800/60 text-slate-400 pl-4">&rarr; Ca Ngày (Day)</td>';
+        let nightRow = '<tr class="bg-slate-900/40 border-b border-amber-900/40 text-[11px]"><td class="p-2 bg-[#1f1a10] sticky left-0 z-10 border-r border-amber-800/60 text-slate-400 pl-4">&rarr; Ca Đêm (Night)</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          qRow += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono font-bold">${fmtN(c.qty_long)}</td>`;
+          hcRow += `<td class="p-2 text-center border-r border-slate-800 text-amber-300 font-mono font-black">${fmtHC(c.hc_long)}</td>`;
+          if (isDaily) {
+            dayRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_long_day)}</td>`;
+            nightRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_long_night)}</td>`;
+          }
+        });
+
+        hRow += '</tr>'; qRow += '</tr>'; hcRow += '</tr>'; dayRow += '</tr>'; nightRow += '</tr>';
+        tblLong.innerHTML = `<tbody>${hRow}${qRow}${hcRow}${isDaily ? (dayRow + nightRow) : ''}</tbody>`;
+      }
+
+      // 4. QC TABLE
+      const tblQC = document.getElementById('matrixTablePlanA_QC');
+      if (tblQC) {
+        let hRow = '<tr class="bg-[#10241b] border-b border-emerald-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#10241b] sticky left-0 z-10 border-r border-emerald-800/60 text-emerald-300 font-bold min-w-[170px]">Chỉ số / Ngày</td>';
+        let qRow = '<tr class="bg-emerald-950/20 border-b border-slate-800"><td class="p-2.5 bg-[#10241b] sticky left-0 z-10 border-r border-emerald-800/60 text-emerald-300 font-semibold">Plan Q\'ty QC (Pcs)</td>';
+        let hcRow = '<tr class="bg-emerald-950/25 border-b border-slate-800"><td class="p-2.5 bg-[#10241b] sticky left-0 z-10 border-r border-emerald-800/60 text-emerald-200 font-bold">Plan HC QC</td>';
+        let dayRow = '<tr class="bg-slate-900/40 border-b border-slate-800 text-[11px]"><td class="p-2 bg-[#10241b] sticky left-0 z-10 border-r border-emerald-800/60 text-slate-400 pl-4">&rarr; Ca Ngày (Day)</td>';
+        let nightRow = '<tr class="bg-slate-900/40 border-b border-emerald-900/40 text-[11px]"><td class="p-2 bg-[#10241b] sticky left-0 z-10 border-r border-emerald-800/60 text-slate-400 pl-4">&rarr; Ca Đêm (Night)</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          qRow += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono font-bold">${fmtN(c.qty_qc)}</td>`;
+          hcRow += `<td class="p-2 text-center border-r border-slate-800 text-emerald-300 font-mono font-black">${fmtHC(c.hc_qc)}</td>`;
+          if (isDaily) {
+            dayRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_qc_day)}</td>`;
+            nightRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_qc_night)}</td>`;
+          }
+        });
+
+        hRow += '</tr>'; qRow += '</tr>'; hcRow += '</tr>'; dayRow += '</tr>'; nightRow += '</tr>';
+        tblQC.innerHTML = `<tbody>${hRow}${qRow}${hcRow}${isDaily ? (dayRow + nightRow) : ''}</tbody>`;
+      }
+
+      // 5. PKG TABLE
+      const tblPKG = document.getElementById('matrixTablePlanA_PKG');
+      if (tblPKG) {
+        let hRow = '<tr class="bg-[#241017] border-b border-rose-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#241017] sticky left-0 z-10 border-r border-rose-800/60 text-rose-300 font-bold min-w-[170px]">Chỉ số / Ngày</td>';
+        let qRow = '<tr class="bg-rose-950/20 border-b border-slate-800"><td class="p-2.5 bg-[#241017] sticky left-0 z-10 border-r border-rose-800/60 text-rose-300 font-semibold">Plan Q\'ty PKG (Pcs)</td>';
+        let hcRow = '<tr class="bg-rose-950/25 border-b border-slate-800"><td class="p-2.5 bg-[#241017] sticky left-0 z-10 border-r border-rose-800/60 text-rose-200 font-bold">Plan HC PKG</td>';
+        let dayRow = '<tr class="bg-slate-900/40 border-b border-slate-800 text-[11px]"><td class="p-2 bg-[#241017] sticky left-0 z-10 border-r border-rose-800/60 text-slate-400 pl-4">&rarr; Ca Ngày (Day)</td>';
+        let nightRow = '<tr class="bg-slate-900/40 border-b border-rose-900/40 text-[11px]"><td class="p-2 bg-[#241017] sticky left-0 z-10 border-r border-rose-800/60 text-slate-400 pl-4">&rarr; Ca Đêm (Night)</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          qRow += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono font-bold">${fmtN(c.qty_pkg)}</td>`;
+          hcRow += `<td class="p-2 text-center border-r border-slate-800 text-rose-300 font-mono font-black">${fmtHC(c.hc_pkg)}</td>`;
+          if (isDaily) {
+            dayRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_pkg_day)}</td>`;
+            nightRow += `<td class="p-1.5 text-center border-r border-slate-800 text-slate-300 font-mono">${fmtHC(c.hc_pkg_night)}</td>`;
+          }
+        });
+
+        hRow += '</tr>'; qRow += '</tr>'; hcRow += '</tr>'; dayRow += '</tr>'; nightRow += '</tr>';
+        tblPKG.innerHTML = `<tbody>${hRow}${qRow}${hcRow}${isDaily ? (dayRow + nightRow) : ''}</tbody>`;
+      }
+
+      // 6. GRAND SUMMARY TABLE (OVERVIEW)
+      const tblSum = document.getElementById('matrixTablePlanA_Summary');
+      if (tblSum) {
+        let hRow = '<tr class="bg-[#101b2b] border-b border-blue-800/60 font-semibold sticky top-0"><td class="p-2.5 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-sky-300 font-bold min-w-[170px]">Công đoạn &middot; Chỉ số</td>';
+        let rHT_Q = '<tr class="bg-cyan-950/10 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-sky-300 font-medium">HT: Plan Q\'ty</td>';
+        let rHT_H = '<tr class="bg-cyan-950/20 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-cyan-300 font-bold">HT: Plan HC (Sum HT)</td>';
+        let rAssy_Q = '<tr class="bg-purple-950/10 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-fuchsia-300 font-medium">Assy: Plan Q\'ty</td>';
+        let rAssy_H = '<tr class="bg-purple-950/20 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-purple-300 font-bold">Assy: Plan HC</td>';
+        let rLong_Q = '<tr class="bg-amber-950/10 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-amber-300 font-medium">Long: Plan Q\'ty</td>';
+        let rLong_H = '<tr class="bg-amber-950/20 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-amber-300 font-bold">Long: Plan HC</td>';
+        let rQC_Q = '<tr class="bg-emerald-950/10 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-emerald-300 font-medium">QC: Plan Q\'ty</td>';
+        let rQC_H = '<tr class="bg-emerald-950/20 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-emerald-300 font-bold">QC: Plan HC</td>';
+        let rPKG_Q = '<tr class="bg-rose-950/10 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-rose-300 font-medium">PKG: Plan Q\'ty</td>';
+        let rPKG_H = '<tr class="bg-rose-950/20 border-b border-slate-800"><td class="p-2 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-rose-300 font-bold">PKG: Plan HC</td>';
+        let rTot_H = '<tr class="bg-blue-950/40 border-t-2 border-blue-600 font-black text-sm"><td class="p-2.5 bg-[#101b2b] sticky left-0 z-10 border-r border-blue-800/60 text-yellow-300 font-extrabold">TỔNG HC 5 CÔNG ĐOẠN</td>';
+
+        cols.forEach(c => {
+          const parts = c.date.split('-');
+          const colLabel = isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift === 'Day' ? '☀️' : '🌙'}`;
+          const totHC = (c.hc_ht || 0) + (c.hc_assy || 0) + (c.hc_long || 0) + (c.hc_qc || 0) + (c.hc_pkg || 0);
+
+          hRow += `<th class="p-2 text-center border-r border-slate-800 text-slate-200 font-mono min-w-[65px]">${colLabel}</th>`;
+          rHT_Q += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono">${fmtN(c.qty_ht)}</td>`;
+          rHT_H += `<td class="p-2 text-center border-r border-slate-800 text-cyan-300 font-mono font-bold">${fmtHC(c.hc_ht)}</td>`;
+          rAssy_Q += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono">${fmtN(c.qty_assy)}</td>`;
+          rAssy_H += `<td class="p-2 text-center border-r border-slate-800 text-purple-300 font-mono font-bold">${fmtHC(c.hc_assy)}</td>`;
+          rLong_Q += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono">${fmtN(c.qty_long)}</td>`;
+          rLong_H += `<td class="p-2 text-center border-r border-slate-800 text-amber-300 font-mono font-bold">${fmtHC(c.hc_long)}</td>`;
+          rQC_Q += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono">${fmtN(c.qty_qc)}</td>`;
+          rQC_H += `<td class="p-2 text-center border-r border-slate-800 text-emerald-300 font-mono font-bold">${fmtHC(c.hc_qc)}</td>`;
+          rPKG_Q += `<td class="p-2 text-center border-r border-slate-800 text-white font-mono">${fmtN(c.qty_pkg)}</td>`;
+          rPKG_H += `<td class="p-2 text-center border-r border-slate-800 text-rose-300 font-mono font-bold">${fmtHC(c.hc_pkg)}</td>`;
+          rTot_H += `<td class="p-2 text-center border-r border-slate-800 text-yellow-300 font-mono font-black">${fmtHC(totHC)}</td>`;
+        });
+
+        hRow += '</tr>';
+        rHT_Q += '</tr>'; rHT_H += '</tr>';
+        rAssy_Q += '</tr>'; rAssy_H += '</tr>';
+        rLong_Q += '</tr>'; rLong_H += '</tr>';
+        rQC_Q += '</tr>'; rQC_H += '</tr>';
+        rPKG_Q += '</tr>'; rPKG_H += '</tr>';
+        rTot_H += '</tr>';
+
+        tblSum.innerHTML = `<tbody>${hRow}${rTot_H}${rHT_Q}${rHT_H}${rAssy_Q}${rAssy_H}${rLong_Q}${rLong_H}${rQC_Q}${rQC_H}${rPKG_Q}${rPKG_H}</tbody>`;
+      }
+    }
+
+    // Đồng bộ thanh cuộn ngang giữa các bảng Plan A
+    function initPlanAScrollSync() {
+      const containers = document.querySelectorAll('.plan-a-scroll-sync');
+      if (containers.length <= 1) return;
+
+      let isSyncing = false;
+      containers.forEach(c => {
+        c.addEventListener('scroll', function() {
+          if (isSyncing) return;
+          isSyncing = true;
+          const left = this.scrollLeft;
+          containers.forEach(other => {
+            if (other !== this) other.scrollLeft = left;
+          });
+          isSyncing = false;
+        });
+      });
+    }
+
+    // Sao chép TSV để dán trực tiếp vào Google Sheets / Excel
+    function copyPlanATSV(target) {
+      const data = getFilteredPlanAData();
+      const isDaily = (planACurrentViewMode === 'daily');
+
+      // Tạo bảng ngày
+      const cols = [];
+      if (isDaily) {
+        const dMap = {};
+        data.forEach(r => {
+          if (!dMap[r.date]) {
+            dMap[r.date] = {
+              date: r.date,
+              hc_ht: 0, hc_assy: 0, hc_long: 0, hc_qc: 0, hc_pkg: 0,
+              qty_ht: 0, qty_assy: 0, qty_long: 0, qty_qc: 0, qty_pkg: 0
+            };
+            cols.push(dMap[r.date]);
+          }
+          const it = dMap[r.date];
+          it.hc_ht += (r.hc_ht || 0); it.hc_assy += (r.hc_assy || 0); it.hc_long += (r.hc_long || 0);
+          it.hc_qc += (r.hc_qc || 0); it.hc_pkg += (r.hc_pkg || 0);
+          it.qty_ht += (r.qty_ht || 0); it.qty_assy += (r.qty_assy || 0); it.qty_long += (r.qty_long || 0);
+          it.qty_qc += (r.qty_qc || 0); it.qty_pkg += (r.qty_pkg || 0);
+        });
+      } else {
+        data.forEach(r => {
+          cols.push({
+            date: r.date, shift: r.shift,
+            hc_ht: r.hc_ht, hc_assy: r.hc_assy, hc_long: r.hc_long, hc_qc: r.hc_qc, hc_pkg: r.hc_pkg,
+            qty_ht: r.qty_ht, qty_assy: r.qty_assy, qty_long: r.qty_long, qty_qc: r.qty_qc, qty_pkg: r.qty_pkg
+          });
+        });
+      }
+
+      const rows = [];
+      const headerRow = ['Chỉ số'];
+      cols.forEach(c => {
+        const parts = c.date.split('-');
+        headerRow.push(isDaily ? `${parts[2]}/${parts[1]}` : `${parts[2]}/${parts[1]} ${c.shift}`);
+      });
+      rows.push(headerRow);
+
+      const addRow = (name, key, isNum) => {
+        const r = [name];
+        cols.forEach(c => {
+          const v = c[key] || 0;
+          r.push(isNum ? Math.round(v) : (v > 0 ? v.toFixed(1) : 0));
+        });
+        rows.push(r);
+      };
+
+      let title = 'Bảng Kế Hoạch Plan A';
+      if (target === 'ht') {
+        title = 'Bảng Hard Test (Plan A)';
+        addRow("Plan Q'ty HT", "qty_ht", true);
+        addRow("Plan HC HT (SUM HARDTEST)", "hc_ht", false);
+      } else if (target === 'assy') {
+        title = 'Bảng Assembly (Plan A)';
+        addRow("Plan Q'ty Assembly", "qty_assy", true);
+        addRow("Plan HC Assembly", "hc_assy", false);
+      } else if (target === 'long') {
+        title = 'Bảng Long Test (Plan A)';
+        addRow("Plan Q'ty Long Test", "qty_long", true);
+        addRow("Plan HC Long Test", "hc_long", false);
+      } else if (target === 'qc') {
+        title = 'Bảng QC (Plan A)';
+        addRow("Plan Q'ty QC", "qty_qc", true);
+        addRow("Plan HC QC", "hc_qc", false);
+      } else if (target === 'pkg') {
+        title = 'Bảng PKG (Plan A)';
+        addRow("Plan Q'ty PKG", "qty_pkg", true);
+        addRow("Plan HC PKG", "hc_pkg", false);
+      } else {
+        // all or summary
+        title = 'Bảng Tổng Hợp 5 Công Đoạn (Plan A)';
+        addRow("Plan Q'ty Hard Test", "qty_ht", true);
+        addRow("Plan HC Hard Test (SUM HT)", "hc_ht", false);
+        addRow("Plan Q'ty Assembly", "qty_assy", true);
+        addRow("Plan HC Assembly", "hc_assy", false);
+        addRow("Plan Q'ty Long Test", "qty_long", true);
+        addRow("Plan HC Long Test", "hc_long", false);
+        addRow("Plan Q'ty QC", "qty_qc", true);
+        addRow("Plan HC QC", "hc_qc", false);
+        addRow("Plan Q'ty PKG", "qty_pkg", true);
+        addRow("Plan HC PKG", "hc_pkg", false);
+        // Tổng HC
+        const totR = ["TỔNG HC 5 CÔNG ĐOẠN"];
+        cols.forEach(c => {
+          const tot = (c.hc_ht || 0) + (c.hc_assy || 0) + (c.hc_long || 0) + (c.hc_qc || 0) + (c.hc_pkg || 0);
+          totR.push(tot > 0 ? tot.toFixed(1) : 0);
+        });
+        rows.push(totR);
+      }
+
+      const tsv = rows.map(r => r.join('\t')).join('\n');
+      navigator.clipboard.writeText(tsv).then(() => {
+        if (typeof showSyncAlert === 'function') {
+          showSyncAlert('success', '📋 ĐÃ SAO CHÉP DỮ LIỆU', `Đã sao chép ${title} vào bộ nhớ tạm để dán vào Excel / Google Sheets!`, 3000);
+        } else {
+          alert('Đã sao chép ' + title + ' vào bộ nhớ tạm!');
+        }
+      });
+    }
+
+    // Tự động khởi tạo và chuẩn bị số liệu sẵn sàng ngay khi trang tải xong
+    if (typeof document !== 'undefined') {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => { setTimeout(initPlanHcATab, 200); });
+      } else {
+        setTimeout(initPlanHcATab, 200);
+      }
+    }
+
+    // END MODULE: PLAN HC&Q'TY WC -A
   </script>
 
   <!-- Floating Toast Alert cho Auto-Sync -->
