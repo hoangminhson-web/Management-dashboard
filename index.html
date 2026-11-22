@@ -6234,6 +6234,9 @@ function switchTab(tabId) {
         btnMonth.textContent = `Tháng ${defaultMonthInfo.monthNum}`;
       }
 
+      if (typeof recalcWeekDailyNegMap === 'function') {
+        recalcWeekDailyNegMap();
+      }
       syncProgressAndNegDates(progressDateStart, progressDateEnd);
     }
 
@@ -6368,23 +6371,28 @@ function switchTab(tabId) {
       // Rows
       const totalColspan = rangeDays.length + 1;
 
-      // Trích xuất Total Minus Q'ty từ MỤC 2 (computePeriodNegativeData)
-      const startDate = rangeDays.length > 0 ? rangeDays[0].d : progressDateStart;
-      const endDate = rangeDays.length > 0 ? rangeDays[rangeDays.length - 1].d : progressDateEnd;
-      const pData = (typeof computePeriodNegativeData === 'function' && startDate && endDate) ? computePeriodNegativeData(startDate, endDate) : null;
+      // Đảm bảo weekDailyNegMap đã được tính toán
+      if (Object.keys(weekDailyNegMap).length === 0 && typeof recalcWeekDailyNegMap === 'function') {
+        recalcWeekDailyNegMap();
+      }
 
-      const negByDate = { FOCUS: {}, 'HARD TEST': {}, ASSEMBLY: {} };
+      // Trích xuất Total Minus Q'ty theo chu kỳ tuần (Thứ 5 -> Thứ 4, không lấy lũy kế từ chu kỳ trước)
       const periodTotalNeg = { FOCUS: 0, 'HARD TEST': 0, ASSEMBLY: 0 };
+      const weeksInRange = {};
+      rangeDays.forEach(d => {
+        const negInfo = weekDailyNegMap[d.d];
+        const thuKey = negInfo ? negInfo.thuStart : d.d;
+        if (!weeksInRange[thuKey]) weeksInRange[thuKey] = [];
+        weeksInRange[thuKey].push(d.d);
+      });
 
-      ['FOCUS', 'HARD TEST', 'ASSEMBLY'].forEach(st => {
-        const ms = (pData && pData.models) ? pData.models.filter(m => m.stage === st) : [];
-        periodTotalNeg[st] = ms.reduce((s, m) => s + (m.total_neg || 0), 0);
-        if (pData && pData.days) {
-          pData.days.forEach((dStr, idx) => {
-            const dayNeg = ms.reduce((s, m) => s + ((m.cum_neg && m.cum_neg[idx]) || 0), 0);
-            negByDate[st][dStr] = dayNeg;
-          });
-        }
+      Object.keys(weeksInRange).forEach(thuKey => {
+        const daysInW = weeksInRange[thuKey];
+        const lastDayOfW = daysInW[daysInW.length - 1];
+        const lastNegInfo = weekDailyNegMap[lastDayOfW] || { focusNeg: 0, htNeg: 0, assyNeg: 0 };
+        periodTotalNeg.FOCUS += (lastNegInfo.focusNeg || 0);
+        periodTotalNeg['HARD TEST'] += (lastNegInfo.htNeg || 0);
+        periodTotalNeg.ASSEMBLY += (lastNegInfo.assyNeg || 0);
       });
 
       // Focus
@@ -6447,9 +6455,10 @@ function switchTab(tabId) {
 
         const accInfo = weekDailyAccMap[d.d] || { focusAcc: (d.fd || 0), htAcc: d.hd, assyAcc: d.ad, totAcc: (d.fd || 0) + d.hd + d.ad };
 
-        const fNegVal = (negByDate['FOCUS'] && negByDate['FOCUS'][d.d]) || 0;
-        const hNegVal = (negByDate['HARD TEST'] && negByDate['HARD TEST'][d.d]) || 0;
-        const aNegVal = (negByDate['ASSEMBLY'] && negByDate['ASSEMBLY'][d.d]) || 0;
+        const negInfo = weekDailyNegMap[d.d] || { focusNeg: 0, htNeg: 0, assyNeg: 0 };
+        const fNegVal = negInfo.focusNeg || 0;
+        const hNegVal = negInfo.htNeg || 0;
+        const aNegVal = negInfo.assyNeg || 0;
 
         rFPlan += '<td class="p-2 text-center ' + colClass + ' text-slate-300 font-medium">' + Math.round(d.fp || 0).toLocaleString('en-US') + '</td>';
         rFFact += '<td class="p-2 text-center ' + colClass + ' text-teal-300/90 font-medium">' + Math.round(d.ff || 0).toLocaleString('en-US') + '</td>';
@@ -6526,22 +6535,28 @@ function switchTab(tabId) {
       });
       const lastDayAcc = weekDailyAccMap[progressDateEnd] || { focusAcc: sumFD, htAcc: sumHD, assyAcc: sumAD, totAcc: sumFD + sumHD + sumAD };
 
-      const startDate = rangeDays.length > 0 ? rangeDays[0].d : progressDateStart;
-      const endDate = rangeDays.length > 0 ? rangeDays[rangeDays.length - 1].d : progressDateEnd;
-      const pData = (typeof computePeriodNegativeData === 'function' && startDate && endDate) ? computePeriodNegativeData(startDate, endDate) : null;
+      // Đảm bảo weekDailyNegMap đã được tính toán
+      if (Object.keys(weekDailyNegMap).length === 0 && typeof recalcWeekDailyNegMap === 'function') {
+        recalcWeekDailyNegMap();
+      }
 
-      const negByDate = { FOCUS: {}, 'HARD TEST': {}, ASSEMBLY: {} };
+      // Trích xuất Total Minus Q'ty theo chu kỳ tuần (Thứ 5 -> Thứ 4, không lấy lũy kế từ chu kỳ trước)
       const periodTotalNeg = { FOCUS: 0, 'HARD TEST': 0, ASSEMBLY: 0 };
+      const weeksInRange = {};
+      rangeDays.forEach(d => {
+        const negInfo = weekDailyNegMap[d.d];
+        const thuKey = negInfo ? negInfo.thuStart : d.d;
+        if (!weeksInRange[thuKey]) weeksInRange[thuKey] = [];
+        weeksInRange[thuKey].push(d.d);
+      });
 
-      ['FOCUS', 'HARD TEST', 'ASSEMBLY'].forEach(st => {
-        const ms = (pData && pData.models) ? pData.models.filter(m => m.stage === st) : [];
-        periodTotalNeg[st] = ms.reduce((s, m) => s + (m.total_neg || 0), 0);
-        if (pData && pData.days) {
-          pData.days.forEach((dStr, idx) => {
-            const dayNeg = ms.reduce((s, m) => s + ((m.cum_neg && m.cum_neg[idx]) || 0), 0);
-            negByDate[st][dStr] = dayNeg;
-          });
-        }
+      Object.keys(weeksInRange).forEach(thuKey => {
+        const daysInW = weeksInRange[thuKey];
+        const lastDayOfW = daysInW[daysInW.length - 1];
+        const lastNegInfo = weekDailyNegMap[lastDayOfW] || { focusNeg: 0, htNeg: 0, assyNeg: 0 };
+        periodTotalNeg.FOCUS += (lastNegInfo.focusNeg || 0);
+        periodTotalNeg['HARD TEST'] += (lastNegInfo.htNeg || 0);
+        periodTotalNeg.ASSEMBLY += (lastNegInfo.assyNeg || 0);
       });
 
       const rows = [
@@ -6550,17 +6565,17 @@ function switchTab(tabId) {
         ['Focus - Fact', ...rangeDays.map(d => Math.round(d.ff || 0)), Math.round(sumFF)],
         ['Focus - Deviation', ...rangeDays.map(d => Math.round(d.fd || 0)), Math.round(sumFD)],
         ['Focus - Acc Deviation', ...rangeDays.map(d => Math.round((weekDailyAccMap[d.d] || {}).focusAcc || 0)), Math.round(sumFD)],
-        ['Focus - Total Minus Q\'ty', ...rangeDays.map(d => Math.round(negByDate['FOCUS'][d.d] || 0)), Math.round(periodTotalNeg['FOCUS'])],
+        ['Focus - Total Minus Q\'ty', ...rangeDays.map(d => Math.round((weekDailyNegMap[d.d] || {}).focusNeg || 0)), Math.round(periodTotalNeg['FOCUS'])],
         ['HT - Plan', ...rangeDays.map(d => Math.round(d.hp)), Math.round(sumHP)],
         ['HT - Fact', ...rangeDays.map(d => Math.round(d.hf)), Math.round(sumHF)],
         ['HT - Deviation', ...rangeDays.map(d => Math.round(d.hd)), Math.round(sumHD)],
         ['HT - Acc Deviation', ...rangeDays.map(d => Math.round((weekDailyAccMap[d.d] || {}).htAcc || 0)), Math.round(sumHD)],
-        ['HT - Total Minus Q\'ty', ...rangeDays.map(d => Math.round(negByDate['HARD TEST'][d.d] || 0)), Math.round(periodTotalNeg['HARD TEST'])],
+        ['HT - Total Minus Q\'ty', ...rangeDays.map(d => Math.round((weekDailyNegMap[d.d] || {}).htNeg || 0)), Math.round(periodTotalNeg['HARD TEST'])],
         ["A'ssy - Plan", ...rangeDays.map(d => Math.round(d.ap)), Math.round(sumAP)],
         ["A'ssy - Fact", ...rangeDays.map(d => Math.round(d.af)), Math.round(sumAF)],
         ["A'ssy - Deviation", ...rangeDays.map(d => Math.round(d.ad)), Math.round(sumAD)],
         ["A'ssy - Acc Deviation", ...rangeDays.map(d => Math.round((weekDailyAccMap[d.d] || {}).assyAcc || 0)), Math.round(sumAD)],
-        ["A'ssy - Total Minus Q'ty", ...rangeDays.map(d => Math.round(negByDate['ASSEMBLY'][d.d] || 0)), Math.round(periodTotalNeg['ASSEMBLY'])]
+        ["A'ssy - Total Minus Q'ty", ...rangeDays.map(d => Math.round((weekDailyNegMap[d.d] || {}).assyNeg || 0)), Math.round(periodTotalNeg['ASSEMBLY'])]
       ];
 
       const tsv = rows.map(r => r.join('\t')).join('\n');
@@ -6851,6 +6866,66 @@ function switchTab(tabId) {
         maxProducedDate: maxProducedDate
       };
     }
+
+    // ==========================================
+    // TÍNH TOÁN MAP LŨY KẾ TOTAL MINUS Q'TY THEO CHU KỲ TUẦN (THỨ NĂM -> THỨ TƯ)
+    // Nguyên tắc:
+    // - Tính toán chuẩn theo chu kỳ Thứ Năm -> Thứ Tư của từng tuần.
+    // - Sang chu kỳ mới (Thứ Năm tiếp theo): reset về 0, KHÔNG lấy lũy kế âm từ chu kỳ trước.
+    // - Giá trị mỗi ngày là tổng lũy kế âm của các model trong tuần đó tại ngày đó (theo logic chuẩn MỤC 2).
+    // ==========================================
+    function recalcWeekDailyNegMap() {
+      Object.keys(weekDailyNegMap).forEach(k => delete weekDailyNegMap[k]);
+      if (typeof progressData === 'undefined' || !Array.isArray(progressData) || progressData.length === 0) return;
+      if (typeof computePeriodNegativeData !== 'function') return;
+
+      const sortedDates = progressData.slice().sort((a,b) => a.d.localeCompare(b.d));
+      const weeksSet = {};
+
+      sortedDates.forEach(d => {
+        const [y, m, dd] = d.d.split('-').map(Number);
+        const dt = new Date(Date.UTC(y, m - 1, dd));
+        const dow = dt.getUTCDay(); // 0=CN, 1=T2, 2=T3, 3=T4, 4=T5, 5=T6, 6=T7
+        const diffToThu = (dow + 7 - 4) % 7;
+        const thuDate = new Date(dt.getTime() - diffToThu * 86400000);
+        const thuStr = thuDate.toISOString().slice(0, 10);
+        const wedDate = new Date(thuDate.getTime() + 6 * 86400000);
+        const wedStr = wedDate.toISOString().slice(0, 10);
+        weeksSet[thuStr] = wedStr;
+      });
+
+      Object.keys(weeksSet).sort().forEach(thuStr => {
+        const wedStr = weeksSet[thuStr];
+        const pData = computePeriodNegativeData(thuStr, wedStr);
+        if (!pData) return;
+
+        const focusMs = pData.models.filter(m => m.stage === "FOCUS");
+        const htMs = pData.models.filter(m => m.stage === "HARD TEST");
+        const assyMs = pData.models.filter(m => m.stage === "ASSEMBLY");
+
+        const focusPeriodTot = focusMs.reduce((s, m) => s + (m.total_neg || 0), 0);
+        const htPeriodTot = htMs.reduce((s, m) => s + (m.total_neg || 0), 0);
+        const assyPeriodTot = assyMs.reduce((s, m) => s + (m.total_neg || 0), 0);
+
+        pData.days.forEach((dStr, idx) => {
+          const fNeg = focusMs.reduce((s, m) => s + ((m.cum_neg && m.cum_neg[idx]) || 0), 0);
+          const hNeg = htMs.reduce((s, m) => s + ((m.cum_neg && m.cum_neg[idx]) || 0), 0);
+          const aNeg = assyMs.reduce((s, m) => s + ((m.cum_neg && m.cum_neg[idx]) || 0), 0);
+
+          weekDailyNegMap[dStr] = {
+            focusNeg: fNeg,
+            htNeg: hNeg,
+            assyNeg: aNeg,
+            focusPeriodTot: focusPeriodTot,
+            htPeriodTot: htPeriodTot,
+            assyPeriodTot: assyPeriodTot,
+            thuStart: thuStr,
+            wedEnd: wedStr
+          };
+        });
+      });
+    }
+    recalcWeekDailyNegMap();
 
     function onNegCustomDateChange() {
       const startEl = document.getElementById('negDateStart');
