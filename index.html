@@ -2268,15 +2268,15 @@
       <div class="bg-[#1e293b] border border-slate-700/80 rounded-xl p-3 sm:p-3.5 shadow-lg flex flex-wrap items-center justify-between gap-3">
         <div class="inline-flex items-center gap-2 sm:gap-3 bg-[#0f172a] border border-slate-700/80 rounded-full px-4 py-1.5 shadow-inner focus-within:border-slate-500 transition">
           <span class="text-xs sm:text-sm font-medium text-slate-400">Từ:</span>
-          <input type="date" id="progressDateStart" value="2026-11-05" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
+          <input type="date" id="progressDateStart" value="2026-11-19" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
           <span class="text-xs sm:text-sm font-medium text-slate-400 ml-2 sm:ml-4">Đến:</span>
-          <input type="date" id="progressDateEnd" value="2026-11-11" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
+          <input type="date" id="progressDateEnd" value="2026-11-21" min="2025-09-22" max="2026-12-07" onchange="onProgressDateRangeChange()" class="bg-transparent text-slate-300 font-semibold focus:outline-none text-xs sm:text-sm cursor-pointer">
         </div>
 
         <!-- Các nút chọn nhanh phạm vi bảng ngày (Mặc định: Tuần này) -->
         <div class="flex items-center gap-1.5 sm:gap-2 text-xs">
-          <button id="btnQuickToday" onclick="setProgressQuickFilter('today')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Hôm nay (07/11)</button>
-          <button id="btnQuickWeek" onclick="setProgressQuickFilter('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600/90 text-white border border-blue-500 font-semibold shadow-sm transition cursor-pointer">Tuần này (05.Nov → 11.Nov)</button>
+          <button id="btnQuickToday" onclick="setProgressQuickFilter('today')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Hôm nay (22/11)</button>
+          <button id="btnQuickWeek" onclick="setProgressQuickFilter('this_week')" class="px-2.5 py-1 rounded-lg bg-blue-600/90 text-white border border-blue-500 font-semibold shadow-sm transition cursor-pointer">Chu kỳ gần nhất (19.Nov → 21.Nov)</button>
           <button id="btnQuickMonth" onclick="setProgressQuickFilter('this_month')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Tháng 11</button>
           <button id="btnQuickYear" onclick="setProgressQuickFilter('all_year')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 border border-slate-700 font-medium transition cursor-pointer">Cả năm 2026</button>
         </div>
@@ -2348,9 +2348,9 @@
                 <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Từ ngày:
               </span>
-              <input type="date" id="negDateStart" value="2026-11-05" min="2026-09-01" max="2026-12-31" onchange="onNegCustomDateChange()" oninput="onNegCustomDateChange()" class="bg-[#1e293b] border border-slate-600/70 text-sky-300 font-bold text-xs rounded-lg px-2 py-0.5 focus:outline-none focus:border-sky-400 cursor-pointer">
+              <input type="date" id="negDateStart" value="2026-11-19" min="2026-09-01" max="2026-12-31" onchange="onNegCustomDateChange()" oninput="onNegCustomDateChange()" class="bg-[#1e293b] border border-slate-600/70 text-sky-300 font-bold text-xs rounded-lg px-2 py-0.5 focus:outline-none focus:border-sky-400 cursor-pointer">
               <span class="text-xs text-amber-400 font-semibold ml-1">Đến ngày:</span>
-              <input type="date" id="negDateEnd" value="2026-11-11" min="2026-09-01" max="2026-12-31" onchange="onNegCustomDateChange()" oninput="onNegCustomDateChange()" class="bg-[#1e293b] border border-slate-600/70 text-sky-300 font-bold text-xs rounded-lg px-2 py-0.5 focus:outline-none focus:border-sky-400 cursor-pointer">
+              <input type="date" id="negDateEnd" value="2026-11-21" min="2026-09-01" max="2026-12-31" onchange="onNegCustomDateChange()" oninput="onNegCustomDateChange()" class="bg-[#1e293b] border border-slate-600/70 text-sky-300 font-bold text-xs rounded-lg px-2 py-0.5 focus:outline-none focus:border-sky-400 cursor-pointer">
             </div>
 
             <!-- Các nút chọn nhanh kỳ -->
@@ -6126,14 +6126,55 @@ function switchTab(tabId) {
       });
     }
 
+    function syncProgressAndNegDates(startStr, endStr) {
+      if (!startStr || !endStr) return;
+      if (startStr > endStr) {
+        const tmp = startStr;
+        startStr = endStr;
+        endStr = tmp;
+      }
+      progressDateStart = startStr;
+      progressDateEnd = endStr;
+      currentNegStartDate = startStr;
+      currentNegEndDate = endStr;
+
+      const pStart = document.getElementById('progressDateStart');
+      const pEnd = document.getElementById('progressDateEnd');
+      const nStart = document.getElementById('negDateStart');
+      const nEnd = document.getElementById('negDateEnd');
+
+      if (pStart && pStart.value !== startStr) pStart.value = startStr;
+      if (pEnd && pEnd.value !== endStr) pEnd.value = endStr;
+      if (nStart && nStart.value !== startStr) nStart.value = startStr;
+      if (nEnd && nEnd.value !== endStr) nEnd.value = endStr;
+
+      const baseDate = getSafeCurrentDate();
+      const def = getDefaultNegPeriod(baseDate);
+      const curWeek = getCurrentWeekRangeThuWed(baseDate);
+      const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
+      const prevWeek = getCurrentWeekRangeThuWed(prevDate);
+      const mRange = getCurrentMonthRange(baseDate);
+
+      let matchedNeg = '';
+      if (startStr === def.start && endStr === def.end) matchedNeg = 'this_week';
+      else if (startStr === curWeek.start && endStr === curWeek.end) matchedNeg = 'full_week';
+      else if (startStr === prevWeek.start && endStr === prevWeek.end) matchedNeg = 'last_week';
+      else if (startStr === def.todayStr && endStr === def.todayStr) matchedNeg = 'today';
+      updateNegQuickButtonsUI(matchedNeg);
+
+      let matchedProg = 'custom';
+      if (startStr === def.todayStr && endStr === def.todayStr) matchedProg = 'today';
+      else if (startStr === def.start && endStr === def.end) matchedProg = 'this_week';
+      else if (startStr === mRange.start && endStr === mRange.end) matchedProg = 'this_month';
+      else if (startStr === '2026-01-01' && endStr === '2026-12-31') matchedProg = 'all_year';
+      updateQuickFilterButtonStyles(matchedProg);
+
+      renderProgressTabAll();
+    }
+
     function initProgressTab() {
       if (progressTabInitialized) return;
       progressTabInitialized = true;
-
-      const inputStart = document.getElementById('progressDateStart');
-      const inputEnd = document.getElementById('progressDateEnd');
-      if (inputStart) inputStart.value = progressDateStart;
-      if (inputEnd) inputEnd.value = progressDateEnd;
 
       // Cập nhật nhãn động cho các nút chọn nhanh
       const btnToday = document.getElementById('btnQuickToday');
@@ -6160,61 +6201,38 @@ function switchTab(tabId) {
         btnMonth.textContent = `Tháng ${defaultMonthInfo.monthNum}`;
       }
 
-      // Khởi tạo ngày mặc định cho Mục 2: Thống kê Model Âm (Thứ 5 đến hôm qua D-1)
-      const negStartEl = document.getElementById('negDateStart');
-      const negEndEl = document.getElementById('negDateEnd');
-      if (negStartEl) negStartEl.value = currentNegStartDate;
-      if (negEndEl) negEndEl.value = currentNegEndDate;
-      updateNegQuickButtonsUI('this_week');
-
-      updateQuickFilterButtonStyles('this_week');
-      renderProgressTabAll();
+      syncProgressAndNegDates(progressDateStart, progressDateEnd);
     }
 
     function onProgressDateRangeChange() {
       const inputStart = document.getElementById('progressDateStart');
       const inputEnd = document.getElementById('progressDateEnd');
       if (!inputStart || !inputEnd || !inputStart.value || !inputEnd.value) return;
-
-      if (inputStart.value > inputEnd.value) {
-        inputEnd.value = inputStart.value;
-      }
-      progressDateStart = inputStart.value;
-      progressDateEnd = inputEnd.value;
-
-      updateQuickFilterButtonStyles('custom');
-      renderProgressTabAll();
+      syncProgressAndNegDates(inputStart.value, inputEnd.value);
     }
 
     function setProgressQuickFilter(type) {
       const baseDate = getSafeCurrentDate();
+      let sStr = progressDateStart, eStr = progressDateEnd;
       if (type === 'today') {
         const y = baseDate.getFullYear();
         const m = String(baseDate.getMonth() + 1).padStart(2, '0');
         const d = String(baseDate.getDate()).padStart(2, '0');
-        const todayStr = `${y}-${m}-${d}`;
-        progressDateStart = todayStr;
-        progressDateEnd = todayStr;
+        sStr = `${y}-${m}-${d}`;
+        eStr = sStr;
       } else if (type === 'this_week') {
         const defP = getDefaultNegPeriod(baseDate);
-        progressDateStart = defP.start;
-        progressDateEnd = defP.end;
+        sStr = defP.start;
+        eStr = defP.end;
       } else if (type === 'this_month') {
         const m = getCurrentMonthRange(baseDate);
-        progressDateStart = m.start;
-        progressDateEnd = m.end;
+        sStr = m.start;
+        eStr = m.end;
       } else if (type === 'all_year') {
-        progressDateStart = '2026-01-01';
-        progressDateEnd = '2026-12-31';
+        sStr = '2026-01-01';
+        eStr = '2026-12-31';
       }
-
-      const inputStart = document.getElementById('progressDateStart');
-      const inputEnd = document.getElementById('progressDateEnd');
-      if (inputStart) inputStart.value = progressDateStart;
-      if (inputEnd) inputEnd.value = progressDateEnd;
-
-      updateQuickFilterButtonStyles(type);
-      renderProgressTabAll();
+      syncProgressAndNegDates(sStr, eStr);
     }
 
     function formatNumberPcs(num) {
@@ -6804,70 +6822,32 @@ function switchTab(tabId) {
     function onNegCustomDateChange() {
       const startEl = document.getElementById('negDateStart');
       const endEl = document.getElementById('negDateEnd');
-      if (!startEl || !endEl) return;
-      let startStr = startEl.value;
-      let endStr = endEl.value;
-      if (!startStr || !endStr) return;
-      if (startStr > endStr) {
-        const tmp = startStr;
-        startStr = endStr;
-        endStr = tmp;
-        startEl.value = startStr;
-        endEl.value = endStr;
-      }
-      currentNegStartDate = startStr;
-      currentNegEndDate = endStr;
-
-      // Nhận diện loại nút chọn nhanh khớp với khoảng thời gian đã chọn
-      const baseDate = getSafeCurrentDate();
-      const def = getDefaultNegPeriod(baseDate);
-      const curWeek = getCurrentWeekRangeThuWed(baseDate);
-      const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
-      const prevWeek = getCurrentWeekRangeThuWed(prevDate);
-
-      let matchedType = '';
-      if (startStr === def.start && endStr === def.end) {
-        matchedType = 'this_week';
-      } else if (startStr === curWeek.start && endStr === curWeek.end) {
-        matchedType = 'full_week';
-      } else if (startStr === prevWeek.start && endStr === prevWeek.end) {
-        matchedType = 'last_week';
-      } else if (startStr === def.todayStr && endStr === def.todayStr) {
-        matchedType = 'today';
-      }
-
-      updateNegQuickButtonsUI(matchedType);
-      renderPeriodNegativeModelsTable();
+      if (!startEl || !endEl || !startEl.value || !endEl.value) return;
+      syncProgressAndNegDates(startEl.value, endEl.value);
     }
 
     function setNegQuickPeriod(type) {
-      const startEl = document.getElementById('negDateStart');
-      const endEl = document.getElementById('negDateEnd');
-      if (!startEl || !endEl) return;
-
       const baseDate = getSafeCurrentDate();
       const def = getDefaultNegPeriod(baseDate);
       const curWeek = getCurrentWeekRangeThuWed(baseDate);
+      let sStr = currentNegStartDate, eStr = currentNegEndDate;
 
       if (type === 'this_week') {
-        startEl.value = def.start;
-        endEl.value = def.end;
+        sStr = def.start;
+        eStr = def.end;
       } else if (type === 'full_week') {
-        startEl.value = curWeek.start;
-        endEl.value = curWeek.end;
+        sStr = curWeek.start;
+        eStr = curWeek.end;
       } else if (type === 'last_week') {
         const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
         const prevWeek = getCurrentWeekRangeThuWed(prevDate);
-        startEl.value = prevWeek.start;
-        endEl.value = prevWeek.end;
+        sStr = prevWeek.start;
+        eStr = prevWeek.end;
       } else if (type === 'today') {
-        startEl.value = def.todayStr;
-        endEl.value = def.todayStr;
+        sStr = def.todayStr;
+        eStr = def.todayStr;
       }
-      currentNegStartDate = startEl.value;
-      currentNegEndDate = endEl.value;
-      updateNegQuickButtonsUI(type);
-      renderPeriodNegativeModelsTable();
+      syncProgressAndNegDates(sStr, eStr);
     }
 
     function updateNegQuickButtonsUI(activeType) {
