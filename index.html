@@ -6167,7 +6167,11 @@ function switchTab(tabId) {
       });
     }
 
-    function syncProgressAndNegDates(startStr, endStr) {
+    // ==========================================
+    // BỘ LỌC ĐỘC LẬP CHO BẢNG 1: BẢNG CHI TIẾT THEO NGÀY
+    // (Hoàn toàn độc lập, không liên kết với bộ lọc MỤC 2)
+    // ==========================================
+    function updateProgressDateInputsAndRender(startStr, endStr, quickType) {
       if (!startStr || !endStr) return;
       if (startStr > endStr) {
         const tmp = startStr;
@@ -6176,41 +6180,27 @@ function switchTab(tabId) {
       }
       progressDateStart = startStr;
       progressDateEnd = endStr;
-      currentNegStartDate = startStr;
-      currentNegEndDate = endStr;
 
       const pStart = document.getElementById('progressDateStart');
       const pEnd = document.getElementById('progressDateEnd');
-      const nStart = document.getElementById('negDateStart');
-      const nEnd = document.getElementById('negDateEnd');
-
       if (pStart && pStart.value !== startStr) pStart.value = startStr;
       if (pEnd && pEnd.value !== endStr) pEnd.value = endStr;
-      if (nStart && nStart.value !== startStr) nStart.value = startStr;
-      if (nEnd && nEnd.value !== endStr) nEnd.value = endStr;
 
       const baseDate = getSafeCurrentDate();
       const def = getDefaultNegPeriod(baseDate);
-      const curWeek = getCurrentWeekRangeThuWed(baseDate);
-      const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
-      const prevWeek = getCurrentWeekRangeThuWed(prevDate);
       const mRange = getCurrentMonthRange(baseDate);
 
-      let matchedNeg = '';
-      if (startStr === def.start && endStr === def.end) matchedNeg = 'this_week';
-      else if (startStr === curWeek.start && endStr === curWeek.end) matchedNeg = 'full_week';
-      else if (startStr === prevWeek.start && endStr === prevWeek.end) matchedNeg = 'last_week';
-      else if (startStr === def.todayStr && endStr === def.todayStr) matchedNeg = 'today';
-      updateNegQuickButtonsUI(matchedNeg);
-
-      let matchedProg = 'custom';
-      if (startStr === def.todayStr && endStr === def.todayStr) matchedProg = 'today';
-      else if (startStr === def.start && endStr === def.end) matchedProg = 'this_week';
-      else if (startStr === mRange.start && endStr === mRange.end) matchedProg = 'this_month';
-      else if (startStr === '2026-01-01' && endStr === '2026-12-31') matchedProg = 'all_year';
+      let matchedProg = quickType || 'custom';
+      if (!quickType) {
+        if (startStr === def.todayStr && endStr === def.todayStr) matchedProg = 'today';
+        else if (startStr === def.start && endStr === def.end) matchedProg = 'this_week';
+        else if (startStr === mRange.start && endStr === mRange.end) matchedProg = 'this_month';
+        else if (startStr === '2026-01-01' && endStr === '2026-12-31') matchedProg = 'all_year';
+      }
       updateQuickFilterButtonStyles(matchedProg);
 
-      renderProgressTabAll();
+      const rangeDays = progressData.filter(d => d.d >= progressDateStart && d.d <= progressDateEnd).sort((a,b) => a.d.localeCompare(b.d));
+      renderDailyTable(rangeDays);
     }
 
     function initProgressTab() {
@@ -6242,17 +6232,33 @@ function switchTab(tabId) {
         btnMonth.textContent = `Tháng ${defaultMonthInfo.monthNum}`;
       }
 
+      // Khởi tạo giá trị độc lập cho input ngày MỤC 1
+      const pStart = document.getElementById('progressDateStart');
+      const pEnd = document.getElementById('progressDateEnd');
+      if (pStart) pStart.value = progressDateStart;
+      if (pEnd) pEnd.value = progressDateEnd;
+
+      // Khởi tạo giá trị độc lập cho input ngày MỤC 2
+      const nStart = document.getElementById('negDateStart');
+      const nEnd = document.getElementById('negDateEnd');
+      if (nStart) nStart.value = currentNegStartDate;
+      if (nEnd) nEnd.value = currentNegEndDate;
+
       if (typeof recalcWeekDailyNegMap === 'function') {
         recalcWeekDailyNegMap();
       }
-      syncProgressAndNegDates(progressDateStart, progressDateEnd);
+
+      updateQuickFilterButtonStyles('this_week');
+      updateNegQuickButtonsUI('this_week');
+
+      renderProgressTabAll();
     }
 
     function onProgressDateRangeChange() {
       const inputStart = document.getElementById('progressDateStart');
       const inputEnd = document.getElementById('progressDateEnd');
       if (!inputStart || !inputEnd || !inputStart.value || !inputEnd.value) return;
-      syncProgressAndNegDates(inputStart.value, inputEnd.value);
+      updateProgressDateInputsAndRender(inputStart.value, inputEnd.value);
     }
 
     function setProgressQuickFilter(type) {
@@ -6276,7 +6282,7 @@ function switchTab(tabId) {
         sStr = '2026-01-01';
         eStr = '2026-12-31';
       }
-      syncProgressAndNegDates(sStr, eStr);
+      updateProgressDateInputsAndRender(sStr, eStr, type);
     }
 
     function formatNumberPcs(num) {
@@ -6935,11 +6941,48 @@ function switchTab(tabId) {
     }
     recalcWeekDailyNegMap();
 
+    // ==========================================
+    // BỘ LỌC ĐỘC LẬP CHO MỤC 2: THỐNG KÊ CHI TIẾT MODEL & SỐ LƯỢNG ÂM
+    // (Hoàn toàn độc lập, không liên kết với bộ lọc Bảng 1 theo yêu cầu)
+    // ==========================================
+    function updateNegDateInputsAndRender(startStr, endStr, quickType) {
+      if (!startStr || !endStr) return;
+      if (startStr > endStr) {
+        const tmp = startStr;
+        startStr = endStr;
+        endStr = tmp;
+      }
+      currentNegStartDate = startStr;
+      currentNegEndDate = endStr;
+
+      const nStart = document.getElementById('negDateStart');
+      const nEnd = document.getElementById('negDateEnd');
+      if (nStart && nStart.value !== startStr) nStart.value = startStr;
+      if (nEnd && nEnd.value !== endStr) nEnd.value = endStr;
+
+      const baseDate = getSafeCurrentDate();
+      const def = getDefaultNegPeriod(baseDate);
+      const curWeek = getCurrentWeekRangeThuWed(baseDate);
+      const prevDate = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7);
+      const prevWeek = getCurrentWeekRangeThuWed(prevDate);
+
+      let matchedNeg = quickType || '';
+      if (!quickType) {
+        if (startStr === def.start && endStr === def.end) matchedNeg = 'this_week';
+        else if (startStr === curWeek.start && endStr === curWeek.end) matchedNeg = 'full_week';
+        else if (startStr === prevWeek.start && endStr === prevWeek.end) matchedNeg = 'last_week';
+        else if (startStr === def.todayStr && endStr === def.todayStr) matchedNeg = 'today';
+      }
+      updateNegQuickButtonsUI(matchedNeg);
+
+      renderPeriodNegativeModelsTable();
+    }
+
     function onNegCustomDateChange() {
       const startEl = document.getElementById('negDateStart');
       const endEl = document.getElementById('negDateEnd');
       if (!startEl || !endEl || !startEl.value || !endEl.value) return;
-      syncProgressAndNegDates(startEl.value, endEl.value);
+      updateNegDateInputsAndRender(startEl.value, endEl.value);
     }
 
     function setNegQuickPeriod(type) {
@@ -6963,7 +7006,7 @@ function switchTab(tabId) {
         sStr = def.todayStr;
         eStr = def.todayStr;
       }
-      syncProgressAndNegDates(sStr, eStr);
+      updateNegDateInputsAndRender(sStr, eStr, type);
     }
 
     function updateNegQuickButtonsUI(activeType) {
